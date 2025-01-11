@@ -1,0 +1,63 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="../../css/botones/botones_home_sin_sesion.css">
+{{/partial}}
+{{#partial "contenido"}}
+
+<div id="map-container" class="container-fluid-2" style="margin-top: 1rem">
+
+    <div class="row">
+        <div class="col">
+            <div class="container-fluid-2">
+                <h1 class="mb-4 text-center">¡Hola! Somos HeladerAR</h1>
+                <p class="card d-flex justify-content-center"  align="center">"Más que una comida, un acto de cuidado. En HeladerAR,
+                    elaboramos viandas nutritivas y balanceadas, utilizando ingredientes frescos y de calidad.
+                    Nuestro objetivo es garantizar que cada persona reciba una alimentación adecuada para mejorar su
+                    salud y bienestar." <br> <a href="/sobre_nosotros" style="color: #808080; text-decoration: underline">  Acá podés conocer más sobre nosotros</a></p>
+                <h4 class="mt-4 ms-1">Encontrá la heladera más cercana:</h4>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-3 text-center">
+                            <img src="../../img/school_13745790.png" class="img-fluid img-sm" alt="School">
+                        </div>
+                        <div class="col-12 col-md-6 align-self-center text-start">
+                            <h3>Azcuenaga, 1701</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-3 text-center">
+                            <img src="../../img/school_13745790.png" class="img-fluid img-sm" alt="School">
+                        </div>
+                        <div class="col-12 col-md-6 align-self-center text-start">
+                            <h3>Azcuenaga, 1701</h3>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-3 text-center ">
+                            <img src="../../img/school_13745790.png" class="img-sm" height="150">
+                        </div>
+                        <div class="col-12 col-md-6 align-self-center text-start">
+                            <h3>Azcuenaga, 1701</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col mt-3">
+            <iframe src="../../mapa/mapa.html" width="100%" height="100%" loading="lazy" class="rounded" ></iframe>
+        </div>
+
+    </div>
+</div>
+{{/partial}}
+{{#partial "script"}}
+    <script src="../../mapa/mapa.js"></script>
+{{/partial}}
+{{> templates/bases/base_sin_sesion}}

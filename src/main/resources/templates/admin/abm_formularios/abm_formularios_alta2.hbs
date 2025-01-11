@@ -1,0 +1,123 @@
+{{#partial "contenido"}}
+    <style>
+        .input-group .btn-danger {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0;
+            width: 2.5rem; /* Ajusta este valor según el ancho que prefieras */
+        }
+        .input-group .form-control {
+            border-right: 0;
+        }
+        .input-group .btn-danger {
+            border-left: 0;
+        }
+    </style>
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Alta de Formulario: agregar preguntas</h3>
+            </div>
+        </div>
+    </div>
+
+    <form id="altaForm" method="POST" action="/dashboard/formularios/alta/preguntas">
+        <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+            <div class="row">
+                <div class="col-lg">
+                    <h4 class="d-flex justify-content-center">Alta</h4>
+                    <div class="form-group">
+                        <label for="pregunta_nueva">Nueva pregunta</label>
+                        <input type="text" id="pregunta_nueva" name="pregunta_nueva" placeholder="Pregunta" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo_pregunta">Tipo de pregunta</label>
+                        <select id="tipo_pregunta" name="tipo_pregunta" required>
+                            <option value="0">Ninguno seleccionado</option>
+                            <option value="UNICA">Opción única</option>
+                            <option value="MULTIPLE">Opción múltiple</option>
+                            <option value="ABIERTA">Abierta</option>
+                        </select>
+                    </div>
+                    <div id="opciones-container" class="form-group" style="display: none;">
+                        <label>Opciones</label>
+                        <div id="opciones-list"></div>
+                        <button type="button" class="btn btn-secondary" id="add-opcion-btn">Agregar opción</button>
+                    </div>
+                </div>
+            </div>
+            <div class="container text-center">
+                <input type="hidden" id="submit_action" name="submit_action" value="">
+                <button type="submit" class="btn btn-primary btn-lg" id="finalizar-btn" disabled>Finalizar y Guardar</button>
+                <button type="submit" class="btn btn-primary btn-lg" id="continuar-btn">Agregar otra pregunta</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('tipo_pregunta').addEventListener('change', function() {
+            var opcionesContainer = document.getElementById('opciones-container');
+            var finalizarBtn = document.getElementById('finalizar-btn');
+            if(this.value == "0"){
+                finalizarBtn.disabled = true;
+            }
+            if (this.value == "UNICA" || this.value == "MULTIPLE") {
+                opcionesContainer.style.display = 'block';
+                finalizarBtn.disabled = true;
+            } else {
+                opcionesContainer.style.display = 'none';
+                document.getElementById('opciones-list').innerHTML = '';
+                finalizarBtn.disabled = false;
+            }
+        });
+
+        document.getElementById('add-opcion-btn').addEventListener('click', function() {
+            var opcionesList = document.getElementById('opciones-list');
+            var opcionDiv = document.createElement('div');
+            opcionDiv.classList.add('input-group', 'mt-2');
+            var opcionInput = document.createElement('input');
+            opcionInput.type = 'text';
+            opcionInput.name = 'opciones[]';
+            opcionInput.placeholder = 'Opción';
+            opcionInput.classList.add('form-control');
+            opcionInput.required = true;
+            var removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.classList.add('btn', 'btn-danger');
+            removeBtn.innerText = 'X';
+            removeBtn.addEventListener('click', function() {
+                opcionesList.removeChild(opcionDiv);
+                if (opcionesList.children.length === 0) {
+                    document.getElementById('finalizar-btn').disabled = true;
+                }
+            });
+            opcionDiv.appendChild(opcionInput);
+            opcionDiv.appendChild(removeBtn);
+            opcionesList.appendChild(opcionDiv);
+            document.getElementById('finalizar-btn').disabled = false;
+        });
+
+        document.getElementById('altaForm').addEventListener('submit', function(event) {
+            var tipoPregunta = document.getElementById('tipo_pregunta').value;
+            if (tipoPregunta == "UNICA" || tipoPregunta == "MULTIPLE") {
+                var opciones = document.querySelectorAll('input[name="opciones[]"]');
+                for (var i = 0; i < opciones.length; i++) {
+                    if (opciones[i].value.trim() === "") {
+                        event.preventDefault();
+                        alert("No se pueden enviar opciones vacías.");
+                        return;
+                    }
+                }
+            }
+        });
+
+        document.getElementById('finalizar-btn').addEventListener('click', function() {
+            document.getElementById('submit_action').value = "finalizar";
+        });
+
+        document.getElementById('continuar-btn').addEventListener('click', function() {
+            document.getElementById('submit_action').value = "continuar";
+        });
+    </script>
+{{/partial}}
+{{> templates/bases/base_admin}}

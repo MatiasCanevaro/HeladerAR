@@ -1,0 +1,49 @@
+{{#partial "contenido"}}
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Modificación Heladera</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+        <div class="row">
+            <div class="col-lg">
+                <h4 class="d-flex justify-content-center">Modificación</h4>
+                <div class="form-group">
+                    <label for="heladera_mod">Heladera a modificar</label>
+                    <select id="heladera_mod" name="heladera_mod">
+                        <option value="0">Ninguno seleccionado</option>
+                        <option value="3">Av Cabildo 1600</option>
+                        <option value="7">Av Juan B Justo 800</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="punto_estrategico_calle_mod">Ubicación: Calle</label>
+                    <input type="text" id="punto_estrategico_calle_mod" name="punto_estrategico_calle_mod" placeholder="Calle">
+                </div>
+                <div class="form-group">
+                    <label for="punto_estrategico_altura_mod">Ubicación: Altura</label>
+                    <input type="number" id="punto_estrategico_altura_mod" name="punto_estrategico_altura_mod" placeholder="Altura">
+                </div>
+                <div class="form-group">
+                    <label for="capacidad_mod">Capacidad en viandas</label>
+                    <input type="number" id="capacidad_mod" name="capacidad_mod" placeholder="Capacidad">
+                </div>
+                <div class="form-group">
+                    <label for="modelo_mod">Modelo</label>
+                    <select id="modelo_mod" name="modelo_mod">
+                        <option value="0">Ninguno seleccionado</option>
+                        <option value="3">Samsung1</option>
+                        <option value="7">Samsung2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/bases/base_admin}}

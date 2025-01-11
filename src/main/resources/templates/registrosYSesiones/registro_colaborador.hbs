@@ -1,0 +1,32 @@
+{{#partial "archivo_css"}}
+<link rel="stylesheet" href="css/index.css">
+<link rel="stylesheet" href="css/botones/botones_registro.css">
+{{/partial}}
+
+{{#partial "contenido"}}
+    <div class="container-fluid position-absolute top-50 start-50 translate-middle" style="margin-top: -3rem">
+        <div id="title" class="d-flex justify-content-center">
+            <div class="card-title">
+                <h1>¿Qué tipo de persona querés registrar?</h1>
+                <h4>El correo electrónico se utilizará como nombre de usuario</h4>
+            </div>
+        </div>
+
+        <form action="/registro" method="POST">
+            <div class="row">
+                <div class="container">
+                    <div class="col text-center">
+                        <input type="submit" id="fisica" name="tipoRol" value="Persona Física" class="btn btn-outline-primary btn-lg">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="col text-center">
+                        <input type="submit" id="juridica" name="tipoRol" value="Persona Jurídica" class="btn btn-outline-primary btn-lg">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{{/partial}}
+{{>templates/bases/base_sin_registro}}

@@ -1,0 +1,51 @@
+{{#partial "contenido"}}
+    <link rel="stylesheet" href="/css/oferta.css">
+    <div class="container my-5" style="padding-top: 5rem">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="main-img">
+                    <img class="img-fluid" src="{{oferta.pathImagen}}" alt="Product Image" style="border-radius: 2rem">
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="main-description">
+                    <div class="category text-bold">
+                        Categoría: {{oferta.dtoRubro.nombre}}
+                    </div>
+                    <div class="product-title text-bold my-3">
+                        {{oferta.nombre}}
+                    </div>
+                    <div class="price-area my-4">
+                        <p class="new-price mb-1">{{oferta.cantidadDePuntosNecesariosParaAccederAlBeneficio}} puntos</p>
+                    </div>
+                </div>
+
+                <div class="product-details my-4">
+                    <p class="details-title text-color mb-1">Detalles del producto</p>
+                    <p class="description">{{oferta.descripcion}}</p>
+                </div>
+
+                <div class="buttons d-flex my-5 text-center">
+                    <div class="container mt-5">
+                        <button onclick="canjearProducto()" class="btn btn-primary btn-md">Canjear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function canjearProducto() {
+            fetch('/dashboard/catalogo/{{oferta.id}}/canje', {
+                method: 'POST'
+            }).then(response => {
+                if (response.status === 400) {
+                    alert("No tienes los puntos necesarios para hacer el canje");
+                } else {
+                    window.location.href = '/dashboard/catalogo/{{oferta.id}}/canje_exitoso';
+                }
+            });
+        }
+    </script>
+{{/partial}}
+{{> templates/bases/base }}

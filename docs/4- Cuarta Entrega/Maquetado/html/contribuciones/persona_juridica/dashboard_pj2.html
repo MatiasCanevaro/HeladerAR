@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HeladerAR</title>
+    <link href="../../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../css/main.css">
+    <link rel="stylesheet" href="../../../css/dashboard.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <a class="navbar-brand d-flex" href="../../generales/home_con_sesion.html">
+            <img src="../../../img/freezer_11935622.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top me-2">
+            HeladerAR
+        </a>
+
+        <div class="ms-auto d-flex align-items-center d-inline-block ">
+            <a href="dashboard_pj.html" class="btn btn-link btn-link-bl mx-2 d-flex align-items-center">Ir al dashboard <i class="bi bi-arrow-right-short ms-1"></i></a> <!-- TODO future: diferenciar entre personas-->
+            <a href="../../generales/profile.html" class="nav-link text-white me-3">
+                <i class="bi bi-person-fill"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="padding-top:2rem">
+    <div class="d-flex align-items-center fs-1 mt-4">
+        <i class="bi bi-person-circle"></i>
+        <h1 class="mt-2 ms-3">Tu Dashboard</h1>
+    </div>
+</div>
+
+<div class="container-fluid d-flex align-content-center justify-content-center mt-5" style="height: 60vh">
+    <div class="row">
+        <div class="col">
+            <div class="row text-center">
+                <h4 class="mb-4">Formas de Contribución</h4>
+                <div class="col" style="padding-top: 2rem">
+                    <div>
+                        <a class="card text-center w-100" href="hacerse_cargo_heladera1.html">Hacerse cargo de una heladera</a>
+                    </div>
+                </div>
+                <div class="col" style="padding-top: 2rem">
+                    <div>
+                        <a class="card text-center w-100" href="publicar_oferta.html">Publicar oferta</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <a  class="card text-center w-100" href="../donacion_dinero.html">Donar dinero</a>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="mt-2">¿Querés cambiar tus formas de contribución?
+                        <a href="cambiar_juridica_contribuciones.html" type="button" class="btn btn-link-azul" style="color: #0d6efd; text-decoration: underline">Hacelo acá</a> <!-- TODO: delegar color -->
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col text-center">
+            <h4 class="mb-4">Acá podes ver tus heladeras</h4>
+            <div class="container d-flex ms-5">
+                <iframe src="../../../mapa/mapa.html" width="600" height="500" loading="lazy" class="rounded" ></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row align-items-end">
+            <div class="container-fluid d-flex">
+                <div class="col text-center">
+                    <div class="container">
+                        <a href="../../generales/policy.html">Política de Privacidad</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container text-center">
+                        <a href="../../generales/contact.html">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

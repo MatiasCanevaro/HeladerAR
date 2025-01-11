@@ -1,0 +1,645 @@
+@startuml der
+
+/' Cuestionarios '/
+entity Cuestionario {
+ * id: INTEGER(11) <<subrogada>>
+ --
+}
+
+entity CuestionarioRespondido {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * cuestionario_id: INTEGER(11) <<FK>>
+ * fecha_y_hora_respondido: DATETIME
+}
+
+entity Opcion{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * pregunta_id: INTEGER(11) <<FK>>
+ * respuesta_id: INTEGER(11) <<FK>>
+ nombre: VARCHAR(255)
+}
+
+entity Pregunta{
+ * id: INTEGER(11) <<subrogada>>
+ --
+    * cuestionario_id: INTEGER(11) <<FK>>
+    descripcion: TEXT
+}
+
+entity Respuesta{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * cuestionario_respondido_id: INTEGER(11) <<FK>>
+ * pregunta_id: INTEGER(11) <<FK>>
+ * contenido: TEXT
+}
+
+CuestionarioRespondido }|--|| Cuestionario
+CuestionarioRespondido ||--|{ Pregunta
+Pregunta ||--o{ Opcion
+Respuesta ||--o{ Opcion
+Respuesta }|--|| Pregunta
+Pregunta }|--|| Cuestionario
+
+/' Formas De Colaboración '/
+entity DistribucionDeTarjeta{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * tarjeta_id: INTEGER(11) <<FK>>
+ * personaFisicaQueLaRegistro_id: INTEGER(11) <<FK>>
+ * personaVulnerable_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+ * fechaEntregaTarjeta: DATE
+}
+
+entity DistribucionDeVianda {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * personaFisica_id: INTEGER(11) <<FK>>
+ * motivoDistribucion_id: INTEGER(11) <<FK>>
+ * heladeraOrigen_id: INTEGER(11) <<FK>>
+ * heladeraDestino_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+ * cantViandasAMover: INTEGER(11)
+ * fechaDistribucion: DATETIME
+}
+
+entity DonacionDeDinero {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * personaFisica_id: INTEGER(11) <<FK>>
+ * personaJuridica_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+ * monto: FLOAT
+ * frecuenciaEnDias: INTEGER(11)
+ * fechaDonacion: DATE
+}
+
+entity DonacionDeVianda {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * personaFisica_id: INTEGER(11) <<FK>>
+ * vianda_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+ * fechaListaParaEntregar: DATETIME
+ * fechaDonacion: DATETIME
+}
+
+entity MotivoDistribucion{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * nombre: VARCHAR(255)
+}
+
+DistribucionDeVianda }|--|| MotivoDistribucion
+    
+entity OfrecerProductosYServicios{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * personaJuridica_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+}
+
+/' Geografía '/
+entity AreaDeCobertura {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * ciudad_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+}
+
+entity Ciudad {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * centroDeCiudad_id: INTEGER(11) <<FK>>
+ * provincia_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+}
+
+AreaDeCobertura ||--|| Ciudad
+
+entity Direccion {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * ciudad_id: INTEGER(11) <<FK>>
+ * calle: VARCHAR(255)
+ * altura: VARCHAR(255)
+ piso: VARCHAR(255)
+ * codigoPostal: VARCHAR(255)
+}
+
+Direccion }|--|| Ciudad
+
+entity Provincia {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * nombre: VARCHAR(255)    
+}
+
+Ciudad }|--|| Provincia
+
+entity PuntoEstrategico{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * direccion_id: INTEGER(11) <<FK>>  
+ * nombre: VARCHAR(255)
+ * latitud: VARCHAR(255)
+ * longitud: VARCHAR(255)
+}
+
+Ciudad ||--|| PuntoEstrategico
+Direccion ||--|| PuntoEstrategico
+
+/' Heladeras '/
+entity ConfiguracionDeTemperatura {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * personaFisicaQueLaConfiguro_id: INTEGER(11) <<FK>>
+ * heladera_id: INTEGER(11) <<FK>>
+ * temperaturaMaximaConfigurada: FLOAT
+ * temperaturaMnimaConfigurada: FLOAT
+ * fechaYHoraConfiguracion: DATETIME
+}
+
+entity Heladera {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * puntoEstrategico_id: INTEGER(11) <<FK>>
+ * modelo_id: INTEGER(11) <<FK>>
+ * personaJuridica_id: INTEGER(11) <<FK>>
+ * capacidadEnViandas: INTEGER(11)
+ * estaActiva: TINYINT(1)
+}
+
+DistribucionDeVianda }|--|{ Heladera
+ConfiguracionDeTemperatura }|--|| Heladera
+Heladera ||--|| PuntoEstrategico
+
+
+entity HeladeraFechaYHoraNoActiva{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * fecha_y_hora_dejo_de_estar_activa: DATETIME
+ * heladera_id: INTEGER(11) <<FK>>
+}
+
+HeladeraFechaYHoraNoActiva }o--|| Heladera
+
+entity HeladeraFechaYHoraActiva{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * fecha_y_hora_volvio_a_estar_activa: DATETIME
+ * heladera_id: INTEGER(11) <<FK>>
+}
+
+HeladeraFechaYHoraActiva }o--|| Heladera
+
+entity HeladeraFechaYHoraReubicada{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * fecha_y_hora_fue_reubicada: DATETIME
+ * heladera_id: INTEGER(11) <<FK>>
+}
+
+HeladeraFechaYHoraReubicada }o--|| Heladera
+
+entity MedicionDeTemperatura {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * heladera_id: INTEGER(11) <<FK>>
+ * valor: FLOAT
+ * fechaYHoraMedicion: DATETIME
+}
+
+MedicionDeTemperatura }|--|| Heladera
+
+entity ModeloDeHeladera{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * nombre: VARCHAR(255)
+ * temperaturaMinimaAceptable: FLOAT
+ * temperaturaMaximaAceptable: FLOAT
+}
+
+Heladera }|--|| ModeloDeHeladera
+
+entity NotificadorHeladera{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * heladera_id: INTEGER(11) <<FK>>
+ * minutosParaVencer: FLOAT
+}
+
+NotificadorHeladera ||--|| Heladera
+
+entity ReceptorHeladera {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * heladera_id: INTEGER(11) <<FK>>
+}
+
+ReceptorHeladera ||--|| Heladera
+
+entity SensorDeMovimiento {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * heladera_id: INTEGER(11) <<FK>>
+}
+
+SensorDeMovimiento ||--|| Heladera
+
+entity SensorDeTemperatura {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * heladera_id: INTEGER(11) <<FK>>
+}
+
+SensorDeTemperatura ||--|| Heladera
+
+entity Vianda {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * heladera_id: INTEGER(11) <<FK>>
+ * pase_de_tarjeta_id: INTEGER(11) <<FK>>
+ * nombreComida : VARCHAR(255)
+ * fechaCaducidad: DATETIME
+ calorias: FLOAT
+ peso: FLOAT
+}
+
+Vianda }o--|| Heladera
+DonacionDeVianda ||--|| Vianda
+
+/' Incidentes '/
+entity AlertaHeladera {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * tipoIncidente: VARCHAR(255)
+ * puntoEstrategico_id: INTEGER(11) <<FK>>
+ * heladera_id: INTEGER(11) <<FK>>
+ * fechaYHora: DATETIME
+ * estaSolucionado: TINYINT(1)
+ * fechaYHoraFueSolucionado: DATETIME
+}
+AlertaHeladera ||--|| Heladera
+AlertaHeladera }o--|| PuntoEstrategico
+
+entity FallaTecnica{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * heladera_id: INTEGER(11) <<FK>>
+ * personaFisicaQueLoReporto_id: INTEGER(11) <<FK>>
+ * puntoEstrategico_id: INTEGER(11) <<FK>>
+ * fechaYHoraFalla: DATETIME
+ * fechaYHoraReporte: DATETIME
+ descripcion: TEXT
+ pathImagen: VARCHAR(255)
+ * estaSolucionado: TINYINT(1)
+ * fechaYHoraFueSolucionado: DATETIME
+}
+
+FallaTecnica }o--|| Heladera
+FallaTecnica }o--|| PuntoEstrategico
+
+entity VisitaTecnica {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * tecnico_id: INTEGER(11) <<FK>>
+ * heladera_id: INTEGER(11) <<FK>>
+ * fallaTecnica_id: INTEGER(11) <<FK>>
+ * fechaYHoraVisita: DATETIME
+ descripcionDelTrabajo: TEXT
+ pathImagen: VARCHAR(255)
+ * pudoSolucionarElIncidente: TINYINT(1)
+}
+
+VisitaTecnica }o--|| Heladera
+
+VisitaTecnica }o--|| FallaTecnica
+
+/' mqttclient '/
+
+/' Ofertas y canjes '/
+/'
+entity CalculadoraDePuntos {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * coeficientePesosDonados: FLOAT
+ * coeficienteViandasDistribuidas: FLOAT
+ * coeficienteViandasDonadas: FLOAT
+ * coeficienteTarjetasDistribuidas: FLOAT
+ * coeficienteHeladerasActivas: FLOAT
+}
+'/
+entity Canje {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * ofertaCanjeada_id: INTEGER(11) <<FK>>
+ * personaJuridicaQueOfrecio_id: INTEGER(11) <<FK>>
+ * personaJuridicaQueCanjeo_id: INTEGER(11) <<FK>>
+ * personaFisicaQueCanjeo_id: INTEGER(11) <<FK>>
+ * fechaYHoraCanje: DATETIME
+}
+
+entity Oferta {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * rubro_id: INTEGER(11) <<FK>>
+ * personaJuridica_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+ pathImagen: VARCHAR(255)
+ * cantidadDePuntosNecesariosParaAccederAlBeneficio: FLOAT
+}
+
+Canje }o--|| Oferta
+
+entity Rubro {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * nombre: VARCHAR(255)
+}
+
+Oferta }o--|| Rubro
+
+/' Personas '/
+entity Email {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * correoElectronico: VARCHAR(255)
+}
+
+entity MedioDeContacto {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * tecnico_id: INTEGER(11) <<FK>>
+ * tipoContacto: VARCHAR(255)
+ * dato: VARCHAR(255)
+}
+
+entity PersonaFisica {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * direccion_id: INTEGER(11) <<FK>>
+ * cuestionarioRespondido_id: INTEGER(11) <<FK>>
+ * email_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+ * apellido: VARCHAR(255)
+ * tipoDocumento: VARCHAR(255)
+ * numeroDocumento: VARCHAR(255)
+ * puntosAcumulados: FLOAT
+ * pesosDonados: FLOAT
+ * viandasDonadas: INTEGER(11)
+ * viandasDistribuidas: INTEGER(11)
+ * tarjetasDistribuidas: INTEGER(11)
+}
+
+ConfiguracionDeTemperatura }|--|| PersonaFisica
+FallaTecnica }o--|| PersonaFisica
+DistribucionDeTarjeta }|--|| PersonaFisica
+Canje }o--|| PersonaFisica
+PersonaFisica ||--|| CuestionarioRespondido
+PersonaFisica }o--|| Direccion
+PersonaFisica ||--|| Email
+DonacionDeDinero }|--|| PersonaFisica
+DonacionDeVianda }|--|| PersonaFisica
+DistribucionDeVianda }|--|| PersonaFisica
+
+
+entity PersonaJuridica {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * cuestionariosRespondido_id: INTEGER(11) <<FK>>
+ * razonSocial: VARCHAR(255)
+ * tipoOrganizacion: VARCHAR(255)
+ * puntosAcumulados: FLOAT
+ * pesosDonados: FLOAT
+}
+
+Canje }o--|{ PersonaJuridica
+OfrecerProductosYServicios }|--|| PersonaJuridica
+PersonaJuridica ||--|| CuestionarioRespondido
+DonacionDeDinero }|--|| PersonaJuridica
+
+entity PersonaFisicaFormaDeColaboracion {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * nombre: VARCHAR(255)
+ * personaFisica_id: INTEGER(11) <<FK>>
+}
+
+PersonaFisica |o--|{ PersonaFisicaFormaDeColaboracion
+
+entity PersonaJuridicaFormaDeColaboracion {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * nombre: VARCHAR(255)
+ * personaJuridica_id: INTEGER(11) <<FK>>
+}
+
+PersonaJuridica |o--|{ PersonaJuridicaFormaDeColaboracion
+
+entity PersonaVulnerable {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ direccion_id: INTEGER(11) <<FK>>
+ * personaVulnerable_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+ * apellido: VARCHAR(255)
+ * fechaNacimiento: DATETIME
+ * fechaRegistroEnSistema: DATETIME
+ tipoDocumento: VARCHAR(255)
+ numeroDocumento: VARCHAR(255)
+}
+
+PersonaVulnerable ||--o| Direccion
+PersonaVulnerable ||--o{ PersonaVulnerable
+DistribucionDeTarjeta }|--|| PersonaVulnerable
+
+entity Tecnico {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * areaDeCobertura_id: INTEGER(11) <<FK>>
+ * nombre: VARCHAR(255)
+ * apellido: VARCHAR(255)
+ * numeroDocumento: VARCHAR(255)
+ * tipoDocumento: VARCHAR(255)
+ * cuil: VARCHAR(255)
+}
+
+Tecnico ||--|{ MedioDeContacto
+Tecnico }|--|| AreaDeCobertura
+VisitaTecnica }o--|| Tecnico
+
+/' Reportes
+entity CronReportes {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * frecuenciaDeEjecucionEnDias: INTEGER(11) PREGUNTAR SI SE PERSISTE
+}
+para la justificaciones ;)
+'/
+
+/' Suscripciones '/
+entity Distribucion{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * sugerencia_id: INTEGER(11) <<FK>>
+ * heladeraDestino_id: INTEGER(11) <<FK>>
+ * puntoEstrategico_id: INTEGER(11) <<FK>>
+ * cantidadDeViandas: INTEGER(11)
+}
+
+Distribucion }o--|| Heladera
+Distribucion }o--|| PuntoEstrategico
+
+/'
+entity FaltanNViandas {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * nombre: VARCHAR(255)
+}
+'/
+/'
+entity GeneradorDeSugerencias {
+ * id: INTEGER(11) <<subrogada>>
+ -- 
+ * nombre: VARCHAR(255)
+ * cantidadMinimaDeViandas: INTEGER(11)
+ * cantidadDeHeladerasARetornar: INTEGER(11)
+}
+'/
+/'
+entity QuedanNViandasDisponibles {
+ * id: INTEGER(11) <<subrogada>>
+ -- 
+ * nombre: VARCHAR(255)
+}
+'/
+
+entity Sugerencia {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * heladeraOrigen_id: INTEGER(11) <<FK>>
+ * puntoEstrategico_id: INTEGER(11) <<FK>>
+ * personaFisica_id: INTEGER(11) <<FK>>
+ * estadoSugerencia: VARCHAR(255)
+ * fechaYHoraFueGenerada: DATETIME
+ * fechaYHorafechaYHoraResultado: DATETIME
+}
+
+Sugerencia ||--|{ Distribucion
+Sugerencia }o--|| Heladera
+Sugerencia }o--|| PuntoEstrategico
+Sugerencia }o--|| PersonaFisica
+
+entity Suscripcion{
+ * id: INTEGER(11) <<subrogada>>
+--
+ * personaFisica_id: INTEGER(11) <<FK>>
+ * heladera_id: INTEGER(11) <<FK>>
+ * fechaYHoraInicio: DATETIME
+ * fechaYHoraFin: DATETIME
+ * opcion: VARCHAR(255)
+ * cantidadViandasDisponibles: INTEGER(11)
+ * cantidadDeViandasATraer: INTEGER(11)
+ * cantidadViandasFaltantes: INTEGER(11)
+ * cantidadDeViandasALlevar: INTEGER(11)
+}
+
+Suscripcion }o--|| PersonaFisica
+Suscripcion }o--|| Heladera
+
+/' Tarjetas '/
+entity PaseDeTarjeta {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * tarjeta_id: INTEGER(11) <<FK>>
+ * heladera_id: INTEGER(11) <<FK>>
+ * solicitudDeApertura_id: INTEGER(11) <<FK>>
+ * accionSolicitada: VARCHAR(255)
+ * fechaYHoraPaseDeTarjeta: DATETIME
+ * resultadoPaseDeTarjeta: VARCHAR(255)
+}
+
+PaseDeTarjeta }o--|| Heladera
+
+entity PaseDeTarjetaVianda {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * pase_de_tarjeta_id: INTEGER(11) <<subrogada>> <<FK>>
+ * vianda_id: INTEGER(11) <<subrogada>> <<FK>>
+}
+
+PaseDeTarjetaVianda }o--|| Vianda
+
+entity SolicitudDeApertura {
+ * solicitud_de_apertura_id: INTEGER(11) <<subrogada>>
+ --
+ * personaFisica_id: INTEGER(11) <<FK>>
+ * heladera_id: INTEGER(11) <<FK>>
+ * fechaYHoraSolicitud: DATETIME
+ * fechaYHoraVencimiento: DATETIME
+ * accionSolicitada: VARCHAR(255)
+ * fueUsada: TINYINT(1)
+}
+
+PaseDeTarjeta |o--|| SolicitudDeApertura
+SolicitudDeApertura }o--|| PersonaFisica
+SolicitudDeApertura }o--|| Heladera
+PaseDeTarjetaVianda }o--|| PaseDeTarjeta
+
+entity SolicitudDeAperturaVianda {
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * solicitud_de_apertura_id: INTEGER(11) <<subrogada>> <<FK>>
+ * vianda_id: INTEGER(11) <<subrogada>> <<FK>>
+}
+
+SolicitudDeAperturaVianda }o--|| Vianda
+SolicitudDeAperturaVianda }o--|| SolicitudDeApertura
+
+entity Tarjeta {
+ * codigo: INTEGER(11) <<natural>>
+ --
+ * personaVulnerable_id: INTEGER(11) <<FK>>
+ * personaFisica_id: INTEGER(11) <<FK>>
+ * cantidadDeVecesQuePuedeSerUtilizadaPorDia: INTEGER(11)
+ * estaActiva: TINYINT(1)
+}
+
+PaseDeTarjeta }o--|| Tarjeta
+DistribucionDeTarjeta ||--|| Tarjeta
+Tarjeta ||--|| PersonaVulnerable
+Tarjeta ||--|{ PersonaFisica
+
+entity TarjetaFechaRetiroVianda{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * tarjeta_id: INTEGER(11) <<FK>>
+ * fecha_retiro_de_vianda: DATETIME
+}
+
+TarjetaFechaRetiroVianda }o--|| Tarjeta
+
+/' Notificador '/
+/'
+entity CronNotificador{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * horaMaximaAceptable: TIME
+ * horaMinimaAceptable: TIME
+ * horaEnvio: TIME
+} 
+'/
+/'
+entity Mensaje{
+ * id: INTEGER(11) <<subrogada>>
+ --
+ * asunto: VARCHAR(255)
+ * cuerpo: VARCHAR(255)
+ * fechaYHoraDeEnvio: DATETIME
+}
+'/
+@enduml

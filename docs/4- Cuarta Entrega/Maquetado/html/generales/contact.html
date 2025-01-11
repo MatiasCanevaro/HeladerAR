@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto</title>
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/botones/botones_home_sin_sesion.css">
+
+    <link rel="stylesheet" href="../../css/contact.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="home_sin_sesion.html"> <!-- TODO future: distinguir entre con y sin sesion iniciada -->
+            <img src="../../img/freezer_11935622.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top me-2">
+            HeladerAR
+        </a>
+        <div class="d-flex justify-content-end">
+            <a href="../registrosYSesiones/inicio_colaborador.html" type="button" class="btn btn-primary mx-2 mt-2 mb-1">Iniciar sesión</a>
+            <a href="../registrosYSesiones/registro_colaborador.html" type="button" class="btn btn-outline-primary mx-2 mt-2 mb-1">Registrarse como Colaborador</a>
+        </div>
+    </div>
+</nav>
+
+<div class="ms-5 mt-4 mb-4 container">
+    <h3 class="ms-5 mt-4 mb-4">¡Contactanos!</h3>
+</div>
+
+
+<div class="container-fluid-2">
+    <div class="row">
+        <div class="col ms-5">
+            <form>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-group" for="form4Example1">Nombre *</label>
+                    <input type="text" id="form4Example1" class="form-group" placeholder="Nombre" required/>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-group" for="form4Example2">Correo electrónico *</label>
+                    <input type="email" id="form4Example2" class="form-group" placeholder="Correo electrónico" required/>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-group" for="form4Example3">Mensaje *</label>
+                    <textarea class="form-group" id="form4Example3" rows="4" placeholder="Escriba aquí..." required></textarea>
+                </div>
+
+                <div class="form-check d-flex justify-content-center mb-4">
+                    <input class="form-check-input me-2" type="checkbox" value="" id="form4Example4" checked/>
+                    <label class="form-check-label" for="form4Example4">
+                        Enviarme una copia de este mensaje
+                    </label>
+                </div>
+
+                <div class="container text-center">
+                    <a href="home_sin_sesion.html" data-mdb-ripple-init type="button" class="btn btn-primary btn-block mb-4 btn-md">Enviar</a>
+                </div>
+            </form>
+        </div>
+        <div class="col d-flex align-content-center justify-content-center">
+            <img src="../../img/office-desktop-with-laptop-business-man.jpg" alt="contacto" >
+        </div>
+    </div>
+
+
+</div>
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row align-items-end">
+            <div class="container-fluid d-flex">
+                <div class="col text-center">
+                    <div class="container">
+                        <a href="policy.html">Política de Privacidad</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container text-center">
+                        <a href="contact.html">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+{{#partial "contenido"}}
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Baja Heladera</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+        <div class="row">
+            <div class="col-lg">
+                <h4 class="d-flex justify-content-center">Baja</h4>
+                <div class="form-group">
+                    <label for="heladera_baja">Heladera a dar de baja</label>
+                    <select id="heladera_baja" name="heladera_baja">
+                        <option value="0">Ninguno seleccionado</option>
+                        <option value="3">Av Cabildo 1600</option>
+                        <option value="7">Av Juan B Justo 800</option>
+                    </select>
+                </div>
+            </div>
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/bases/base_admin}}

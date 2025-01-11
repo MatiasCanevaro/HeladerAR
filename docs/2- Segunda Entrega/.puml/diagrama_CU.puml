@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor PersonaFísica
+actor PersonaJurídica
+actor EncargadoONG
+
+rectangle Sistema_para_la_Mejora_del_Acceso_Alimentario_en_Contextos_de_Vulnerabilidad_Socioeconómica{
+
+PersonaFísica -- (Registrar persona fisica)
+PersonaFísica -- (Registrar persona vulnerable)
+PersonaJurídica -- (Registrar persona jurídica)
+
+PersonaFísica -- (Modificar información personal)
+PersonaJurídica -- (Modificar información jurídica)
+
+PersonaFísica -right- (Modificar formas de colaboración)
+PersonaJurídica -left- (Modificar formas de colaboración)
+
+PersonaFísica -right- (Donar Dinero)
+PersonaFísica -- (Donar Vianda)
+PersonaFísica -- (Distribuir Vianda)
+PersonaFísica -- (Distribuir Tarjeta)
+PersonaFísica -- (Configurar temperatura de heladera)
+
+PersonaJurídica -left- (Donar Dinero)
+PersonaJurídica -- (Asumir cargo de una heladera)
+PersonaJurídica -- (Solicitar puntos de colocación)
+PersonaJurídica -- (Ofrecer productos y servicios)
+
+EncargadoONG -- (Registrar técnico)
+EncargadoONG -- (Registrar heladera)
+EncargadoONG -- (Modificar información heladera)
+EncargadoONG -- (Dar de baja heladera)
+
+}
+@enduml

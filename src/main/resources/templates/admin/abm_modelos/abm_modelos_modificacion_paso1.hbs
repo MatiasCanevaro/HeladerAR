@@ -1,0 +1,48 @@
+{{#partial "contenido"}}
+
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Modificación Modelo</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; ; width: 100rem">
+        <!-- Modelos -->
+        <h4 class="d-flex justify-content-center" style="font-weight: bolder">Modelos</h4>
+        <form action="/dashboard/modelos/modificacion/paso1" method="post">
+            <div class="row">
+                <div class="col-lg">
+                    <!-- Modificacion -->
+                    <h4 class="d-flex justify-content-center">Modificación</h4>
+                    <div class="form-group">
+                        <label for="modelo_elegido_mod">Modelo a modificar</label>
+                        <select id="modelo_elegido_mod" name="modelo_elegido_mod" required>
+                            <option value="0">Ninguno seleccionado</option>
+                            {{#each modelos}}
+                                <option value="{{this.id}}">{{this.nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary btn-lg" id="siguiente-btn" disabled>Siguiente</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('modelo_elegido_mod').addEventListener('change', function() {
+            var siguienteBtn = document.getElementById('siguiente-btn');
+            if (this.value == "0") {
+                siguienteBtn.disabled = true;
+            } else {
+                siguienteBtn.disabled = false;
+            }
+        });
+    </script>
+
+{{/partial}}
+{{> templates/bases/base_admin}}

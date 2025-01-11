@@ -1,0 +1,30 @@
+@startuml
+
+Validador *-- FormasDeValidar
+Longitud ..|> FormasDeValidar
+Top10000 ..|> FormasDeValidar
+ASCIIImprimible ..|> FormasDeValidar
+
+class Validador {
+ -formasDeValidar: List<FormasDeValidar>
+ +esValida(String): Boolean
+}
+
+interface FormasDeValidar {
+ +validar(String,List<String>): Boolean
+}
+
+class Longitud {
+ +validar(String,List<String>): Boolean
+}
+
+class Top10000 {
+ -contraseniasDebiles: List<String>
+ +validar(String,List<String>): Boolean
+}
+
+class ASCIIImprimible {
+ +validar(String,List<String>): Boolean
+}
+
+@enduml

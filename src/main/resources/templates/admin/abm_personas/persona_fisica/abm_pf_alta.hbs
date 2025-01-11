@@ -1,0 +1,136 @@
+{{#partial "contenido"}}
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Cuestionario Persona Física</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+        <form id="registroForm" method="POST" action="/registro/persona_fisica/paso3">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col">
+                    <div class="container">
+                        {{#each primeraTanda}}
+                            <div class="form-group">
+                                <label for="{{id}}">{{descripcion}}</label>
+                                {{#if esAbierta}}
+                                    <textarea id="{{id}}" name="{{id}}" placeholder="Respuesta" required rows="4" cols="50" class="required-input"></textarea>
+                                {{else}}
+                                    {{#if esMultiple}}
+                                        {{#each dtoOpciones}}
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{../id}}" id="{{id}}" value="{{id}}">
+                                                <label class="form-check-label" for="{{id}}">
+                                                    {{nombre}}
+                                                </label>
+                                            </div>
+                                        {{/each}}
+                                    {{else}}
+                                        {{#each dtoOpciones}}
+                                            <div class="form-check">
+                                                <input class="form-check-input required-input" type="radio" name="{{../id}}" id="{{id}}" value="{{id}}" required>
+                                                <label class="form-check-label" for="{{id}}">
+                                                    {{nombre}}
+                                                </label>
+                                            </div>
+                                        {{/each}}
+                                    {{/if}}
+                                {{/if}}
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container">
+                        {{#each segundaTanda}}
+                            <div class="form-group">
+                                <label for="{{id}}">{{descripcion}}</label>
+                                {{#if esAbierta}}
+                                    <textarea id="{{id}}" name="{{id}}" placeholder="Respuesta" required rows="4" cols="50" class="required-input"></textarea>
+                                {{else}}
+                                    {{#if esMultiple}}
+                                        {{#each dtoOpciones}}
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{../id}}" id="{{id}}" value="{{id}}">
+                                                <label class="form-check-label" for="{{id}}">
+                                                    {{nombre}}
+                                                </label>
+                                            </div>
+                                        {{/each}}
+                                    {{else}}
+                                        {{#each dtoOpciones}}
+                                            <div class="form-check">
+                                                <input class="form-check-input required-input" type="radio" name="{{../id}}" id="{{id}}" value="{{id}}" required>
+                                                <label class="form-check-label" for="{{id}}">
+                                                    {{nombre}}
+                                                </label>
+                                            </div>
+                                        {{/each}}
+                                    {{/if}}
+                                {{/if}}
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="container text-center">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary-alt mt-4" id="submitButton" disabled>Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registroForm');
+            const submitButton = document.getElementById('submitButton');
+            const requiredInputs = form.querySelectorAll('.required-input');
+
+            function checkFormValidity() {
+                let allValid = true;
+                requiredInputs.forEach(input => {
+                    if (input.type === 'radio') {
+                        const name = input.name;
+                        const radios = form.querySelectorAll(`input[name="${name}"]`);
+                        const isChecked = Array.from(radios).some(radio => radio.checked);
+                        if (!isChecked) {
+                            allValid = false;
+                        }
+                    } else if (!input.value.trim()) {
+                        allValid = false;
+                    }
+                });
+                submitButton.disabled = !allValid;
+            }
+
+            requiredInputs.forEach(input => {
+                input.addEventListener('input', checkFormValidity);
+                input.addEventListener('change', checkFormValidity);
+            });
+
+            checkFormValidity();
+
+          /*  form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const formData = new FormData(form);
+                fetch('/registro/persona_fisica/paso3', {
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.href = '/registro/persona_fisica/paso3';
+                    } else {
+                        alert('Error al enviar el formulario');
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al enviar el formulario');
+                });
+            });*/
+        });
+    </script>
+{{/partial}}
+{{> templates/bases/base_admin}}

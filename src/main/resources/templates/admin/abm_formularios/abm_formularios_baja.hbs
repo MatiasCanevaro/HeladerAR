@@ -1,0 +1,45 @@
+{{#partial "contenido"}}
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Baja Formulario</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+        <div class="row">
+            <div class="col-lg">
+                <h4 class="d-flex justify-content-center">Baja</h4>
+                <div class="form-group">
+                    <label for="cuestionario_baja">Cuestionario a dar de baja</label>
+                    <select id="cuestionario_baja" name="cuestionario_baja">
+                        <option value="0">Ninguno seleccionado</option>
+                        <option value="3">Cuestionario1</option>
+                        <option value="7">Cuestionario2</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cuestionario">Cuestionario que contiene la pregunta a dar de baja</label>
+                    <select id="cuestionario" name="cuestionario">
+                        <option value="0">Ninguno seleccionado</option>
+                        <option value="3">Cuestionario1</option>
+                        <option value="7">Cuestionario2</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pregunta_baja">Pregunta a dar de baja</label>
+                    <select id="pregunta_baja" name="pregunta_baja">
+                        <option value="0">Ninguno seleccionado</option>
+                        <option value="3">Pregunta1 del Cuestionario elegido</option>
+                        <option value="7">Pregunta2 del Cuestionario elegido</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/bases/base_admin}}

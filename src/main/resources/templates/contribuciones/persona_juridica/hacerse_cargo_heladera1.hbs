@@ -1,0 +1,98 @@
+{{#partial "archivo_css"}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <style>
+        .select2-container {
+            width: 100% !important; /* Asegura que use todo el espacio disponible */
+        }
+        .select2-container--default .select2-selection--single {
+            border-radius: 10px; /* Bordes redondeados */
+            border: 1px solid #ced4da; /* Color del borde */
+            height: auto; /* Ajusta la altura automática */
+            padding: 5px; /* Espaciado interno */
+        }
+    </style>
+
+    <div class="container-fluid">
+        <h3 class="ms-5 mt-4 mb-4">Hacerse cargo de una heladera</h3>
+    </div>
+
+    <form id="hacerseCargoHeladeraForm" action="/dashboard/contribuciones/hacerse_cargo_de_heladera" method="POST">
+        <div class="d-flex position-absolute top-50 start-50 translate-middle">
+            <div class="row">
+                <div class="col">
+                    <div class="container">
+                        <h4 class="mb-4 mt-5">Dirección de colocación</h4>
+
+                        <div class="form-group">
+                            <label for="calleProfile">Calle *</label>
+                            <input type="text" class="form-group" id="calleProfile" name="calleProfile" placeholder="Calle" required/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="altura">Altura *</label>
+                            <input type="text" class="form-group" id="altura" name="altura" placeholder="Altura" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="piso">Piso</label>
+                                    <input type="text" class="form-group" id="piso" name="piso" placeholder="Piso">
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="cp">Código Postal *</label>
+                                    <input type="text" class="form-group" id="cp" name="cp" placeholder="Código Postal" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                                    <label for="ciudad">Ciudad *</label>
+                                    <select id="ciudad" name="ciudad" required>
+                                        {{#each ciudades}}
+                                            <option value="{{this.id}}">{{this.nombre}}, {{this.provincia.nombre}}</option>
+                                        {{/each}}
+                                    </select>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="modeloHeladera">Modelo de Heladera *</label>
+                            <select id="modeloHeladera" name="modeloHeladera" class="form-group" required>
+                                {{#each modelos}}
+                                    <option value="{{this.nombre}}">{{this.nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card text-center" style="margin-top: 2rem">
+                    <p class="mb-3">Si tenés dudas de dónde poner tu heladera...</p>
+                    <div class="container">
+                        <a href="/dashboard/contribuciones/hacerse_cargo_de_heladera/recomendaciones/paso1" type="submit" class="btn btn-outline-primary">Recomendarme puntos de colocación</a>
+                    </div>
+                </div>
+
+                <div class="container text-center" style="margin-top: 1rem">
+                    <button type="submit" class="btn btn-primary">Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        $('#ciudad').select2({
+            placeholder: 'Buscar ciudad',
+            width: 'resolve' // Asegura que se ajuste al contenedor padre
+        });
+
+    </script>
+{{/partial}}
+{{> templates/bases/base }}

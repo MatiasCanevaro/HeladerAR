@@ -1,0 +1,20 @@
+/* Contenedores */
+.container {
+    width: 80vh;
+    padding-right: 5rem;
+    padding-left: 5rem;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 1.5rem;
+}
+
+.container-2{
+    padding-right: 0;
+}
+
+.container-fluid-2 {
+    padding-top: 1.5rem;
+    width: 100%;
+    padding-right: 5rem;
+    padding-left: 5rem;
+}

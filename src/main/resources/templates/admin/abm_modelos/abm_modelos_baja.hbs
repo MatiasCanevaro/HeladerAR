@@ -1,0 +1,49 @@
+{{#partial "contenido"}}
+
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Baja Modelo</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; ; width: 100rem">
+        <!-- Modelos -->
+        <h4 class="d-flex justify-content-center" style="font-weight: bolder">Modelos</h4>
+        <form action="/dashboard/modelos/baja" method="post">
+            <div class="row">
+                <div class="col-lg">
+                    <!-- Baja -->
+                    <h4 class="d-flex justify-content-center">Baja</h4>
+                    <div class="form-group">
+                        <label for="modelo_elegido_baja">Modelo a dar de baja</label>
+                        <select id="modelo_elegido_baja" name="modelo_elegido_baja" required>
+                            <option value="0">Ninguno seleccionado</option>
+                            {{#each modelos}}
+                                <option value="{{this.id}}">{{this.nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary btn-lg" id="guardar-btn" disabled>Guardar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('modelo_elegido_baja').addEventListener('change', function() {
+            var guardarBtn = document.getElementById('guardar-btn');
+            if (this.value == "0") {
+                guardarBtn.disabled = true;
+            } else {
+                guardarBtn.disabled = false;
+            }
+        });
+    </script>
+
+{{/partial}}
+{{> templates/bases/base_admin}}

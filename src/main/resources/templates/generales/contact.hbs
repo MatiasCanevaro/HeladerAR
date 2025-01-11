@@ -1,0 +1,48 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="css/botones/botones_home_sin_sesion.css">
+    <link rel="stylesheet" href="css/contact.css">
+{{/partial}}
+
+{{#partial "contenido"}}
+<div class="ms-5 mt-4 mb-4 container">
+    <h3 class="ms-5 mt-4 mb-4">¡Contactanos!</h3>
+</div>
+
+<div class="container-fluid-2">
+    <div class="row">
+        <div class="col ms-5">
+            <form action="/contact" method="post">
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-group" for="form4Example1">Nombre *</label>
+                    <input type="text" id="form4Example1" name="nombre" class="form-group" placeholder="Nombre" required/>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-group" for="form4Example2">Correo electrónico *</label>
+                    <input type="email" id="form4Example2" name="correo" class="form-group" placeholder="Correo electrónico" required/>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-group" for="form4Example3">Mensaje *</label>
+                    <textarea class="form-group" id="form4Example3" name="mensaje" rows="4" placeholder="Escriba aquí..." required></textarea>
+                </div>
+
+                <div class="form-check d-flex justify-content-center mb-4">
+                    <input class="form-check-input me-2" type="checkbox" value="" id="form4Example4" checked/>
+                    <label class="form-check-label" for="form4Example4">
+                        Enviarme una copia de este mensaje
+                    </label>
+                </div>
+
+                <div class="container text-center">
+                    <button type="submit" class="btn btn-primary btn-block mb-4 btn-md">Enviar</button>
+                </div>
+            </form>
+        </div>
+        <div class="col d-flex align-content-center justify-content-center">
+            <img src="../../img/office-desktop-with-laptop-business-man.jpg" alt="contacto" >
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{> templates/bases/base_sin_registro }}

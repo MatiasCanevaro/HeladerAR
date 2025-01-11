@@ -1,0 +1,52 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <link rel="stylesheet" type="text/css" href="mapa.css"/>
+    <link rel="stylesheet" href="css/index.css">
+{{/partial}}
+{{#partial "contenido"}}
+<div id="map-container" class="container-fluid-2">
+    <div class="row">
+        <div class="col" align="center">
+            {{! Columna izquierda con la información }}
+            <div class="container-fluid-2">
+                {{#if estaLoggueado}}
+                <h1 class="mb-3">¡Bienvenido/a!</h1>
+                {{else}}
+                    <h1 class="mb-4 text-center">¡Hola! Somos HeladerAR</h1>
+                    <p class="card d-flex justify-content-center"  align="center">"Más que una comida, un acto de cuidado.
+                        Elaboramos viandas nutritivas y balanceadas, utilizando ingredientes frescos y de calidad.
+                        Nuestro objetivo es garantizar que cada persona reciba una alimentación adecuada para mejorar su
+                        salud y bienestar." <br>
+                        <a href="/sobre_nosotros" style="color: #808080; text-decoration: underline">Acá podés conocer más sobre nosotros</a></p>
+                {{/if}}
+            <h4>Encontrá la heladera más cercana</h4>
+            {{! Información de las heladeras }}
+                {{#each heladerasMasCercanas}}
+                <div class="container-2">
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-3 text-center ">
+                            <img src="img/school_13745790.png" class="img-fluid" style="height: 8rem">
+                        </div>
+                        <div class="col-12 col-md-6 align-self-center text-start">
+                            <h3>{{this.puntoEstrategico.direccion.calle}} {{this.puntoEstrategico.direccion.altura}}</h3>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        {{! Columna derecha para el mapa }}
+        <div class="col mt-4">
+            <div id="map" style="width: 100%; height: 650px"></div>
+        </div>
+    </div>
+</div>
+
+{{/partial}}
+{{#partial "scripts"}}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="js/mapa.js"></script>
+{{/partial}}
+{{> templates/bases/base_sin_registro}}

@@ -1,0 +1,62 @@
+{{#partial "contenido"}}
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Alta de Técnico</h3>
+            </div>
+        </div>
+    </div>
+    <form id="tecnicoFormAlta" method="POST" action="/dashboard/tecnicos/alta">
+        <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+            <div class="row">
+                <div class="col-lg">
+                    <h4 class="d-flex justify-content-center">Alta</h4>
+                    <label for="nombre">Nombre *</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido *</label>
+                    <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+                </div>
+                <div class="form-group">
+                    <label for="CUIL">CUIL *</label>
+                    <input type="number" id="CUIL" name="CUIL" placeholder="CUIL" required>
+                </div>
+                <div class="form-group">
+                    <label for="tipo_documento">Tipo de Documento</label>
+                    <select id="tipo_documento" name="tipo_documento">
+                        <option value="DNI">Documento de Identidad</option>
+                        <option value="LE">Libreta de Enrolamiento</option>
+                        <option value="LC">Libreta Cívica</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="numero_documento">Número de Documento</label>
+                    <input type="number" id="numero_documento" name="numero_documento" placeholder="Número de documento">
+                </div>
+
+                <!-- Medio de Contacto Dinámico -->
+                <div class="form-group">
+                    <label>Medios de Contacto</label>
+                    <div id="contactos-container"></div>
+                    <button type="button" class="btn btn-secondary mt-2" id="add-contacto-btn">Agregar Medio de Contacto</button>
+                </div>
+
+                <div class="form-group">
+                    <label for="areaDeCobertura">Área de Cobertura</label>
+                    <select id="areaDeCobertura" name="areaDeCobertura" class="form-group">
+                        {{#each areaDeCobertura}}
+                            <option value="{{this.nombre}}">{{this.nombre}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+        </div>
+    </form>
+
+<script src="/js/agregarMedioDeContacto.js"></script>
+{{/partial}}
+{{> templates/bases/base_admin}}

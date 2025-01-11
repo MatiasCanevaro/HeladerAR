@@ -1,0 +1,67 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <link rel="stylesheet" type="text/css" href="mapa.css"/>
+    <link rel="stylesheet" href="../../../css/dashboard.css">
+{{/partial}}
+{{#partial "contenido"}}
+    <div class="container" style="padding-top:2rem">
+        <div class="d-flex align-items-center fs-1 mt-4">
+            <i class="bi bi-person-circle"></i>
+            <h1 class="mt-2 ms-3">Tu Dashboard</h1>
+        </div>
+    </div>
+
+    <div class="container-fluid d-flex align-content-center justify-content-center mt-5">
+        <div class="row w-100">
+
+            <!-- Columna Izquierda: Formas de Contribución -->
+            <div class="col-lg-6 d-flex flex-column align-items-center">
+                <h4 class="mb-4">Formas de Contribución</h4>
+                <div class="contribution-options w-100">
+                    <!-- Para pasar desde la base de datos el tipo de contribucion de la persona quedaria :
+                 <div class="contribution-options w-100">
+                    {{#each tiposContribuciones}}
+                    <div class="mb-3">
+                        <a class="card text-center contribution-button" data-type="{{this}}" href="/dashboard/contribuciones/{{this}}">{{this}}</a>
+                    </div>
+                    {{/each}}
+                    <div class="columna-izquierda"></div>
+                    <div class="columna-derecha"></div>
+                </div>
+                -->
+                    <div class="mb-3">
+                        <a class="card text-center contribution-button" data-type="heladera" href="/dashboard/contribuciones/hacerse_cargo_de_heladera">Hacerse cargo de una heladera</a>
+                    </div>
+                    <div class="mb-3">
+                        <a class="card text-center contribution-button" data-type="oferta" href="/dashboard/contribuciones/publicacion_oferta">Publicar oferta</a>
+                    </div>
+                    <div class="mb-3">
+                        <a class="card text-center contribution-button" data-type="dinero" href="/dashboard/contribuciones/donacion_dinero">Donar dinero</a>
+                    </div>
+                    <!-- Estas son las dos columnas donde JavaScript colocará los botones -->
+                    <div class="columna-izquierda"></div>
+                    <div class="columna-derecha"></div>
+                </div>
+
+                <p class="mt-3 text-center">
+                    ¿Querés cambiar tus formas de contribución?
+                    <a href="/dashboard/contribuciones/forma_contribucion" class="btn-link-azul">Hacelo acá</a>
+                </p>
+            </div>
+
+            <div class="col-lg-6 d-flex flex-column align-items-center">
+                <h4 class="mb-4">Acá podes ver tus heladeras</h4>
+                <div id="map-container">
+                    <div id="map" style="width: 100%; height: 350px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{#partial 'scripts'}}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="/js/mapa_dashboard_pj.js"></script>
+{{/partial}}
+{{> templates/bases/base }}

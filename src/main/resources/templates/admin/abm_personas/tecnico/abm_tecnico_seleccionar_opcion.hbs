@@ -1,0 +1,28 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/botones/botones_registro.css">
+{{/partial}}
+
+{{#partial "contenido"}}
+    <div class="container-fluid position-absolute top-50 start-50 translate-middle" style="margin-top: -3rem">
+        <div id="title" class="d-flex justify-content-center">
+            <div class="card-title">
+                <h1 class="display-2">ABM de Técnicos</h1>
+                <h3 class=" d-flex justify-content-center">Seleccione una acción</h3>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <a href="/dashboard/tecnicos/alta" class="btn btn-outline-primary btn-lg mx-2">Alta</a>
+            </div>
+            <div class="col-auto">
+                <a href="/dashboard/tecnicos/modificacion" class="btn btn-outline-primary btn-lg mx-2">Modificación</a>
+            </div>
+            <div class="col-auto">
+                <a href="/dashboard/tecnicos/baja" class="btn btn-outline-primary btn-lg mx-2">Baja</a>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{>templates/bases/base_admin}}

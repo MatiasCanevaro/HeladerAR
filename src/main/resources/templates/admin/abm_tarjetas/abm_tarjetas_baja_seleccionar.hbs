@@ -1,0 +1,42 @@
+{{#partial "contenido"}}
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Baja Tarjeta</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+        <div class="row">
+            <div class="col-lg">
+                <h4 class="d-flex justify-content-center">Alta</h4>
+                <form action="/dashboard/tarjetas/baja" method="POST">
+                    <div class="form-group">
+                        <label for="tipo_persona">Tipo de persona a quien le corresponda la tarjeta a modificar</label>
+                        <select id="tipo_persona" name="tipo_persona" required>
+                            <option value="0">Ninguno seleccionado</option>
+                            <option value="PERSONA_FISICA">Persona Física</option>
+                            <option value="PERSONA_VULNERABLE">Persona Vulnerable</option>
+                        </select>
+                    </div>
+                    <div class="container text-center">
+                        <button type="submit" class="btn btn-primary btn-lg" id="submit-btn" disabled>Siguiente</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('tipo_persona').addEventListener('change', function() {
+            var submitBtn = document.getElementById('submit-btn');
+            if (this.value == "0") {
+                submitBtn.disabled = true;
+            } else {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+{{/partial}}
+{{> templates/bases/base_admin}}

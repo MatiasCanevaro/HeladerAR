@@ -1,0 +1,86 @@
+{{#partial "contenido"}}
+<div class="ms-5 mt-4 mb-2 container-fluid-2 d-flex justify-content-between align-items-center">
+    <h3 class="ms-5 mt-4 mb-4 d-inline">Heladeras activas</h3>
+    <h6 class="ms-5 mt-4 mb-4 d-inline">Ultima actualización: {{fecha_y_hora}}</h6>
+    <div class="d-flex align-items-center justify-content-end">
+        <p id="numero_pagina" class="d-flex align-items-center ms-3 mt-3 me-3"></p>
+        <button id="prev-page" class="btn btn-outline-primary">Anterior pág.</button>
+        <button id="next-page" class="btn btn-outline-primary ms-2" style="margin-right: 20rem">Siguiente pág.</button>
+    </div>
+</div>
+<!--    <div id="map-container" class="container-fluid">
+        <div class="col">
+            <div id="map" style="width: 100%; height: 650px"></div>
+        </div>
+    </div>-->
+
+<div class="container d-flex align-items-center">
+    <table class="container table text-center">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Provincia</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Activa desde</th>
+        </tr>
+        </thead>
+        <tbody id="heladeras-tbody">
+        {{#each heladeras}}
+            <tr>
+                <th scope="row">#{{@index}}</th>
+                <td>{{this.provincia.nombre}}</td>
+                <td>{{this.direccion}}</td>
+                <td>{{this.modelo.nombre}}</td>
+                <td>{{this.activa_desde}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+{{/partial}}
+{{#partial "scripts"}}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="js/mapa.js"></script>
+
+    <script>
+        const rowsPerPage = 10;
+        let currentPage = 1;
+        const tableBody = document.getElementById('heladeras-tbody');
+        const rows = Array.from(tableBody.getElementsByTagName('tr'));
+        const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+        function updatePagination() {
+            const visibleRows = rows.filter(row => row.style.display !== 'none');
+            const totalPages = Math.ceil(visibleRows.length / rowsPerPage);
+
+            function displayPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                visibleRows.forEach((row, index) => {
+                    row.style.display = (index >= start && index < end) ? '' : 'none';
+                });
+                document.getElementById("numero_pagina").innerHTML = "Núm. de pág.: " + page;
+            }
+
+            document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayPage(currentPage);
+                }
+            });
+
+            document.getElementById('next-page').addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayPage(currentPage);
+                }
+            });
+
+            displayPage(currentPage);
+        }
+
+        updatePagination();
+    </script>
+{{/partial}}
+{{> templates/bases/base}}

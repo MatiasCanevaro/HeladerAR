@@ -1,0 +1,56 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="css/index.css">
+{{/partial}}
+{{#partial "contenido"}}
+    <div class="container-fluid justify-content-center align-items-center">
+        <div id="identification">
+            <div class="ms-5 mt-3 mb-4">
+                <h3>1 de 2: Identificación</h3>
+                <p>Los campos marcados con * son obligatorios.</p>
+            </div>
+        </div>
+        <!-- Sección de mensajes de error globales -->
+        {{#if errores}}
+            <div class="alert alert-danger">
+                <ul>
+                    {{#each errores}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+        <form method="POST" action="/registro/persona_juridica/paso1">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col">
+                    <div class="container">
+                        {{#each primeraTanda}}
+                            <div class="form-group">
+                                <label for="{{id}}">{{pregunta}}</label>
+                                <input type="{{type}}" id="{{id}}" name="{{id}}" placeholder="{{placeholder}}" {{required}}> <!--este required la idea es pasarle literalmente required o nada-->
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container">
+                        {{#each segundaTanda}}
+                            <div class="form-group">
+                                <label for="{{id}}">{{pregunta}}</label>
+                                <input type="{{type}}" id="{{id}}" name="{{id}}" placeholder="{{placeholder}}" {{required}}> <!--este required la idea es pasarle literalmente required o nada-->
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+
+                <div class="container text-center">
+                    <div class="form-group">
+                        <input type="hidden" id="cantidadDePantallasAMostrar" name="cantidadDePantallasAMostrar" value="{{cantidadDePantallasAMostrar}}">
+                        <button type="submit" class="btn btn-primary-alt">Continuar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{{/partial}}
+{{>templates/bases/base_sin_registro}}

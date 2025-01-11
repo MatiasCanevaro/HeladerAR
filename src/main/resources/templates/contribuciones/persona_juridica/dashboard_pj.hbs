@@ -1,0 +1,45 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="../../../css/dashboard.css">
+{{/partial}}
+{{#partial "contenido"}}
+<div class="container">
+    <div class="d-flex align-items-center fs-1 mt-4">
+        <i class="bi bi-person-circle"></i>
+        <h1 class="mt-2 ms-3">Tu Dashboard</h1>
+    </div>
+</div>
+
+<div class="card-lg card-1 container-fluid d-flex align-content-center justify-content-center mt-5 " style="height: 60vh">
+    <div class="row">
+            <div class="row row-1">
+                <div class="col-4 d-flex align-items-end justify-content-center mb-4">
+                    <div>
+                        <a class="card text-center w-100" href="/dashboard/contribuciones">Ver formas de contribución</a>
+                    </div>
+                </div>
+                <div class="col-4 d-flex align-items-end justify-content-center mb-4">
+                    <div>
+                        <a class="card text-center w-100" href="/dashboard/alertas_heladeras">Ver alertas de heladeras</a>
+                    </div>
+                </div>
+                <div class="col-4 d-flex align-items-end justify-content-center mb-4">
+                    <div>
+                        <a  class="card text-center w-100" href="/dashboard/catalogo">Ver catálogo de ofertas</a>
+                    </div>
+                </div>
+            </div>
+        <div class="row row-1">
+            <div class="row d-flex justify-content-center">
+                <div class="col d-flex align-items-end justify-content-center mb-4">
+                    <a  class="card text-center w-100" href="/dashboard/reportes">Ver reportes</a>
+                </div>
+                <div class="col d-flex align-items-end justify-content-center mb-4">
+                    <a  class="card text-center w-100" href="/dashboard/fallas_resueltas">Ver fallas resueltas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{/partial}}
+{{> templates/bases/base }}

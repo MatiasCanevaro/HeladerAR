@@ -1,0 +1,66 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="/css/dashboard.css">
+{{/partial}}
+
+{{#partial "contenido"}}
+
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h1 style="margin-top: 3rem">¡Hola administrador!</h1>
+                <h4 class="d-flex align-items-center ms-4" style="margin-top: 3rem">¿Qué vas a hacer hoy?</h4>
+            </div>
+        </div>
+    </div>
+    <!-- Fila 1 -->
+    <div class="row" style="margin-top: 3rem">
+        <div class="col d-flex justify-content-center mb-4">
+            <div>
+                <a class="card text-center w-300" href="/dashboard/modelos" style="color: #333; font-size: 1.2rem; height: 12rem;">ABM de Modelos de Heladeras</a>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center mb-4">
+            <div>
+                <a class="card text-center w-300" href="/dashboard/rubros" style="color: #333; font-size: 1.2rem; height: 12rem;">ABM de Rubros</a>
+            </div>
+        </div>
+
+        <div class="col d-flex justify-content-center mb-4">
+            <div>
+                <a class="card text-center w-300" href="/dashboard/tarjetas" style="color: #333; font-size: 1.2rem; height: 12rem;">ABM de Tarjetas</a>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center mb-4" >
+            <div>
+                <a class="card text-center w-300" href="/dashboard/heladeras" style="color: #333; font-size: 1.2rem; height: 12rem;">ABM de Heladeras</a>
+            </div>
+        </div>
+    </div>
+    <!-- Fila 2 -->
+    <div class="row">
+        <div class="col d-flex justify-content-center mb-4">
+            <div>
+                <a class="card text-center w-300" href="/dashboard/formularios" style="color: #333; font-size: 1.2rem; height: 12rem;">ABM de Formularios</a>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center mb-4" >
+            <div>
+                <a class="card text-center w-400" href="/dashboard/tecnicos" style="color: #333; font-size: 1.2rem; height: 12rem;">ABM de Tecnicos</a>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center mb-4" >
+            <div>
+                <a class="card text-center w-400" href="/dashboard/contribuciones/carga" style="color: #333; font-size: 1.2rem; height: 12rem;">Carga masiva de colaboraciones</a>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center mb-4">
+            <div>
+                <a  class="card text-center w-300" href="/dashboard/global_fallas_resueltas" style="color: #333; font-size: 1.2rem; height: 12rem;">Fallas Resueltas</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{/partial}}
+{{> templates/bases/base_admin}}

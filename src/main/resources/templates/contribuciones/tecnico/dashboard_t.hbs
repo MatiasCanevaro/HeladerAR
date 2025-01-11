@@ -1,0 +1,36 @@
+{{#partial "archivo_css"}}
+<link rel="stylesheet" href="/css/dashboard.css">
+{{/partial}}
+
+{{#partial "contenido"}}
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h1 style="margin-top: 3rem">¡Bienvenido técnico!</h1>
+                <h4 class="d-flex align-items-center ms-4" style="margin-top: 3rem">¿Mucho trabajo hoy?</h4>
+            </div>
+        </div>
+    </div>
+    <!-- Fila 1 -->
+    <div class="row" style="margin-top: 3rem">
+        <div class="col d-flex justify-content-center mb-4">
+            <div>
+                <a class="card text-center w-300" href="/dashboard/asignacion_incidente" style="color: #333; font-size: 1.2rem; height: 12rem;">Hacerse cargo de un incidente</a>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center mb-4">
+            <div>
+                <a class="card text-center w-300" href="/dashboard/registrar_visita/paso1" style="color: #333; font-size: 1.2rem; height: 12rem;">Registrar visita técnica</a>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center mb-4" >
+            <div>
+                <a class="card text-center w-300" href="/dashboard/alertas_activas" style="color: #333; font-size: 1.2rem; height: 12rem;">Ver todos los incidentes activos</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{/partial}}
+{{> templates/bases/base_tecnico}}

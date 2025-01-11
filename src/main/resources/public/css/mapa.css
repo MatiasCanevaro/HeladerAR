@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Cambiado a min-height para permitir contenido adicional */
+}
+
+
+#map {
+    height: 500px; /* Ajusta según el tamaño cuadrado que prefieras */
+    width: 500px;
+    max-width: 90vw; /* Asegura que se mantenga dentro de la ventana en pantallas pequeñas */
+    max-height: 90vh;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+

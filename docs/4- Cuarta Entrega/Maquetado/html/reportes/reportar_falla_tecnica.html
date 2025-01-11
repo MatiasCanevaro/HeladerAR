@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportar Falla Técnica - HeladerAR</title>
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <a class="navbar-brand d-flex" href="../generales/home_sin_sesion.html">
+            <img src="../../img/freezer_11935622.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top me-2">
+            HeladerAR
+        </a>
+
+        <div class="ms-auto d-flex justify-content-end">
+            <a href="../contribuciones/persona_fisica/dashboard_pf.html" type="button " class="btn btn-dark mx-2">Ir al dashboard</a>
+            <a href="../generales/profile.html" class="nav-link text-white ">
+                <i class="bi bi-person-fill"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="ms-5 mt-4 mb-4 container">
+    <h3 class="ms-5 mt-4 mb-4">Reportar falla técnica</h3>
+</div>
+
+<div id="map-container" class="container-fluid d-flex justify-content-center align-content-between" style="margin-top: 5rem">
+    <div class="row">
+        <div class="col">
+            <div class="container-fluid">
+                    <div class="container">
+                        <div class="form-group">
+                            <label for="startDate">Fecha cuando ocurrió la falla</label>
+                            <input id="startDate" class="form-control" type="date" value="now"/>
+                        </div>
+                    </div>
+                <div class="container">
+                    <div class="form-group">
+                        <label for="time">Hora cuando ocurrió la falla</label>
+                        <input id="time" class="form-control" type="time"/>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="form-group">
+                        <label for="FormControlTextArea">Descripción de la falla</label>
+                        <textarea class="form-control" id="FormControlTextArea" rows="3" placeholder="Escriba aquí..."></textarea>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="form-group">
+                        <label for="FormControlFile1">Cargar una imagen de la falla</label>
+                        <input type="file" id="FormControlFile1"  accept=".jpg, .png, .jpeg" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <iframe src="../../mapa/mapa.html" width="100%" height="100%" loading="lazy" class="rounded" ></iframe>
+        </div>
+        <div class="container text-center" style="margin-top: 3rem">
+            <a href="../contribuciones/persona_fisica/dashboard_pf.html" type="submit" class="btn btn-primary">Enviar reporte</a>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row align-items-end">
+            <div class="container-fluid d-flex">
+                <div class="col text-center">
+                    <div class="container">
+                        <a href="../generales/policy.html">Política de Privacidad</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container text-center">
+                        <a href="../generales/contact.html">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

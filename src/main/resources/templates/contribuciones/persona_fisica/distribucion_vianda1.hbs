@@ -1,0 +1,134 @@
+{{#partial "contenido"}}
+    <div class="ms-5 mt-4 mb-2 container-fluid-2 d-flex justify-content-between align-items-center">
+        <h3 class="ms-5 mt-4 mb-4">Realizar Distribución de Vianda</h3>
+        <h6 class="ms-5 mt-4 mb-4 d-inline">Ultima actualización: {{fecha_y_hora}}</h6>
+        <div class="d-flex align-items-center justify-content-end">
+            <p id="numero_pagina" class="d-flex align-items-center ms-3 mt-3 me-3"></p>
+            <button id="prev-page" class="btn btn-outline-primary">Anterior pág.</button>
+            <button id="next-page" class="btn btn-outline-primary ms-2" style="margin-right: 20rem">Siguiente pág.</button>
+        </div>
+    </div>
+    {{#if errores}}
+        <div class="alert alert-danger">
+            <h4>Se encontraron los siguientes errores:</h4>
+            <ul>
+                {{#each errores}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+    {{/if}}
+    <div class="container d-flex justify-content-between align-content-center" style="margin-top: 1rem">
+        <h4 class="container align-content-center">Seleccioná la heladera de ORIGEN</h4>
+        <i class="bi bi-search fs-4 align-content-center" style="margin-top: -0.5rem"></i>
+
+        <div class="input-group">
+            <span class="input-group-text border-0" id="search-addon">
+                <i class="fas fa-search"></i>
+            </span>
+            <input type="search" id="search-input" class="form-control" placeholder="Buscar heladera origen" aria-label="Search" aria-describedby="search-addon" oninput="filterViandas()" />
+        </div>
+    </div>
+
+    <form method="POST" action="/dashboard/contribuciones/distribucion_vianda/paso1">
+        <table class="container table text-center" id="heladera-table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Provincia</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Código postal</th>
+                <th scope="col">Cantidad viandas actual</th>
+                <th scope="col">Está activa</th>
+            </tr>
+            </thead>
+            <tbody id="heladeras-tbody">
+            {{#each heladeras}}
+                <tr>
+                    <th scope="row"><input type="radio" class="heladera-radio form-check-input" name="selectedOptionOrigen" value="{{id}}" /></th>
+                    <td class="provincia">{{provincia.nombre}}</td>
+                    <td class="direccion">{{direccion}}</td>
+                    <td class="codigo_postal">{{codigo_postal}}</td>
+                    <td class="cantidad">{{cantidadViandasDisponibles}}</td>
+                    <td class="activa">{{estaActiva}}</td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+        <div class="container text-center mt-3">
+            <button type="submit" class="btn btn-primary-alt" id="submit-btn" disabled>Siguiente</button>
+        </div>
+    </form>
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script>
+        const radios = document.querySelectorAll('.heladera-radio');
+        const submitBtn = document.getElementById('submit-btn');
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                submitBtn.disabled = !document.querySelector('.heladera-radio:checked');
+            });
+        });
+
+        function filterViandas() {
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const rows = document.querySelectorAll('#heladera-table tbody tr');
+
+            rows.forEach(row => {
+                const direccion = row.querySelector('.direccion').textContent.toLowerCase();
+                const cantidad = row.querySelector('.cantidad').textContent.toLowerCase();
+                const activa = row.querySelector('.activa').textContent.toLowerCase();
+                const provincia = row.querySelector('.provincia').textContent.toLowerCase();
+                const codigo_postal = row.querySelector('.codigo_postal').textContent.toLowerCase();
+                if (direccion.includes(searchInput) || cantidad.includes(searchInput) || activa.includes(searchInput) || provincia.includes(searchInput) || codigo_postal.includes(searchInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            currentPage = 1;
+            updatePagination();
+        }
+
+        const rowsPerPage = 5;
+        let currentPage = 1;
+        const tableBody = document.getElementById('heladeras-tbody');
+        const rows = Array.from(tableBody.getElementsByTagName('tr'));
+
+        function updatePagination() {
+            const visibleRows = rows.filter(row => row.style.display !== 'none');
+            const totalPages = Math.ceil(visibleRows.length / rowsPerPage);
+
+            function displayPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                visibleRows.forEach((row, index) => {
+                    row.style.display = (index >= start && index < end) ? '' : 'none';
+                });
+                document.getElementById("numero_pagina").innerHTML = "Núm. de pág.: " + page;
+            }
+
+            document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayPage(currentPage);
+                }
+            });
+
+            document.getElementById('next-page').addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayPage(currentPage);
+                }
+            });
+
+            displayPage(currentPage);
+        }
+
+        updatePagination();
+    </script>
+{{/partial}}
+{{> templates/bases/base}}

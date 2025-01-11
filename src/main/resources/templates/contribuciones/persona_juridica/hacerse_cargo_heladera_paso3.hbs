@@ -1,0 +1,74 @@
+{{#partial "archivo_css"}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <div class="container-fluid-2 text-center">
+        <h1 class="mb-4">Recomendaciones de Puntos de Colocación: Paso 3 de 3</h1>
+    </div>
+
+    <form id="hacerseCargoHeladeraForm">
+        <div class="d-flex position-absolute top-50 start-50 translate-middle">
+            <div class="row">
+                <div class="col">
+                    <div class="container">
+
+                        <div class="form-group mt-3">
+                            <label for="modeloHeladera">Modelo de Heladera *</label>
+                            <select id="modeloHeladera" name="modeloHeladera" class="form-group" required>
+                                {{#each modelos}}
+                                    <option value="{{this.nombre}}">{{this.nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="container text-center" style="margin-top: 1rem">
+                    <button type="submit" id="next-button" class="btn btn-primary" disabled>Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#modeloHeladera').on('change', function() {
+                if ($(this).val()) {
+                    $('#next-button').prop('disabled', false);
+                } else {
+                    $('#next-button').prop('disabled', true);
+                }
+            });
+
+            $('#hacerseCargoHeladeraForm').on('submit', function(event) {
+                event.preventDefault();
+                const modeloHeladera = $('#modeloHeladera').val();
+                const params = new URLSearchParams();
+                params.append('modeloHeladera', modeloHeladera);
+
+                fetch('/dashboard/contribuciones/hacerse_cargo_de_heladera/recomendaciones/paso3', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params.toString()
+                })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.href = '/dashboard/contribuciones';
+                            } else {
+                                console.error('Error en la solicitud:', response.statusText);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al enviar la solicitud:', error);
+                        });
+            });
+        });
+    </script>
+{{/partial}}
+{{> templates/bases/base }}

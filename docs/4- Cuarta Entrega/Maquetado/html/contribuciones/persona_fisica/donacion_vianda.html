@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donación Vianda - HeladerAR</title>
+    <link href="../../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../css/main.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <a class="navbar-brand d-flex" href="../../generales/home_sin_sesion.html">
+            <img src="../../../img/freezer_11935622.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top me-2">
+            HeladerAR
+        </a>
+
+        <div class="ms-auto d-flex align-items-center d-inline-block ">
+            <a href="dashboard_pf.html" class="btn btn-link btn-link-bl mx-2 d-flex align-items-center">Ir al dashboard <i class="bi bi-arrow-right-short ms-1"></i></a> <!-- TODO future: diferenciar entre personas-->
+            <a href="../../generales/profile.html" class="nav-link text-white me-3">
+                <i class="bi bi-person-fill"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<h3 class="ms-5 mt-4 mb-4">Donación de vianda</h3>
+
+<div id="map-container" class="container-fluid d-flex justify-content-center align-content-between" style="margin-top: 5rem">
+    <div class="row">
+        <div class="col">
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="form-group">
+                        <label for="foodType">¿De qué comida se trata? * </label>
+                        <input type="text" class="foodType" id="foodType" placeholder="Nombre de la comida" required/>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="form-group">
+                        <label for="startDate">Fecha de caducidad * </label>
+                        <input id="startDate" class="form-control" type="date" value="now" required/>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="form-group">
+                        <label for="InputCalorias">Calorías (en kcal) </label>
+                        <input type="number" id="InputCalorias" placeholder="Calorías">
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="form-group">
+                        <label for="weight">Peso (en kilogramos) </label>
+                        <input type="number" id="weight" placeholder="Peso">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h5>Seleccione la heladera</h5>
+            <iframe src="../../../mapa/mapa.html" width="100%" height="100%" loading="lazy" class="rounded" ></iframe>
+        </div>
+        <div class="container text-center" style="margin-top: 3rem">
+            <a href="dashboard_pf2.html" type="submit" class="btn btn-primary">Confirmar Donación</a>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row align-items-end">
+            <div class="container-fluid d-flex">
+                <div class="col text-center">
+                    <div class="container">
+                        <a href="../../generales/policy.html">Política de Privacidad</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container text-center">
+                        <a href="../../generales/contact.html">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

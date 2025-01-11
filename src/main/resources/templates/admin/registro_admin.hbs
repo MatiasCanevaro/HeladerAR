@@ -1,0 +1,97 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="/css/index.css">
+{{/partial}}
+
+{{#partial "contenido"}}
+<div class="container-fluid">
+    <div id="identification" class="conteiner">
+        <div class="ms-5 mt-3 mb-4">
+            <h3>Registro Administrador</h3>
+            <p>Todos los campos son obligatorios.</p>
+        </div>
+    </div>
+
+    <form id="registroForm" method="POST" action="/registro/persona_fisica/paso1">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="col">
+                    <div class="container">
+                        <div class="form-group">
+                            <label for="name">Nombre *</label>
+                            <input type="text" id="name" name="name" placeholder="Nombre" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last-name">Apellido *</label>
+                            <input type="text" id="last-name" name="last-name" placeholder="Apellido" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id">Tipo de Documento *</label>
+                            <select id="id" name="id" required>
+                                <option value="DNI">Documento de Identidad</option>
+                                <option value="LE">Libreta de Enrolamiento</option>
+                                <option value="LC">Libreta Cívica</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id-number">Número de Documento *</label>
+                            <input type="number" id="id-number" name="id-number" placeholder="Número de Documento" required>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="birthday">Fecha de Nacimiento *</label>
+                        <input type="date" id="birthday" name="birthday" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="email">Correo electrónico (será usado como usuario) *</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="password">Contraseña *</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="confirm-password">Confirme su contraseña *</label>
+                        <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="Confirmar contraseña" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container text-center">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary-alt">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('registroForm').addEventListener('submit', function(event) {
+                const birthdayInput = document.getElementById('birthday');
+                const birthday = new Date(birthdayInput.value);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Set to start of the day
+
+                if (birthday > today) {
+                    alert('La fecha de nacimiento no puede ser mayor a la fecha actual.');
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+        });
+    </script>
+{{/partial}}
+{{> templates/bases/base_admin_sin_registro}}

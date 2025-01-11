@@ -1,0 +1,151 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <link rel="stylesheet" type="text/css" href="css/mapa.css"/>
+{{/partial}}
+{{#partial "contenido"}}
+
+    <div class="ms-5 mt-4 mb-4 container">
+        <h3 class="ms-5 mt-4 mb-4">Reportar falla técnica</h3>
+        <p class="ms-5">Los campos marcados con * son obligatorios.</p>
+    </div>
+
+    <div style="margin-top: 3rem">
+        <form id="reportarFallaForm" action="/dashboard/reporte_falla_tecnica" method="POST" enctype="multipart/form-data" class="container-fluid d-flex justify-content-center align-content-between">
+        <div class="row container-fluid">
+            <div class="col-8">
+                <h4 class="ms-5 mt-4 mb-4 d-inline">Seleccioná la heladera que querés reportar</h4>
+                <h6 class="ms-5 mt-4 mb-4 d-inline">Ultima actualización: {{fecha_y_hora}}</h6>
+                <div class="d-flex align-items-center justify-content-end">
+                    <p id="numero_pagina" class="d-flex align-items-center ms-3 mt-3 me-3"></p>
+                    <button id="prev-page" class="btn btn-outline-primary">Anterior pág.</button>
+                    <button id="next-page" class="btn btn-outline-primary ms-2">Siguiente pág.</button>
+                </div>
+                <table class="container table text-center" id="heladera-table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Provincia</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Código postal</th>
+                    </tr>
+                    </thead>
+                    <tbody id="heladeras-tbody">
+                    {{#each heladeras}}
+                        <tr>
+                            <th scope="row"><input type="radio" class="heladera-radio form-check-input" name="selectedOption" value="{{id}}" /></th>
+                            <td class="provincia">{{provincia.nombre}}</td>
+                            <td class="direccion">{{direccion}}</td>
+                            <td class="codigo_postal">{{codigo_postal}}</td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <div class="container-fluid">
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="fechaFalla">Fecha cuando ocurrió la falla *</label>
+                                <input id="fechaFalla" type="date" name="fechaFalla" required/>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="horaFalla">Hora cuando ocurrió la falla *</label>
+                                <input id="horaFalla" type="time" name="horaFalla" required/>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción de la falla *</label>
+                                <textarea id="descripcion" name="descripcion" rows="3" placeholder="Escriba aquí..." required></textarea>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="pathImagen">Cargar una imagen de la falla</label>
+                                <input type="file" id="pathImagen" name="pathImagen" accept=".jpg, .png, .jpeg" required>
+                            </div>
+                        </div>
+                        <div class="container text-center" style="margin-top: 3rem">
+                            <button type="submit" class="btn btn-primary">Enviar reporte</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+{{/partial}}
+{{#partial "scripts"}}
+    <script>
+        const radios = document.querySelectorAll('.heladera-radio');
+        const submitBtn = document.getElementById('submit-btn');
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                submitBtn.disabled = !document.querySelector('.heladera-radio:checked');
+            });
+        });
+
+        function filterViandas() {
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const rows = document.querySelectorAll('#heladera-table tbody tr');
+
+            rows.forEach(row => {
+                const direccion = row.querySelector('.direccion').textContent.toLowerCase();
+                const cantidad = row.querySelector('.cantidad').textContent.toLowerCase();
+                const activa = row.querySelector('.activa').textContent.toLowerCase();
+                const provincia = row.querySelector('.provincia').textContent.toLowerCase();
+                const codigo_postal = row.querySelector('.codigo_postal').textContent.toLowerCase();
+                if (direccion.includes(searchInput) || cantidad.includes(searchInput) || activa.includes(searchInput) || provincia.includes(searchInput) || codigo_postal.includes(searchInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            currentPage = 1;
+            updatePagination();
+        }
+
+        const rowsPerPage = 5;
+        let currentPage = 1;
+        const tableBody = document.getElementById('heladeras-tbody');
+        const rows = Array.from(tableBody.getElementsByTagName('tr'));
+
+        function updatePagination() {
+            const visibleRows = rows.filter(row => row.style.display !== 'none');
+            const totalPages = Math.ceil(visibleRows.length / rowsPerPage);
+
+            function displayPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                visibleRows.forEach((row, index) => {
+                    row.style.display = (index >= start && index < end) ? '' : 'none';
+                });
+                document.getElementById("numero_pagina").innerHTML = "Núm. de pág.: " + page;
+            }
+
+            document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayPage(currentPage);
+                }
+            });
+
+            document.getElementById('next-page').addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayPage(currentPage);
+                }
+            });
+
+            displayPage(currentPage);
+        }
+
+        updatePagination();
+    </script>
+{{/partial}}
+{{> templates/bases/base }}

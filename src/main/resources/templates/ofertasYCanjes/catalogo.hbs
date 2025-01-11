@@ -1,0 +1,45 @@
+{{#partial "contenido"}}
+    <link rel="stylesheet" href="css/catalogo.css">
+
+    <div class="container ms-5 mt-4 mb-4" style="max-width: 97rem">
+        <div class="d-flex justify-content-between align-items-center">
+            <!-- Columna para el título y los puntos disponibles -->
+            <div>
+                <h1 class="d-inline me-3">Catálogo de ofertas</h1>
+                <h4 class="d-inline">Puntos disponibles: {{puntos}}</h4>
+            </div>
+
+            <!-- Columna para los botones alineados a la derecha -->
+            <div>
+                <a href="/dashboard/mis_canjes" class="btn btn-outline-primary me-2">Mis canjes</a>
+                {{#if esPersonaJuridica}}
+                <a href="/dashboard/ofertas" class="btn btn-outline-primary">Mis ofertas</a>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Contenedor con scroll para las ofertas -->
+    <div class="content container" style="max-height: 70vh; overflow-y: auto;">
+        <div class="row product">
+            {{#each ofertas}}
+                <div class="col-md-4 ">
+                    <div class="card">
+                        <div class="ccc">
+                            <div class="text-center d-flex justify-content-center"><img src="{{this.pathImagen}}" class="imw"></div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="text-center">{{this.nombre}}</h5>
+                            <p class="text-center">{{this.cantidadDePuntosNecesariosParaAccederAlBeneficio}} puntos</p>
+                            <form method="GET" action="/dashboard/catalogo/{{this.id}}" class="text-center d-flex justify-content-center">
+                                <input type="submit" value="Ver detalles" class="btn btn-outline-primary">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+{{/partial}}
+{{> templates/bases/base }}

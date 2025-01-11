@@ -1,0 +1,163 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="../../../css/index.css">
+    <link rel="stylesheet" href="css/botones/botones_home_sin_sesion.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{{/partial}}
+{{#partial "contenido"}}
+    <style>
+        .select2-container {
+            width: 100% !important; /* Asegura que use el espacio disponible */
+        }
+        .select2-container--default .select2-selection--single {
+            border-radius: 10px; /* Bordes redondeados */
+            border: 1px solid #ced4da; /* Color del borde */
+            height: auto; /* Ajusta la altura automática */
+            padding: 5px; /* Espaciado interno */
+        }
+    </style>
+
+    <div class="container-fluid justify-content-center align-items-center">
+        <div id="identification" class="conteiner d-flex">
+            <div class="ms-5 mt-3 mb-4">
+                <h3>Registrar a una persona vulnerable</h3>
+                <p>Los campos marcados con * son obligatorios.</p>
+            </div>
+        </div>
+        {{#if errores}}
+            <div class="alert alert-danger">
+                <h4>Se encontraron los siguientes errores:</h4>
+                <ul>
+                    {{#each errores}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+        <form method="POST" action="/dashboard/registro_persona_vulnerable" onsubmit="return validateDate()">
+            <div class="row">
+                <div class="container">
+                    <div class="col">
+                        <div class="container" style="margin-left: -5rem">
+                            <div class="form-group">
+                                <label for="nombre">Nombre *</label>
+                                <input type="text" id="nombre" name="nombre" placeholder="Nombre" value="{{nombre}}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="apellido">Apellido *</label>
+                                <input type="text" name="apellido" value="{{apellido}}" placeholder="Apellido" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fechaNacimiento">Fecha de Nacimiento *</label>
+                                <input type="date" id="fechaNacimiento" name="fechaNacimiento" placeholder="Fecha de Nacimiento" value="{{fechaNacimiento}}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="calle">Dirección: Calle</label>
+                                <input type="text" id="calle" name="calle" placeholder="Calle" value="{{calle}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="altura">Dirección: Altura</label>
+                                <input type="number" id="altura" name="altura" placeholder="Altura" value="{{altura}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="col">
+                        <div class="container" style="margin-left: -5rem">
+                            <div class="form-group">
+                                <label for="piso">Dirección: Piso</label>
+                                <input type="number" id="piso" name="piso" placeholder="Piso" value="{{piso}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="codigoPostal">Dirección: Código Postal</label>
+                                <input type="number" id="codigoPostal" name="codigoPostal" placeholder="Código Postal" value="{{codigoPostal}}">
+                            </div>
+
+                            <div class="form-group" >
+                                <label for="ciudad">Ciudad *</label>
+                                <select id="ciudad" name="ciudad" required>
+                                    {{#each ciudades}}
+                                        <option value="{{this.id}}">{{this.nombre}}, {{this.provincia.nombre}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="menores">Cantidad de menores a cargo *</label>
+                                <input type="number" id="menores" name="menores" placeholder="Cantidad" value="{{menores}}" required>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="id">Tipo de Documento *</label>
+                                        <select id="id" name="id" required onchange="toggleDocumentNumber()">
+                                            <option value="none">No posee</option>
+                                            <option value="dni">Documento de Identidad</option>
+                                            <option value="le">Libreta de Enrolamiento</option>
+                                            <option value="lc">Libreta Cívica</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group" id="id-number-group" style="display: none;">
+                                        <label for="id-number">Número de Documento *</label>
+                                        <input type="number" id="id-number" name="id-number" placeholder="Número de Documento">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container text-center">
+                    <button type="submit" class="btn btn-primary-alt">Confirmar registro</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{{/partial}}
+{{#partial "scripts"}}
+    <script>
+        $('#ciudad').select2({
+            placeholder: 'Buscar ciudad',
+            width: 'resolve'
+        });
+
+    </script>
+    <script>
+        function validateDate() {
+            const fechaNacimiento = new Date(document.getElementById('fechaNacimiento').value);
+            const today = new Date();
+            const minDate = new Date('1850-01-01');
+
+            if (fechaNacimiento < minDate || fechaNacimiento > today) {
+                alert('Por favor ingrese una fecha válida.');
+                return false;
+            }
+            return true;
+        }
+
+        function toggleDocumentNumber() {
+            const documentType = document.getElementById('id').value;
+            const documentNumberGroup = document.getElementById('id-number-group');
+
+            if (documentType === 'none') {
+                documentNumberGroup.style.display = 'none';
+                document.getElementById('id-number').required = false;
+            } else {
+                documentNumberGroup.style.display = 'block';
+                document.getElementById('id-number').required = true;
+            }
+        }
+    </script>
+{{/partial}}
+{{>templates/bases/base}}

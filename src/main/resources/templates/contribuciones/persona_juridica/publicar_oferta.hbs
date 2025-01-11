@@ -1,0 +1,95 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="css/dashboard.css">
+{{/partial}}
+
+{{#partial "contenido"}}
+<div class="container">
+     <div class="mt-5 d-flex align-items-center">
+        <h3 class="ms-2">Publicar una oferta</h3>
+    </div>
+</div>
+
+
+<!--<div class="d-flex position-absolute top-50 start-50 translate-middle"></div>>-->
+<form method="POST" action="/dashboard/contribuciones/publicacion_oferta" enctype="multipart/form-data">
+<div class="container mt-5" >
+    <div class="row d-flex justify-content-center align-items-start">
+        <div class="col">
+            <div class="container">
+                <div class="form-group">
+                    <label for="nombre">Nombre *</label>
+                    <input type="text" class="form-group" id="nombre" name="nombre" placeholder="Nombre" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="valor_puntos">Valor (en puntos) *</label>
+                    <input type="number" class="form-group" id="valor_puntos" name="valor_puntos" placeholder="Valor" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción de la Oferta</label>
+                        <textarea class="form-group" id="descripcion" name="descripcion" rows="3"  placeholder="Escriba aquí..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="container-fluid">
+
+
+                    <div class="form-group">
+                        <label for="rubroName">Rubro *</label>
+                        <select id="rubroName" name="rubroName" class="form-group" required>
+                        {{#each rubros}}
+                            <option value="{{this.nombre}}">{{this.nombre}}</option>
+                        {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fileUpload" class="custom-file-upload">Cargar una imagen de la oferta</label>
+                        <input type="file"  id="pathImagen" name="pathImagen" class="file-input" accept=".jpg, .png, .jpeg">
+                        <h6>Formatos aceptados: .jpg, .png, .jpeg</h6>
+                        <!-- Imagen de previsualización -->
+                        <img id="imagePreview" src="#" alt="Vista previa de la imagen" style="display: none; height: 30vh; margin-top: 10px;">
+
+
+                        {{!<div class="form-group mt-4">
+                            <label for="fileUpload" class="custom-file-upload"> Cargar un archivo .CSV </label>
+                            <input type="file" id="fileUpload" class="file-input" accept=".csv" required>
+                        </div>}}
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container text-center" style="margin-top: 3rem">
+    <button type="submit" class="btn btn-primary-alt">Publicar Oferta</button>
+</div>
+</form>
+
+{{/partial}}
+{{#partial "scripts"}}
+<script>
+    document.getElementById("pathImagen").addEventListener("change", function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById("imagePreview");
+
+        if (file && file.type.match("image.*")) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = "block"; // Muestra la imagen
+            };
+
+            reader.readAsDataURL(file); // Lee la imagen como URL de datos
+        } else {
+            preview.src = "#";
+            preview.style.display = "none"; // Oculta la imagen si no es válida
+        }
+    });
+</script>
+{{/partial}}
+{{>templates/bases/base}}

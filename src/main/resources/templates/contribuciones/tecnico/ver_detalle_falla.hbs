@@ -1,0 +1,53 @@
+{{#partial "contenido"}}
+    <link rel="stylesheet" href="/css/oferta.css">
+    <div class="container my-5" style="padding-top: 5rem">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="main-img">
+                    <img class="img-fluid" src="/fallaTecnica/{{falla.pathImagen}}" alt="Product Image" style="border-radius: 2rem">
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="main-description">
+                    <div class="category text-bold">
+                        Reportada: {{fechaYHoraReporte}}
+                    </div>
+                    <div class="product-title text-bold my-3">
+                        Falla en {{direccion}}
+                    </div>
+                </div>
+
+                <div class="product-details my-4">
+                    <p class="details-title text-color mb-1">Detalles de la falla</p>
+                    <p>Fecha y hora de la falla: {{fechaYHoraFalla}}</p>
+                    <p>Heladera: {{falla.heladera.modelo.nombre}}</p>
+                    <p>Tipo de incidente: {{falla.tipoIncidente}}</p>
+                    <p class="description">{{falla.descripcion}}</p>
+                </div>
+
+                <div class="buttons d-flex my-5 text-center">
+                    <div class="container mt-5">
+                        <form method="GET" action="/dashboard/registrar_visita/paso1" class="text-center d-flex justify-content-center">
+                            <input type="submit" value="Volver" class="btn btn-outline-primary">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function canjearProducto() {
+            fetch('/dashboard/catalogo/{{oferta.id}}/canje', {
+                method: 'POST'
+            }).then(response => {
+                if (response.status === 400) {
+                    alert("No tienes los puntos necesarios para hacer el canje");
+                } else {
+                    window.location.href = '/dashboard/catalogo/{{oferta.id}}/canje_exitoso';
+                }
+            });
+        }
+    </script>
+{{/partial}}
+{{> templates/bases/base_tecnico}}

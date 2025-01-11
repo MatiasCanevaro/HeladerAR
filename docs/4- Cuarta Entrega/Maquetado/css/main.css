@@ -1,0 +1,270 @@
+/* Estilos globales */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans", sans-serif;
+    background-color: #f8f9fa; /* Color de fondo suave */
+    color: #333; /* Color de texto base */
+    line-height: 1.6;
+    box-sizing: border-box;
+
+    background: radial-gradient(circle at top left,transparent 9%, #f3f3f3 10% ,#f3f3f3 15% , transparent 16%) , radial-gradient(circle at bottom left,transparent 9%, #f3f3f3 10% ,#f3f3f3 15% , transparent 16%), radial-gradient(circle at top right ,transparent 9%, #f3f3f3 10% ,#f3f3f3 15% , transparent 16%) , radial-gradient(circle at bottom right,transparent 9%, #f3f3f3 10% ,#f3f3f3 15% , transparent 16%),radial-gradient(circle, transparent 25%, #f8f9fa  26%),linear-gradient(45deg, transparent 46%, #f3f3f3 47%, #f3f3f3 52%, transparent 53%), linear-gradient(135deg, transparent 46%, #f3f3f3 47%, #f3f3f3 52%, transparent 53%);
+    background-size: 3em 3em;
+    background-color: #f8f9fa;
+    opacity: 1
+}
+
+
+
+.img-sm {
+    max-width: 80%; /* Ajusta este valor para cambiar el tamaño */
+    height: auto;   /* Mantiene la proporción de la imagen */
+}
+
+
+.form-check-input {
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.1);
+    border-color: #a0a5a5;
+}
+
+/* Tipografía */
+h1{
+    font-weight: 700;
+    color: #2C3E50;
+}
+
+h3{
+    font-weight: bolder;
+}
+
+.display-2{
+    font-weight: bolder;
+    color: #007bff;
+}
+
+
+p {
+    margin: 0 0 15px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+
+
+/* Navbar personalizado */
+.navbar-custom {
+    background-color: #2C3E50;
+    font-weight: bold;
+}
+
+.nav-link{
+    margin-left: 1.5rem;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: white;
+    font-weight: bold;
+}
+.navbar-brand{
+    padding-left: 6rem;
+}
+
+
+/* Botones */
+
+.btn {
+    border-radius: 1rem;
+}
+
+.btn-primary {
+    background-color: #2D9BF0;
+    border-color: #2D9BF0;
+    color: #f8f9fa;
+}
+
+.btn-primary-alt {
+    background-color: #2D9BF0;
+    border-color: #2D9BF0;
+    color: #f8f9fa;
+    border-radius: 1.3rem;
+    font-size: 1.5rem;
+    padding: 0.6rem 2rem;
+}
+
+.btn-primary:hover {
+    background-color: #2a76d4;
+    border-color: #0056b3;
+}
+
+.btn-link {
+    color: #2D9BF0;
+}
+
+.btn-link-bl {
+    color: #f8f9fa;
+}
+
+/* Formularios */
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+input:focus, textarea:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Imágenes */
+img {
+    max-width: 70%;
+    height: auto;
+    display: block;
+}
+
+/* Listas */
+ul {
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+/* Padding y Márgenes básicos */
+.padding-small {
+    padding: 2rem;
+}
+
+.padding-medium {
+    padding: 4rem;
+}
+
+.padding-large {
+    padding: 6rem;
+}
+
+.margin-small {
+    margin: 2rem;
+}
+
+.margin-medium {
+    margin: 4rem;
+}
+
+.margin-large {
+    margin: 6rem;
+}
+
+/* Estilos para tarjetas */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.card-text {
+    margin-bottom: 15px;
+}
+
+.card-md {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 70px 10px 70px 70px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    align-content: center;
+    align-items: center;
+}
+
+.card-lg {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 100px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    margin-right: 0.2rem;
+}
+
+/* Estilos para tablas */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody + tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+.dropdown-menu {
+    max-height: 100px;
+    overflow-y: scroll;
+}
+
+.footer {
+    position: absolute;
+    padding: 1rem;
+    bottom: 30px;
+    width: 100%;
+    z-index: -1;
+}
+
+.footer a {
+    color: #808080;
+}
+
+.btn.disabled {
+    color: #808080;
+    border-color: #808080;
+}
+
+.desplegable {
+    background-color: #fff; /* Cambia el color de fondo */
+    color: #495057; /* Cambia el color del texto */
+    border-color: #ced4da; /* Cambia el color del borde */
+}
+
+.navbar .bi {
+    font-size: 1.5rem; /* Ajusta según sea necesario */
+}
+.nav-link i.bi-person-fill {
+    padding-left: 10px; /* Ajusta el margen a la derecha */
+}

@@ -1,0 +1,435 @@
+@startuml
+
+PersonaVulnerable --> TipoDocumento
+Heladera *-- PuntoEstrategico
+PuntoEstrategico *-- Direccion
+Heladera o-- "*" Vianda
+DonacionDeVianda o-- Vianda
+PersonaFisica --o DonacionDeVianda
+PersonaJuridica o-- "*" Heladera
+
+PersonaFisica --> FormaDeColaboracion
+PersonaJuridica --> FormaDeColaboracion
+DonacionDeDinero --> FormaDeColaboracion
+DistribucionDeVianda --> FormaDeColaboracion
+DonacionDeVianda --> FormaDeColaboracion
+
+PersonaFisica *-- CuestionarioRespondido
+PersonaJuridica *-- CuestionarioRespondido
+CuestionarioRespondido *-- Cuestionario
+CuestionarioRespondido *-- "*" Respuesta
+Cuestionario *-- "*" Pregunta
+Respuesta *-- Pregunta
+Respuesta *-- Opcion
+Pregunta *-- "*" Opcion
+
+PersonaFisica *-- Direccion
+
+PersonaVulnerable *-- Direccion
+PersonaVulnerable o-- "*" PersonaVulnerable
+
+DonacionDeDinero o-- PersonaFisica
+DonacionDeDinero o-- PersonaJuridica
+
+DistribucionDeVianda o-- Heladera
+DistribucionDeVianda *-- MotivoDistribucion
+DistribucionDeVianda o-- PersonaFisica
+
+PersonaJuridica --> TipoOrganizacion
+
+PersonaFisica *-- Email
+
+class PersonaFisica {
+ -nombre: String
+ -apellido: String
+ -direccion: Direccion
+ -tipoDocumento: TipoDocumento
+ -numeroDocumento: String
+ -puntosAcumulados: Double
+ -pesosDonados: Double
+ -viandasDonadas: Integer
+ -viandasDistribuidas: Integer
+ -tarjetasDistribuidas: Integer
+ -formasDeColaboracion: List<FormaDeColaboracion>
+ -cuestionarioRespondido: CuestionarioRespondido
+ -email: Email
+ +sumarPuntosYResetearAtributosDeColaboraciones(Double puntosASumar): void
+}
+
+class PersonaJuridica {
+ -razonSocial: String
+ -tipoOrganizacion: TipoOrganizacion
+ -puntosAcumulados: Double
+ -pesosDonados: Double
+ -formasDeColaboracion: List<FormaDeColaboracion>
+ -heladeras: List<Heladera>
+ -cuestionariosRespondido: CuestionarioRespondido
+ +sumarPuntosYResetearAtributosDeColaboraciones(Double puntosASumar): void
+}
+
+enum TipoOrganizacion {
+ GUBERNAMENTAL
+ ONG
+ EMPRESA
+ INSTITUCION
+}
+
+enum FormaDeColaboracion {
+ DONACION_DE_DINERO
+ DONACION_DE_VIANDA
+ DISTRIBUCION_DE_VIANDA
+ ASUMIR_CARGO_DE_HELADERA
+ DISTRIBUCION_DE_TARJETAS
+ OFRECER_PRODUCTOS_Y_SERVICIOS
+}
+
+class CuestionarioRespondido {
+ -respuestas: List<Respuesta>
+ -cuestionario: Cuestionario
+ -fechaYHoraRespondido: LocalDateTime
+}
+
+class Cuestionario{
+ -preguntas: List<Pregunta>
+}
+
+class Respuesta{
+ -opciones: List<Opcion>
+ -pregunta: Pregunta
+ -contenido: String
+}
+
+class Pregunta{
+ -descripcion: String
+ -opciones: List<Opcion>
+}
+
+class Opcion{
+ -nombre: String
+}
+
+class Email {
+ -correoElectronico: String
+}
+
+class DonacionDeDinero{
+ -nombre: FormaDeColaboracion
+ -personaFisica: PersonaFisica
+ -personaJuridica: PersonaJuridica
+ -fechaDonacion: LocalDate
+ -monto: Double
+ -frecuenciaEnDias: Integer
+}
+
+class DistribucionDeVianda{
+ -nombre: FormaDeColaboracion
+ -heladeraOrigen: Heladera
+ -heladeraDestino: Heladera
+ -cantViandasAMover: Integer
+ -motivoDistribucion: MotivoDistribucion
+ -fechaDistribucion: LocalDate
+ -personaFisica: PersonaFisica
+}
+
+class MotivoDistribucion{
+ -nombre: String
+}
+
+class PersonaVulnerable {
+ -nombre: String
+ -apellido: String
+ -fechaNacimiento: LocalDate
+ -fechaRegistroEnSistema: LocalDate
+ -direccion: Direccion
+ -numeroDocumento: String
+ -tipoDocumento: TipoDocumento
+ -menoresACargo: List<PersonaVulnerable>
+}
+
+enum TipoDocumento{
+ DNI
+ LIBRETA_ENROLAMIENTO
+ LIBRETA_CIVICA
+}
+
+class Direccion{
+ -calle: String
+ -altura: String
+ -piso: String
+ -codigoPostal: String
+}
+
+Heladera *-- ModeloDeHeladera
+Heladera *-- "*" MedicionDeTemperatura
+Heladera o-- "*" ConfiguracionDeTemperatura
+Heladera o-- "*" Alerta
+Alerta *-- PuntoEstrategico
+
+class Heladera {
+ -viandas: List<Vianda>
+ -puntoEstrategico: PuntoEstrategico
+ -capacidadEnViandas: Integer
+ -modelo: ModeloDeHeladera
+ -configuracionesDeTemperatura: List<ConfiguracionDeTemperatura>
+ -medicionesDeTemperatura: List<MedicionDeTemperatura>
+ -fechasYHorasDejoDeEstarActiva: List<LocalDateTime>
+ -fechasYHorasVolvioAEstarActiva: List<LocalDateTime>
+ -fechasYHorasReubicada: List<LocalDateTime>
+ -alertaActual: Alerta
+ -alertasHistorico: List<Alerta>
+ +estaActiva(): Boolean
+}
+
+class PuntoEstrategico {
+ -nombre: String
+ -latitud: String
+ -longitud: String
+ -direccion: Direccion
+}
+
+class DonacionDeVianda {
+ -nombre: FormaDeColaboracion
+ -personaFisica: PersonaFisica
+ -vianda: Vianda
+ -fechaListaParaEntregar: LocalDate
+ -fechaDonacion: LocalDate
+}
+
+class Vianda {
+ -nombreComida: String
+ -fechaCaducidad: LocalDate
+ -calorias: Double
+ -peso: Double
+}
+
+DistribucionDeTarjeta --> FormaDeColaboracion
+DistribucionDeTarjeta o-- Tarjeta
+DistribucionDeTarjeta o-- PersonaFisica
+DistribucionDeTarjeta o-- PersonaVulnerable
+PersonaVulnerable o-- PersonaFisica
+
+class DistribucionDeTarjeta {
+ -nombre: FormaDeColaboracion
+ -tarjeta: Tarjeta
+ -personaFisicaQueLaRegistro: PersonaFisica
+ -personaVulnerable: PersonaVulnerable
+ -fechaEntregaTarjeta: LocalDate
+}
+
+
+Tarjeta o-- PersonaVulnerable
+Tarjeta o-- "*" RetiroDeVianda
+
+class Tarjeta {
+ -codigo: String
+ -personaVulnerable: PersonaVulnerable
+ -retirosDeViandas: List<RetiroDeVianda>
+}
+
+RetiroDeVianda o-- Tarjeta
+RetiroDeVianda o-- Vianda
+RetiroDeVianda o-- Heladera
+
+class RetiroDeVianda {
+ -tarjeta: Tarjeta
+ -vianda: Vianda
+ -heladera: Heladera
+ -fechaYHoraRetiro: LocalDateTime
+}
+
+class ConfiguracionDeTemperatura {
+ -temperaturaMaximaConfigurada: Double
+ -temperaturaMínimaConfigurada: Double
+ -personaFisicaQueLaConfiguro: PersonaFisica
+ -fechaYHoraConfiguracion: LocalDateTime
+}
+
+class ModeloDeHeladera{
+ -nombre: String
+ -temperaturaMinimaAceptable: Double
+ -temperaturaMaximaAceptable: Double
+}
+
+class MedicionDeTemperatura{
+ -valor: Double
+ -fechaYHoraMedicion: LocalDateTime
+}
+
+class Alerta{
+    fechaYHora: LocalDateTime
+    puntoEstrategico: PuntoEstrategico
+}
+
+Tecnico --> TipoDocumento
+Tecnico *-- CuestionarioRespondido
+Tecnico *-- AreaDeCobertura
+AreaDeCobertura *-- Ciudad
+Ciudad --> Provincia
+
+class Tecnico{
+ -nombre: String
+ -apellido: String
+ -numeroDocumento: String
+ -tipoDocumento: TipoDocumento
+ -cuil: String
+ -cuestionario: CuestionarioRespondido
+ -areaDeCobertura: AreaDeCobertura
+}
+
+class AreaDeCobertura{
+ -nombre: String
+ -ciudad: Ciudad
+}
+
+class Ciudad {
+ -nombre: String
+ -provincia: Provincia
+}
+
+SolicitudDePuntosDeColocacion *-- AdapterAPI
+AdapterAPI <|.. AdapterConcretoAPI
+AdapterConcretoAPI *-- APIAdaptada
+
+class SolicitudDePuntosDeColocacion{
+ -adapterAPI: AdapterAPI
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+interface AdapterAPI{
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+class AdapterConcretoAPI{
+ -apiAdaptada: APIAdaptada
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+class APIAdaptada{
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+CalculadoraDePuntos ..> PersonaJuridica
+CalculadoraDePuntos ..> PersonaFisica
+
+class CalculadoraDePuntos{
+ -coeficientePesosDonados: Double
+ -coeficienteViandasDistribuidas: Double
+ -coeficienteViandasDonadas: Double
+ -coeficienteTarjetasRepartidas: Double
+ -coeficienteHeladerasActivas: Double
+ +calcularPuntos(PersonaJuridica): Double
+ +calcularPuntos(PersonaFisica): Double
+}
+
+OfrecerProductosYServicios --> FormaDeColaboracion
+OfrecerProductosYServicios o-- PersonaJuridica
+OfrecerProductosYServicios o-- "*" Oferta
+Oferta *-- Rubro
+Canje *-- PersonaJuridica
+Canje *-- PersonaFisica
+Canje o-- "*" Oferta
+
+class OfrecerProductosYServicios{
+ -formaDeColaboracion: FormaDeColaboracion
+ -personaJuridica: PersonaJuridica
+ -ofertas: List<Oferta>
+}
+
+class Oferta{
+ -nombre: String
+ -pathImagen: String
+ -cantidadDePuntosNecesariosParaAccederAlBeneficio: Double
+ -rubro: Rubro
+}
+
+class Rubro{
+ -nombre: String
+}
+
+class Canje{
+ -personaJuridicaQueOfrecio: PersonaJuridica
+ -personaJuridicaQueCanjeo: PersonaJuridica
+ -personaFisicaQueCanjeo: PersonaFisica
+ -fechaYHoraCanje: LocalDateTime
+ -ofertaCanjeada: Oferta
+}
+
+Instanciador ..> Lector
+Instanciador ..> Notificador
+Instanciador ..> Conversor
+
+class Lector{
+ +leerCSV(String pathArchivo): List<String[]>
+}
+
+class Instanciador{
+ +instanciarContenidoDelCSV(Lector lector, String rutaArchivo, Notificador notificador, Conversor conversor): void
+ +instanciarDonacionDeDinero(String[] lineaLeida,PersonaFisica personaFisica,Conversor conversor): void
+ +instanciarDonacionDeVianda(String[] lineaLeida,PersonaFisica personaFisica,Conversor conversor): void
+ +instanciarDistribucionDeVianda(String[] lineaLeida,PersonaFisica personaFisica,Conversor conversor): void
+ +instanciarDistribucionDeTarjeta(String[] lineaLeida,PersonaFisica personaFisica,Conversor conversor): void
+ +instanciarPersonaFisica(String[] lineaLeida, Conversor conversor): PersonaFisica
+}
+
+class Conversor{
+ +convertirStringATipoDocumento(String stringTipoDocumentoLeido): TipoDocumento
+ +convertirStringAFormaDeColaboracion(String stringFormaDeColaboracionLeida): FormaDeColaboracion
+ +convertirStringALocalDate(String fecha): LocalDate
+}
+
+class Mensaje{
+ -asunto: String
+ -cuerpo: String
+ -fechaYHoraDeEnvio: LocalDateTime
+}
+
+AdapterNotificador ..> Mensaje
+Notificador *-- AdapterNotificador
+AdapterNotificador <|.. AdapterConcretoApacheEmail
+AdapterConcretoApacheEmail *-- ApacheEmail
+
+class Notificador{
+ -adapterNotificador: AdapterNotificador
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+interface AdapterNotificador{
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+class AdapterConcretoApacheEmail{
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+class ApacheEmail{
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+enum Provincia {
+    BUENOS_AIRES
+    CIUDAD_AUTONOMA_DE_BUENOS_AIRES
+    CATAMARCA
+    CHACO
+    CHUBUT
+    CORDOBA
+    CORRIENTES
+    ENTRE_RIOS
+    FORMOSA
+    JUJUY
+    LA_PAMPA
+    LA_RIOJA
+    MENDOZA
+    MISIONES
+    NEUQUEN
+    RIO_NEGRO
+    SALTA
+    SAN_JUAN
+    SAN_LUIS
+    SANTA_CRUZ
+    SANTA_FE
+    SANTIAGO_DEL_ESTERO
+    TIERRA_DEL_FUEGO_ANTARTIDA_E_ISLAS_DEL_ATLANTICO_SUR
+    TUCUMAN
+}
+
+@enduml

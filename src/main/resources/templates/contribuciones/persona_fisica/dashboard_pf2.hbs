@@ -1,0 +1,75 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="../../../css/dashboard.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <div class="container" style="padding-top:2rem">
+        <div class="d-flex align-items-center fs-1 mt-4">
+            <i class="bi bi-person-circle"></i>
+            <h1 class="mt-2 ms-3">Tu Dashboard</h1>
+        </div>
+    </div>
+
+    <div class="container-fluid d-flex align-content-center justify-content-center mt-5" style="height: 60vh; padding-top:2rem">
+        <div class="row w-100">
+            <div class="d-flex flex-column align-items-center">
+                <h4 class="mb-4">Formas de Contribución</h4>
+                <div class="contribution-options w-100">
+                    <div class="mb-3 ms-3">
+                        <a class="card text-center contribution-button" data-type="donacion" href="/dashboard/contribuciones/donacion_vianda">Donar vianda</a>
+                    </div>
+                    <div class="mb-3 ms-3">
+                        <a class="card text-center contribution-button" data-type="distribucion" href="/dashboard/contribuciones/distribucion_vianda/paso1">Distribuir vianda</a>
+                    </div>
+                    <div class="mb-3 ms-3">
+                        <a class="card text-center contribution-button" data-type="dinero" href="/dashboard/contribuciones/donacion_dinero">Donar dinero</a>
+                    </div>
+                </div>
+
+                <p class="mt-3 text-center">
+                    ¿Querés cambiar tus formas de contribución?
+                    <a href="/dashboard/contribuciones/forma_contribucion" class="btn-link-azul">Hacelo acá</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+
+{{#partial 'scripts'}}
+    <script>
+        function distribuirContribuciones(tiposContribucion) {
+            const columnaIzquierda = document.querySelector('.columna-izquierda');
+            const columnaDerecha = document.querySelector('.columna-derecha');
+
+            columnaIzquierda.innerHTML = '';
+            columnaDerecha.innerHTML = '';
+
+            const botones = document.querySelectorAll('.contribution-button');
+
+            let contador = 0;
+            botones.forEach(boton => {
+                const tipo = boton.getAttribute('data-type');
+                if (tiposContribucion.includes(tipo)) {
+                    boton.style.display = "block";
+                    boton.style.removeProperty('display');
+
+                    if (contador % 2 === 0) {
+                        columnaIzquierda.appendChild(boton);
+                    } else {
+                        columnaDerecha.appendChild(boton);
+                    }
+                    contador++;
+                } else {
+                    boton.style.display = "none";
+                }
+            });
+        }
+
+        distribuirContribuciones(["dinero", "donacion", "distribucion"]);
+    </script>
+{{/partial}}
+
+{{> templates/bases/base }}

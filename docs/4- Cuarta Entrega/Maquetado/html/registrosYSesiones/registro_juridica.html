@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - HeladerAR</title>
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/botones/botones_home_sin_sesion.css">
+    <link rel="stylesheet" href="../../css/index.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="../generales/home_sin_sesion.html">
+            <img src="../../img/freezer_11935622.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top me-2">
+            HeladerAR
+        </a>
+        <div class="d-flex justify-content-end">
+            <a href="../registrosYSesiones/inicio_colaborador.html" type="button" class="btn btn-primary mx-2">Iniciar sesión</a>
+            <a href="../registrosYSesiones/registro_colaborador.html" type="button" class="btn btn-outline-primary mx-2">Registrarse como Colaborador</a>
+        </div>
+    </div>
+</nav>
+
+    <div class="container-fluid justify-content-center align-items-center">
+        <div id="identification" class="conteiner d-flex">
+            <div class="ms-5 mt-3 mb-4">
+                <h3>1 de 2: Identificación</h3>
+                <p>Los campos marcados con * son obligatorios.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="col">
+                    <div class="container">
+                        <div class="form-group">
+                            <label for="name">Razón Social *</label>
+                            <input type="text" id="name" name="name" placeholder="Razón social" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last-name">Rubro *</label>
+                            <input type="text" id="last-name" name="last-name" placeholder="Rubro" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Tipo de Organización *</label>
+                            <select id="category" name="category" required>
+                                <option value="gubernamental">Gubernamental</option>
+                                <option value="ngo">Organización No Gubernamental</option>
+                                <option value="company">Empresa</option>
+                                <option value="institution">Institución</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="province">Provincia</label>
+                            <input type="number" id="province" name="province" placeholder="Provincia">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="col">
+                    <div class="container">
+
+                        <div class="form-group">
+                            <label for="street">Calle</label>
+                            <input type="text" id="street" name="street" placeholder="Calle">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="height">Altura</label>
+                            <input type="text" id="height" name="height" placeholder="Altura">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="floor">Piso</label>
+                            <input type="text" id="floor" name="floor" placeholder="Piso">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pc">Código postal</label>
+                            <input type="number" id="pc" name="pc" placeholder="Código postal">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container text-center">
+                <div class="form-group">
+                    <a href="registro_juridica2.html" type="button" class="btn btn-primary-alt">Continuar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row align-items-end">
+            <div class="container-fluid d-flex">
+                <div class="col text-center">
+                    <div class="container">
+                        <a href="../generales/policy.html">Política de Privacidad</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container text-center">
+                        <a href="../generales/contact.html">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

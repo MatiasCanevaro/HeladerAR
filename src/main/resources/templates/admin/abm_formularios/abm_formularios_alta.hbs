@@ -1,0 +1,46 @@
+{{#partial "contenido"}}
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Alta de Formulario: paso 1</h3>
+            </div>
+        </div>
+    </div>
+    <form id="altaForm" method="POST" action="/dashboard/formularios/alta">
+        <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+            <div class="row">
+                <div class="col-lg">
+                    <h4 class="d-flex justify-content-center">Alta</h4>
+                    <div class="form-group">
+                        <label for="cuestionario_nuevo">Nombre cuestionario</label>
+                        <input type="text" id="cuestionario_nuevo" name="cuestionario_nuevo" placeholder="Nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rol_pregunta">Rol a preguntar</label>
+                        <select id="rol_pregunta" name="rol_pregunta" required>
+                            <option value="0">Ninguno seleccionado</option>
+                            <option value="PERSONA_FISICA">Persona física</option>
+                            <option value="PERSONA_JURIDICA">Persona jurídica</option>
+                            <option value="Ambos">Ambos</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary btn-lg" id="submit-btn" disabled>Siguiente</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('rol_pregunta').addEventListener('change', function() {
+            var submitBtn = document.getElementById('submit-btn');
+            if (this.value == "0") {
+                submitBtn.disabled = true;
+            } else {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+{{/partial}}
+{{> templates/bases/base_admin}}

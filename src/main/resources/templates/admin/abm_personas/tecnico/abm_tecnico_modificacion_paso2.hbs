@@ -1,0 +1,130 @@
+{{#partial "contenido"}}
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Modificación de Técnico</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modificación -->
+    <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+        <form id="tecnicoFormMod2" method="POST" action="/dashboard/tecnicos/modificacion/tecnico">
+            <div class="row d-flex justify-content-center align-items-center">
+                <!-- Primera Columna -->
+                <div class="col">
+                    <div class="container">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Nombre" value="{{tecnico.nombre}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" name="apellido" placeholder="Apellido" value="{{tecnico.apellido}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cuil">CUIL</label>
+                            <input type="text" id="cuil" name="cuil" placeholder="CUIL" value="{{tecnico.cuil}}" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segunda Columna -->
+                <div class="col">
+                    <div class="container">
+                        <div class="form-group">
+                            <label for="tipo_documento">Tipo de Documento (actualmente guardado como: {{tecnico.tipoDocumento}})</label>
+                            <select id="tipo_documento" name="tipo_documento">
+                                <option value="DNI">Documento de Identidad</option>
+                                <option value="LE">Libreta de Enrolamiento</option>
+                                <option value="LC">Libreta Cívica</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="numeroDocumento">Número de Documento</label>
+                            <input type="text" id="numeroDocumento" name="numeroDocumento" placeholder="Número de Documento" value="{{tecnico.numeroDocumento}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="areaDeCobertura">Área de Cobertura</label>
+                            <input type="text" id="areaDeCobertura" name="areaDeCobertura" placeholder="Ciudad o región" value="{{tecnico.areaDeCobertura}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medios de Contacto (Debajo de las columnas y ocupando ambas) -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label>Medios de Contacto cargados actualmente:</label>
+                        <div id="contactos-container">
+                            {{#each tecnico.mediosDeContacto}}
+                                <div class="contacto-item mb-2">
+                                    {{tipoContacto}}: {{dato}}
+                                    <button type="button" class="btn btn-danger btn-sm ms-2 remove-contacto-btn">Eliminar</button><br>
+                                </div>
+                            {{/each}}
+                        </div>
+                        <button type="button" class="btn btn-secondary mt-2" id="add-contacto-btn">Agregar Medio de Contacto</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="container text-center mt-4">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary-alt" onclick="window.location.href='/dashboard/tecnicos'">Cancelar</button>
+                    <button type="submit" class="btn btn-primary-alt">Confirmar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const contactosContainer = document.getElementById("contactos-container");
+            const addContactoBtn = document.getElementById("add-contacto-btn");
+
+            // Agregar nuevo medio de contacto
+            addContactoBtn.addEventListener("click", () => {
+                const contactoDiv = document.createElement("div");
+                contactoDiv.classList.add("contacto-item", "mb-2");
+
+                const select = document.createElement("select");
+                select.name = "mediosDeContacto";
+                select.innerHTML = `
+                    <option value="EMAIL">Email</option>
+                    <option value="TELEFONO">Teléfono</option>
+                    <option value="WHATSAPP">WhatsApp</option>
+                `;
+                contactoDiv.appendChild(select);
+
+                const input = document.createElement("input");
+                input.type = "text";
+                input.name = "contacto";
+                input.placeholder = "Contacto";
+                contactoDiv.appendChild(input);
+
+                const removeBtn = document.createElement("button");
+                removeBtn.type = "button";
+                removeBtn.textContent = "Eliminar";
+                removeBtn.classList.add("btn", "btn-danger", "btn-sm", "ms-2");
+                removeBtn.onclick = () => contactoDiv.remove();
+                contactoDiv.appendChild(removeBtn);
+
+                contactosContainer.appendChild(contactoDiv);
+            });
+
+            // Manejar la eliminación de medios de contacto existentes
+            contactosContainer.addEventListener("click", (e) => {
+                if (e.target.classList.contains("remove-contacto-btn")) {
+                    const contactoItem = e.target.closest(".contacto-item");
+                    contactoItem.remove();
+                }
+            });
+        });
+    </script>
+
+{{/partial}}
+
+{{> templates/bases/base_admin}}

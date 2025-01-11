@@ -1,0 +1,61 @@
+{{#partial "contenido"}}
+
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Modificación Modelo</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; ; width: 100rem">
+        <!-- Modelos -->
+        <h4 class="d-flex justify-content-center" style="font-weight: bolder">Modelos</h4>
+        <form id="modificacionModeloForm" action="/dashboard/modelos/modificacion/paso2" method="post">
+            <div class="row">
+                <div class="col-lg">
+                    <!-- Modificacion -->
+                    <h4 class="d-flex justify-content-center">Modificación</h4>
+                    <div class="form-group">
+                        <label for="modelo_mod">Nombre nuevo del modelo *</label>
+                        <input type="text" id="modelo_mod" name="modelo_mod" placeholder="Nombre" value="{{modelo.nombre}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modelo_capacidad_en_viandas_mod">Capacidad en viandas nueva del modelo *</label>
+                        <input type="text" id="modelo_capacidad_en_viandas_mod" name="modelo_capacidad_en_viandas_mod" placeholder="Capacidad en viandas" value="{{modelo.capacidadEnViandas}}" required>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="modelo_temp_max_mod">Temperatura máxima en °C *</label>
+                                <input type="number" id="modelo_temp_max_mod" name="modelo_temp_max_mod" placeholder="Máx." value="{{modelo.temperaturaMaximaAceptable}}" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="modelo_temp_min_mod">Temperatura mínima en °C *</label>
+                                <input type="number" id="modelo_temp_min_mod" name="modelo_temp_min_mod" placeholder="Mín." value="{{modelo.temperaturaMinimaAceptable}}" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('modificacionModeloForm').addEventListener('submit', function(event) {
+            var tempMax = parseFloat(document.getElementById('modelo_temp_max_mod').value);
+            var tempMin = parseFloat(document.getElementById('modelo_temp_min_mod').value);
+            if (tempMax <= tempMin) {
+                alert('La temperatura máxima debe ser mayor que la temperatura mínima.');
+                event.preventDefault();
+            }
+        });
+    </script>
+
+{{/partial}}
+{{> templates/bases/base_admin}}

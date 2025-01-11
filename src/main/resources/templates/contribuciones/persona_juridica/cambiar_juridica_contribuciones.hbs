@@ -1,0 +1,38 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="css/contribuciones.css">
+{{/partial}}
+{{#partial "contenido"}}
+    <div class="d-flex position-absolute top-50 start-50 translate-middle">
+        <div class="card card-lg align-content-center">
+            <div class="container">
+                <h2 class="text-center">Elegí tus formas de contribución</h2>
+                <h6 class="mb-4 text-center">Al menos una requerida</h6>
+
+                <form method="POST" action="/dashboard/contribuciones/forma_contribucion">
+
+                    <div class="form-check" style="margin-left: 8rem">
+                        <input type="checkbox" name="money" value="DONACION_DE_DINERO" class="form-check-input">
+                        <label class="form-check-label ms-4">Donación de Dinero</label>
+                    </div>
+                    <div class="form-check" style="margin-left: 8rem">
+                        <input type="checkbox" name="fridge" value="ASUMIR_CARGO_DE_HELADERA" class="form-check-input">
+                        <label class="form-check-label ms-4">Hacerse cargo de una heladera</label>
+                    </div>
+
+                    <div class="form-check" style="margin-left: 8rem">
+                        <input type="checkbox" name="ps" value="OFRECER_PRODUCTOS_Y_SERVICIOS" class="form-check-input">
+                        <label class="form-check-label ms-4">Ofrecer productos y servicios</label>
+                    </div>
+                    <div class="container d-flex justify-content-center mt-4" style="margin-left: 0.3rem">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                        </div>
+                    </div>
+                </form> <!-- Cierre del formulario -->
+            </div>
+        </div>
+
+    </div>
+
+{{/partial}}
+{{> templates/bases/base }}

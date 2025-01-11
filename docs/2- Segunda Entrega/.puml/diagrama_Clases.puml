@@ -1,0 +1,642 @@
+@startuml
+
+PersonaVulnerable --> TipoDocumento
+Heladera *-- PuntoEstrategico
+PuntoEstrategico *-- Direccion
+Heladera o-- "*" Vianda
+DonacionDeVianda o-- Vianda
+PersonaFisica --o DonacionDeVianda
+PersonaJuridica o-- "*" Heladera
+
+PersonaFisica --> FormaDeColaboracion
+PersonaJuridica --> FormaDeColaboracion
+DonacionDeDinero --> FormaDeColaboracion
+DistribucionDeVianda --> FormaDeColaboracion
+DonacionDeVianda --> FormaDeColaboracion
+
+PersonaFisica *-- CuestionarioRespondido
+PersonaJuridica *-- CuestionarioRespondido
+CuestionarioRespondido *-- Cuestionario
+CuestionarioRespondido *-- "*" Respuesta
+Cuestionario *-- "*" Pregunta
+Respuesta *-- Pregunta
+Respuesta *-- Opcion
+Pregunta *-- "*" Opcion
+
+PersonaFisica *-- Direccion
+
+PersonaVulnerable *-- Direccion
+PersonaVulnerable o-- "*" PersonaVulnerable
+
+DonacionDeDinero o-- PersonaFisica
+DonacionDeDinero o-- PersonaJuridica
+
+DistribucionDeVianda o-- Heladera
+DistribucionDeVianda *-- MotivoDistribucion
+DistribucionDeVianda o-- PersonaFisica
+
+PersonaJuridica --> TipoOrganizacion
+PersonaJuridica o-- "*" Oferta
+
+PersonaFisica *-- Email
+PersonaFisica *-- Tarjeta
+
+class PersonaFisica {
+ -nombre: String
+ -apellido: String
+ -direccion: Direccion
+ -tipoDocumento: TipoDocumento
+ -numeroDocumento: String
+ -puntosAcumulados: Double
+ -pesosDonados: Double
+ -viandasDonadas: Integer
+ -viandasDistribuidas: Integer
+ -tarjetasDistribuidas: Integer
+ -formasDeColaboracion: List<FormaDeColaboracion>
+ -cuestionarioRespondido: CuestionarioRespondido
+ -email: Email
+ -tarjeta: Tarjeta
+ +sumarPuntosYResetearAtributosDeColaboraciones(Double puntosASumar): void
+}
+
+class PersonaJuridica {
+ -razonSocial: String
+ -tipoOrganizacion: TipoOrganizacion
+ -puntosAcumulados: Double
+ -pesosDonados: Double
+ -formasDeColaboracion: List<FormaDeColaboracion>
+ -ofertas: List<Oferta>
+ -heladeras: List<Heladera>
+ -cuestionariosRespondido: CuestionarioRespondido
+ +sumarPuntosYResetearAtributosDeColaboraciones(Double puntosASumar): void
+}
+
+enum TipoOrganizacion {
+ GUBERNAMENTAL
+ ONG
+ EMPRESA
+ INSTITUCION
+}
+
+enum FormaDeColaboracion {
+ DONACION_DE_DINERO
+ DONACION_DE_VIANDA
+ DISTRIBUCION_DE_VIANDA
+ ASUMIR_CARGO_DE_HELADERA
+ DISTRIBUCION_DE_TARJETAS
+ OFRECER_PRODUCTOS_Y_SERVICIOS
+}
+
+class CuestionarioRespondido {
+ -respuestas: List<Respuesta>
+ -cuestionario: Cuestionario
+ -fechaYHoraRespondido: LocalDateTime
+}
+
+class Cuestionario{
+ -preguntas: List<Pregunta>
+}
+
+class Respuesta{
+ -opciones: List<Opcion>
+ -pregunta: Pregunta
+ -contenido: String
+}
+
+class Pregunta{
+ -descripcion: String
+ -opciones: List<Opcion>
+}
+
+class Opcion{
+ -nombre: String
+}
+
+class Email {
+ -correoElectronico: String
+}
+
+class DonacionDeDinero{
+ -nombre: FormaDeColaboracion
+ -personaFisica: PersonaFisica
+ -personaJuridica: PersonaJuridica
+ -fechaDonacion: LocalDate
+ -monto: Double
+ -frecuenciaEnDias: Integer
+}
+
+class DistribucionDeVianda{
+ -nombre: FormaDeColaboracion
+ -heladeraOrigen: Heladera
+ -heladeraDestino: Heladera
+ -cantViandasAMover: Integer
+ -motivoDistribucion: MotivoDistribucion
+ -fechaDistribucion: LocalDate
+ -personaFisica: PersonaFisica
+}
+
+class MotivoDistribucion{
+ -nombre: String
+}
+
+class PersonaVulnerable {
+ -nombre: String
+ -apellido: String
+ -fechaNacimiento: LocalDate
+ -fechaRegistroEnSistema: LocalDate
+ -direccion: Direccion
+ -numeroDocumento: String
+ -tipoDocumento: TipoDocumento
+ -menoresACargo: List<PersonaVulnerable>
+}
+
+enum TipoDocumento{
+ DNI
+ LIBRETA_ENROLAMIENTO
+ LIBRETA_CIVICA
+}
+
+class Direccion{
+ -calle: String
+ -altura: String
+ -piso: String
+ -codigoPostal: String
+}
+
+Heladera *-- ModeloDeHeladera
+Heladera *-- "*" MedicionDeTemperatura
+Heladera o-- "*" ConfiguracionDeTemperatura
+Heladera o-- "*" Alerta
+Alerta *-- PuntoEstrategico
+
+class Heladera {
+ -viandas: List<Vianda>
+ -puntoEstrategico: PuntoEstrategico
+ -capacidadEnViandas: Integer
+ -modelo: ModeloDeHeladera
+ -configuracionesDeTemperatura: List<ConfiguracionDeTemperatura>
+ -medicionesDeTemperatura: List<MedicionDeTemperatura>
+ -fechasYHorasDejoDeEstarActiva: List<LocalDateTime>
+ -fechasYHorasVolvioAEstarActiva: List<LocalDateTime>
+ -fechasYHorasReubicada: List<LocalDateTime>
+ +estaActiva(): Boolean
+ +desperfectoPorTemperatura(): Boolean
+ +desperfectoPorFraude(): Boolean
+ +manejarTemperaturaRecibida(Double temperaturaRecibida): void
+}
+
+class PuntoEstrategico {
+ -nombre: String
+ -latitud: String
+ -longitud: String
+ -direccion: Direccion
+}
+
+class DonacionDeVianda {
+ -nombre: FormaDeColaboracion
+ -personaFisica: PersonaFisica
+ -vianda: Vianda
+ -fechaListaParaEntregar: LocalDate
+ -fechaDonacion: LocalDate
+}
+
+class Vianda {
+ -nombreComida: String
+ -fechaCaducidad: LocalDate
+ -calorias: Double
+ -peso: Double
+}
+
+DistribucionDeTarjeta --> FormaDeColaboracion
+DistribucionDeTarjeta o-- Tarjeta
+DistribucionDeTarjeta o-- PersonaFisica
+DistribucionDeTarjeta o-- PersonaVulnerable
+PersonaVulnerable o-- PersonaFisica
+
+class DistribucionDeTarjeta {
+ -nombre: FormaDeColaboracion
+ -tarjeta: Tarjeta
+ -personaFisicaQueLaRegistro: PersonaFisica
+ -personaVulnerable: PersonaVulnerable
+ -fechaEntregaTarjeta: LocalDate
+}
+
+Tarjeta o-- PersonaVulnerable
+Tarjeta o--"*" MovimientoDeVianda
+
+class Tarjeta {
+ -codigo: String
+ -personaVulnerable: PersonaVulnerable
+ -personaFisica: PersonaFisica
+ -ingresosDeViandas: List<MovimientoDeVianda>
+ -retirosDeViandas: List<MovimientoDeVianda>
+ -estaActiva: Boolean
+ +puedeSerUtilizada(): Boolean
+}
+
+MovimientoDeVianda o-- Tarjeta
+MovimientoDeVianda o-- Vianda
+MovimientoDeVianda o-- Heladera
+
+class MovimientoDeVianda {
+ -tarjeta: Tarjeta
+ -vianda: Vianda
+ -heladera: Heladera
+ -fechaYHoraDelMovimiento: LocalDateTime
+}
+
+class SolicitudDeApertura{
+ -personaFisica: PersonaFisica
+ -viandas: List<Vianda>
+ -heladera: Heladera
+ -fechaYHoraSolicitud: LocalDateTime
+ -fechaYHoraVencimiento: LocalDateTime
+ -accionSolicitada: AccionSolicitada
+ -fueUsada: Boolean
+}
+
+enum AccionSolicitada{
+ INGRESO
+ RETIRO
+}
+
+PaseDeTarjeta o-- SolicitudDeApertura
+
+class PaseDeTarjeta{
+ -tarjeta: Tarjeta
+ -viandas: List<Vianda>
+ -heladera: Heladera
+ -accionSolicitada: AccionSolicitada
+ -fechaYHoraPaseDeTarjeta: LocalDateTime
+ -solicitudDeApertura: SolicitudDeApertura
+ -resultadoPaseDeTarjeta: ResultadoPaseDeTarjeta
+}
+
+enum ResultadoPaseDeTarjeta{
+ ACEPTADO
+ RECHAZADO
+}
+
+class NotificadorHeladera{
+ -minutosParaVencer: Double
+ +enviar(Heladera,SolicitudDeApertura): void
+}
+
+class ReceptorHeladera{
+ -heladera: Heladera
+ +recibir(String jsonPasesDeTarjeta): void
+}
+
+ConfiguracionDeTemperatura o-- PersonaFisica
+
+class ConfiguracionDeTemperatura {
+ -temperaturaMaximaConfigurada: Double
+ -temperaturaMínimaConfigurada: Double
+ -personaFisicaQueLaConfiguro: PersonaFisica
+ -fechaYHoraConfiguracion: LocalDateTime
+}
+
+class ModeloDeHeladera{
+ -nombre: String
+ -temperaturaMinimaAceptable: Double
+ -temperaturaMaximaAceptable: Double
+}
+
+class MedicionDeTemperatura{
+ -valor: Double
+ -fechaYHoraMedicion: LocalDateTime
+}
+
+class AlertaPorTemperatura{
+ -fechaYHora: LocalDateTime
+ -puntoEstrategico: PuntoEstrategico
+ -heladera: Heladera
+ -valorFueraDeRango: Double
+ -temperaturaMinimaAceptable: Double
+ -temperaturaMaximaAceptable: Double
+ -estaSolucionado: Boolean
+ -fechaYHoraFueSolucionado: LocalDateTime
+ +serReportado(Heladera,LocalDateTime fechaYHoraReporte): void
+}
+
+class AlertaPorFraude{
+ -fechaYHora: LocalDateTime
+ -puntoEstrategico: PuntoEstrategico
+ -heladera: Heladera
+ -estaSolucionado: Boolean
+ -fechaYHoraFueSolucionado: LocalDateTime
+ +serReportado(Heladera,LocalDateTime fechaYHoraReporte): void
+}
+
+class AlertaPorFallaConexion{
+ -fechaYHora: LocalDateTime
+ -puntoEstrategico: PuntoEstrategico
+ -heladera: Heladera
+ -estaSolucionado: Boolean
+ -fechaYHoraFueSolucionado: LocalDateTime
+ +serReportado(Heladera,LocalDateTime fechaYHoraReporte): void
+}
+
+class FallaTecnica{
+ -heladera: Heladera
+ -fechaYHoraFalla: LocalDateTime
+ -fechaYHoraReporte: LocalDateTime
+ -personaFisicaQueLoReporto: PersonaFisica
+ -descripcion: String
+ -pathImagen: String
+ -estaSolucionado: Boolean
+ -fechaYHoraFueSolucionado: LocalDateTime
+ -puntoEstrategico: PuntoEstrategico
+ +serReportado(Heladera,LocalDateTime fechaYHoraFalla): void
+}
+
+interface Incidente{
+ +serReportado(Heladera,LocalDateTime): void
+ +fueSolucionado(): void
+}
+
+SensorDeTemperatura --o Heladera
+
+class SensorDeTemperatura{
+ -heladera: Heladera
+ +recibirTemperatura(String JSONRecibido): void
+}
+
+class SensorDeMovimiento{
+ -heladera: Heladera
+ +recibirDeteccionDeMovimiento(void): void
+}
+
+class CalculadoraTecnicoMasCercano{
+ +buscarTecnicoMasCercano(PuntoEstrategico): Tecnico
+}
+
+class VisitaTecnica{
+ -tecnico: Tecnico
+ -heladera: Heladera
+ -fechaYHoraVisita: LocalDateTime
+ -descripcionDelTrabajo: String
+ -pathImagen: String
+ -incidente: Incidente
+ -pudoSolucionarElIncidente: Boolean
+}
+
+class CronReportes{
+ -scheduler: ScheduledExecutorService
+ -generadoresPDF: List<GenerarPDF>
+ -frecuenciaDeEjecucionEnDias: Integer
+ +realizarReporte(): void
+}
+
+interface GenerarPDF{
+ +reportar(): void
+}
+
+class GenerarPDFFallaTecnica{
+ -repositorioFallaTecnica: RepositorioFallaTecnica
+ -pdfbox: PDFBox
+ +reportar(): void
+}
+
+class GenerarPDFViandas{
+ -repositorioPaseDeTarjeta: RepositorioPaseDeTarjeta
+ -pdfbox: PDFBox
+ +reportar(): void
+}
+
+class GenerarPDFDonacionDeViandas{
+ -repositorioDonacionDeVianda: RepositorioDonacionDeVianda
+ -pdfbox: PDFBox
+ +reportar(): void
+}
+
+class PDFBox{
+ +generarPDF(): void
+}
+
+Tecnico --> TipoDocumento
+Tecnico *-- CuestionarioRespondido
+Tecnico *-- AreaDeCobertura
+AreaDeCobertura *-- Ciudad
+Ciudad *-- Provincia
+
+class Tecnico{
+ -nombre: String
+ -apellido: String
+ -numeroDocumento: String
+ -tipoDocumento: TipoDocumento
+ -cuil: String
+ -mediosDeContacto: List<MedioDeContacto>
+ -areaDeCobertura: AreaDeCobertura
+}
+
+MedioDeContacto --> TipoContacto
+
+class MedioDeContacto{
+ -tipoContacto: TipoContacto
+ -dato: String
+}
+
+enum TipoContacto{
+ EMAIL,
+ TELEFONO,
+ WHATSAPP
+}
+
+class AreaDeCobertura{
+ -nombre: String
+ -ciudad: Ciudad
+}
+
+class Ciudad {
+ -nombre: String
+ -provincia: Provincia
+}
+
+class Provincia {
+ -nombre: String
+}
+
+class PersonaFisica{
+ -novedades: List<Novedad>
+ -cantViandasDisponiblesMinimas: Integer
+ -cantViandasFaltantesMaximas: Integer
+}
+
+class Novedad{
+ -heladera: Heladera
+ -suscriptores: List<PersonaFisica>
+}
+
+class QuedanNViandasDisponibles{
+ +accion(Heladera,PersonaFisica): Boolean
+}
+
+class FaltanNViandas{
+ +accion(Heladera,PersonaFisica): Boolean
+}
+
+class Sugerencia{
+
+ +sugerirHeladeras(PersonaFisica): <List>Heladera
+}
+
+Broker --> Receptor
+Receptor --> ReceptorMovimiento
+Receptor --> ReceptorTemperatura
+
+class Broker{
+ +main(String[] args): void
+}
+
+class Receptor{
+ -receptorTemperatura: ReceptorTemperatura
+ -receptorMovimiento: ReceptorMovimiento
+ +messageArrived(String topic, MqttMessage mqttMessage): void
+}
+
+class ReceptorTemperatura{
+ -repositorioSensorDeTemperatura: RepositorioSensorDeTemperatura
+ +recibir(Long id, Double valorTemperatura): void
+}
+
+class ReceptorMovimiento{
+ -repositorioSensorDeMovimiento: RepositorioSensorDeMovimiento
+ +recibir(Long id): void
+}
+
+SolicitudDePuntosDeColocacion *-- AdapterAPI
+AdapterAPI <|.. AdapterConcretoAPI
+AdapterConcretoAPI *-- APIAdaptada
+
+class SolicitudDePuntosDeColocacion{
+ -adapterAPI: AdapterAPI
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+interface AdapterAPI{
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+class AdapterConcretoAPI{
+ -apiAdaptada: APIAdaptada
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+class APIAdaptada{
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+CalculadoraDePuntos ..> PersonaJuridica
+CalculadoraDePuntos ..> PersonaFisica
+
+class CalculadoraDePuntos{
+ -coeficientePesosDonados: Double
+ -coeficienteViandasDistribuidas: Double
+ -coeficienteViandasDonadas: Double
+ -coeficienteTarjetasRepartidas: Double
+ -coeficienteHeladerasActivas: Double
+ +calcularPuntos(PersonaJuridica): Double
+ +calcularPuntos(PersonaFisica): Double
+}
+
+OfrecerProductosYServicios --> FormaDeColaboracion
+OfrecerProductosYServicios o-- PersonaJuridica
+Oferta *-- Rubro
+Canje *-- PersonaJuridica
+Canje *-- PersonaFisica
+Canje o-- "*" Oferta
+
+class OfrecerProductosYServicios{
+ -nombre: FormaDeColaboracion
+ -personaJuridica: PersonaJuridica
+}
+
+class Oferta{
+ -nombre: String
+ -pathImagen: String
+ -cantidadDePuntosNecesariosParaAccederAlBeneficio: Double
+ -rubro: Rubro
+}
+
+class Rubro{
+ -nombre: String
+}
+
+class Canje{
+ -personaJuridicaQueOfrecio: PersonaJuridica
+ -personaJuridicaQueCanjeo: PersonaJuridica
+ -personaFisicaQueCanjeo: PersonaFisica
+ -fechaYHoraCanje: LocalDateTime
+ -ofertaCanjeada: Oferta
+}
+
+Importador ..> Lector
+Importador ..> Notificador
+Importador ..> Conversor
+Importador o-- "*" PersonaFisica
+
+class Lector{
+ +leerCSV(String pathArchivo): List<String[]>
+}
+
+class Importador{
+ -personasFisicas: List<PersonaFisica>
+ +instanciarContenidoDelCSV(Lector lector, String rutaArchivo, Notificador notificador, Conversor conversor): void
+}
+
+class Conversor{
+ +convertirStringATipoDocumento(String stringTipoDocumentoLeido): TipoDocumento
+ +convertirStringAFormaDeColaboracion(String stringFormaDeColaboracionLeida): FormaDeColaboracion
+ +convertirStringALocalDate(String fecha): LocalDate
+}
+
+class Mensaje{
+ -asunto: String
+ -cuerpo: String
+ -fechaYHoraDeEnvio: LocalDateTime
+}
+
+AdapterNotificador ..> Mensaje
+Notificador *-- AdapterNotificador
+AdapterNotificador <|.. AdapterConcretoApacheEmail
+AdapterConcretoApacheEmail *-- ApacheEmail
+AdapterNotificador <|.. AdapterConcretoTwilio
+AdapterConcretoTwilio *-- Twilio
+AdapterNotificador <|.. AdapterConcretoAPITelegram
+AdapterConcretoAPITelegram *-- APITelegram
+
+class Notificador{
+ -adapterNotificador: AdapterNotificador
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+interface AdapterNotificador{
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+class AdapterConcretoApacheEmail{
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+class ApacheEmail{
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+class AdapterConcretoTwilio{
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+class Twilio{
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+class AdapterConcretoAPITelegram{
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+class APITelegram{
+ +notificar(Mensaje mensaje, String receptor): void
+}
+
+@enduml

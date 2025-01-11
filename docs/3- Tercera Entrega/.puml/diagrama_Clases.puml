@@ -1,0 +1,630 @@
+@startuml
+
+PersonaVulnerable --> TipoDocumento
+Heladera *-- PuntoEstrategico
+PuntoEstrategico *-- Direccion
+Heladera o-- "*" Vianda
+DonacionDeVianda o-- Vianda
+PersonaFisica --o DonacionDeVianda
+PersonaJuridica o-- "*" Heladera
+
+PersonaFisica --> FormaDeColaboracion
+PersonaJuridica --> FormaDeColaboracion
+DonacionDeDinero --> FormaDeColaboracion
+DistribucionDeVianda --> FormaDeColaboracion
+DonacionDeVianda --> FormaDeColaboracion
+
+PersonaFisica *-- CuestionarioRespondido
+PersonaJuridica *-- CuestionarioRespondido
+CuestionarioRespondido *-- Cuestionario
+CuestionarioRespondido *-- "*" Respuesta
+Cuestionario *-- "*" Pregunta
+Respuesta *-- Pregunta
+Respuesta *-- Opcion
+Pregunta *-- "*" Opcion
+
+PersonaFisica *-- Direccion
+
+PersonaVulnerable *-- Direccion
+PersonaVulnerable o-- "*" PersonaVulnerable
+
+DonacionDeDinero o-- PersonaFisica
+DonacionDeDinero o-- PersonaJuridica
+
+DistribucionDeVianda o-- Heladera
+DistribucionDeVianda *-- MotivoDistribucion
+DistribucionDeVianda o-- PersonaFisica
+
+PersonaJuridica --> TipoOrganizacion
+PersonaJuridica o-- "*" Oferta
+
+PersonaFisica *-- Email
+PersonaFisica *-- Tarjeta
+
+class PersonaFisica {
+ -nombre: String
+ -apellido: String
+ -direccion: Direccion
+ -tipoDocumento: TipoDocumento
+ -numeroDocumento: String
+ -puntosAcumulados: Double
+ -pesosDonados: Double
+ -viandasDonadas: Integer
+ -viandasDistribuidas: Integer
+ -tarjetasDistribuidas: Integer
+ -formasDeColaboracion: List<FormaDeColaboracion>
+ -cuestionarioRespondido: CuestionarioRespondido
+ -email: Email
+ -tarjeta: Tarjeta
+ +sumarPuntosYResetearAtributosDeColaboraciones(Double puntosASumar): void
+}
+
+class PersonaJuridica {
+ -razonSocial: String
+ -tipoOrganizacion: TipoOrganizacion
+ -puntosAcumulados: Double
+ -pesosDonados: Double
+ -formasDeColaboracion: List<FormaDeColaboracion>
+ -ofertas: List<Oferta>
+ -heladeras: List<Heladera>
+ -cuestionariosRespondido: CuestionarioRespondido
+ +sumarPuntosYResetearAtributosDeColaboraciones(Double puntosASumar): void
+}
+
+enum TipoOrganizacion {
+ GUBERNAMENTAL
+ ONG
+ EMPRESA
+ INSTITUCION
+}
+
+enum FormaDeColaboracion {
+ DONACION_DE_DINERO
+ DONACION_DE_VIANDA
+ DISTRIBUCION_DE_VIANDA
+ ASUMIR_CARGO_DE_HELADERA
+ DISTRIBUCION_DE_TARJETAS
+ OFRECER_PRODUCTOS_Y_SERVICIOS
+}
+
+class CuestionarioRespondido {
+ -respuestas: List<Respuesta>
+ -cuestionario: Cuestionario
+ -fechaYHoraRespondido: LocalDateTime
+}
+
+class Cuestionario{
+ -preguntas: List<Pregunta>
+}
+
+class Respuesta{
+ -opciones: List<Opcion>
+ -pregunta: Pregunta
+ -contenido: String
+}
+
+class Pregunta{
+ -descripcion: String
+ -opciones: List<Opcion>
+}
+
+class Opcion{
+ -nombre: String
+}
+
+class Email {
+ -correoElectronico: String
+}
+
+class DonacionDeDinero{
+ -nombre: FormaDeColaboracion
+ -personaFisica: PersonaFisica
+ -personaJuridica: PersonaJuridica
+ -fechaDonacion: LocalDate
+ -monto: Double
+ -frecuenciaEnDias: Integer
+}
+
+class DistribucionDeVianda{
+ -nombre: FormaDeColaboracion
+ -heladeraOrigen: Heladera
+ -heladeraDestino: Heladera
+ -cantViandasAMover: Integer
+ -motivoDistribucion: MotivoDistribucion
+ -fechaDistribucion: LocalDate
+ -personaFisica: PersonaFisica
+}
+
+class MotivoDistribucion{
+ -nombre: String
+}
+
+class PersonaVulnerable {
+ -nombre: String
+ -apellido: String
+ -fechaNacimiento: LocalDate
+ -fechaRegistroEnSistema: LocalDate
+ -direccion: Direccion
+ -numeroDocumento: String
+ -tipoDocumento: TipoDocumento
+ -menoresACargo: List<PersonaVulnerable>
+}
+
+enum TipoDocumento{
+ DNI
+ LIBRETA_ENROLAMIENTO
+ LIBRETA_CIVICA
+}
+
+class Direccion{
+ -calle: String
+ -altura: String
+ -piso: String
+ -codigoPostal: String
+}
+
+class ProcesadorDeSuscripciones{
+ +procesar(Heladera): void
+}
+
+class Suscripcion{
+ -personaFisica: PersonaFisica
+ -heladera: Heladera
+ -fechaYHoraInicio: LocalDateTime
+ -fechaYHoraFin: LocalDateTime
+ -n: Integer
+ -N: Integer
+ -opciones: List<Opcion>
+ +ejecutarOpciones(): void
+}
+
+interface Opcion{
+ +evaluarEnvioDeMensaje(Suscripcion): void
+}
+
+class QuedanNViandasDisponibles{
+ -nombre: String
+ -mensajex: MensajeX
+ -notificador: Notificador
+ +evaluarEnvioDeMensaje(Suscripcion): void
+}
+
+class FaltanNViandas{
+ -nombre: String
+ -mensajex: MensajeX
+ -notificador: Notificador
+ +evaluarEnvioDeMensaje(Suscripcion): void
+}
+
+class GeneradorDeSugerencias{
+ -nombre: String
+ -buscadorHeladeraMasCercana: BuscadorHeladeraMasCercana
+ -mensajex: MensajeX
+ -notificador: Notificador
+ +evaluarEnvioDeMensaje(Suscripcion): void
+}
+
+class BuscadorHeladeraMasCercana{
+ +buscarHeladeraMasCercana(Heladera): Heladera
+}
+
+class Sugerencia{
+ -heladeraOrigen: Heladera
+ -personaFisica: PersonaFisica
+ -puntoEstrategico: PuntoEstrategico
+ -estadoSugerencia: EstadoSugerencia
+ -fechaYHoraFueGenerada: LocalDateTime
+ -fechaYHoraResultado: LocalDateTime
+ -distribuciones: List<Distribucion>
+}
+
+enum EstadoSugerencia{
+ ACEPTADA
+ PENDIENTE
+ RECHAZADA
+}
+
+class Distribucion{
+ -heladeraDestino: Heladera
+ -puntoEstrategico: PuntoEstrategico
+ -cantidadDeViandas: Integer
+}
+
+Heladera *-- ModeloDeHeladera
+Heladera *-- "*" MedicionDeTemperatura
+Heladera o-- "*" ConfiguracionDeTemperatura
+Heladera o-- "*" Alerta
+Alerta *-- PuntoEstrategico
+
+class Heladera{
+ -viandas: List<Vianda>
+ -puntoEstrategico: PuntoEstrategico
+ -capacidadEnViandas: Integer
+ -modelo: ModeloDeHeladera
+ -configuracionesDeTemperatura: List<ConfiguracionDeTemperatura>
+ -medicionesDeTemperatura: List<MedicionDeTemperatura>
+ -fechasYHorasDejoDeEstarActiva: List<LocalDateTime>
+ -fechasYHorasVolvioAEstarActiva: List<LocalDateTime>
+ -fechasYHorasReubicada: List<LocalDateTime>
+ -estaActiva: Boolean
+ +desperfectoPorTemperatura(): Boolean
+ +desperfectoPorFraude(): Boolean
+ +manejarTemperaturaRecibida(Double temperaturaRecibida): void
+ +manejarDeteccionDeMovimiento(): void
+}
+
+class PuntoEstrategico {
+ -nombre: String
+ -latitud: String
+ -longitud: String
+ -direccion: Direccion
+}
+
+class DonacionDeVianda {
+ -nombre: FormaDeColaboracion
+ -personaFisica: PersonaFisica
+ -vianda: Vianda
+ -fechaListaParaEntregar: LocalDate
+ -fechaDonacion: LocalDate
+}
+
+class Vianda {
+ -nombreComida: String
+ -fechaCaducidad: LocalDate
+ -calorias: Double
+ -peso: Double
+}
+
+DistribucionDeTarjeta --> FormaDeColaboracion
+DistribucionDeTarjeta o-- Tarjeta
+DistribucionDeTarjeta o-- PersonaFisica
+DistribucionDeTarjeta o-- PersonaVulnerable
+PersonaVulnerable o-- PersonaFisica
+
+class DistribucionDeTarjeta {
+ -nombre: FormaDeColaboracion
+ -tarjeta: Tarjeta
+ -personaFisicaQueLaRegistro: PersonaFisica
+ -personaVulnerable: PersonaVulnerable
+ -fechaEntregaTarjeta: LocalDate
+}
+
+Tarjeta o-- PersonaVulnerable
+
+class Tarjeta {
+ -codigo: String
+ -personaVulnerable: PersonaVulnerable
+ -personaFisica: PersonaFisica
+ -ingresosDeViandas: List<PaseDeTarjeta>
+ -retirosDeViandas: List<PaseDeTarjeta>
+ -cantidadDeVecesQuePuedeSerUtilizadaPorDia: Integer
+ -estaActiva: Boolean
+ +puedeSerUtilizada(): Boolean
+}
+
+PaseDeTarjeta "*" o-- Tarjeta
+PaseDeTarjeta o-- Vianda
+PaseDeTarjeta o-- Heladera
+
+class SolicitudDeApertura{
+ -personaFisica: PersonaFisica
+ -viandas: List<Vianda>
+ -heladera: Heladera
+ -fechaYHoraSolicitud: LocalDateTime
+ -fechaYHoraVencimiento: LocalDateTime
+ -accionSolicitada: AccionSolicitada
+ -fueUsada: Boolean
+}
+
+SolicitudDeApertura --> AccionSolicitada
+
+enum AccionSolicitada{
+ INGRESO
+ RETIRO
+}
+
+PaseDeTarjeta o-- SolicitudDeApertura
+
+class PaseDeTarjeta{
+ -tarjeta: Tarjeta
+ -viandas: List<Vianda>
+ -heladera: Heladera
+ -accionSolicitada: AccionSolicitada
+ -fechaYHoraPaseDeTarjeta: LocalDateTime
+ -solicitudDeApertura: SolicitudDeApertura
+ -resultadoPaseDeTarjeta: ResultadoPaseDeTarjeta
+}
+
+PaseDeTarjeta --> ResultadoPaseDeTarjeta
+
+enum ResultadoPaseDeTarjeta{
+ ACEPTADO
+ RECHAZADO
+}
+
+NotificadorHeladera ..> Heladera
+NotificadorHeladera ..> SolicitudDeApertura
+
+class NotificadorHeladera{
+ -minutosParaVencer: Double
+ +enviar(Heladera,SolicitudDeApertura): void
+}
+
+ReceptorHeladera --> Heladera
+
+class ReceptorHeladera{
+ -heladera: Heladera
+ +recibir(String jsonPasesDeTarjeta): void
+}
+
+ConfiguracionDeTemperatura o-- PersonaFisica
+
+class ConfiguracionDeTemperatura {
+ -temperaturaMaximaConfigurada: Double
+ -temperaturaMnimaConfigurada: Double
+ -personaFisicaQueLaConfiguro: PersonaFisica
+ -fechaYHoraConfiguracion: LocalDateTime
+}
+
+class ModeloDeHeladera{
+ -nombre: String
+ -temperaturaMinimaAceptable: Double
+ -temperaturaMaximaAceptable: Double
+}
+
+class MedicionDeTemperatura{
+ -valor: Double
+ -fechaYHoraMedicion: LocalDateTime
+}
+
+AlertaPorTemperatura --> Heladera
+AlertaPorTemperatura --> PuntoEstrategico
+
+class AlertaPorTemperatura{
+ -fechaYHora: LocalDateTime
+ -puntoEstrategico: PuntoEstrategico
+ -heladera: Heladera
+ -valorFueraDeRango: Double
+ -temperaturaMinimaAceptable: Double
+ -temperaturaMaximaAceptable: Double
+ -estaSolucionado: Boolean
+ -fechaYHoraFueSolucionado: LocalDateTime
+ +serReportado(Heladera heladera, LocalDateTime fechaYHoraReporte): void
+}
+
+AlertaPorFraude --> Heladera
+AlertaPorFraude --> PuntoEstrategico
+
+class AlertaPorFraude{
+ -fechaYHora: LocalDateTime
+ -puntoEstrategico: PuntoEstrategico
+ -heladera: Heladera
+ -estaSolucionado: Boolean
+ -fechaYHoraFueSolucionado: LocalDateTime
+ +serReportado(Heladera heladera, LocalDateTime fechaYHoraReporte): void
+}
+
+AlertaPorFallaConexion --> Heladera
+AlertaPorFallaConexion --> PuntoEstrategico
+
+class AlertaPorFallaConexion{
+ -fechaYHora: LocalDateTime
+ -puntoEstrategico: PuntoEstrategico
+ -heladera: Heladera
+ -estaSolucionado: Boolean
+ -fechaYHoraFueSolucionado: LocalDateTime
+ +serReportado(Heladera heladera, LocalDateTime fechaYHoraReporte): void
+}
+
+FallaTecnica --> Heladera
+FallaTecnica --> PersonaFisica
+FallaTecnica --> PuntoEstrategico
+
+class FallaTecnica{
+ -heladera: Heladera
+ -fechaYHoraFalla: LocalDateTime
+ -fechaYHoraReporte: LocalDateTime
+ -personaFisicaQueLoReporto: PersonaFisica
+ -descripcion: String
+ -pathImagen: String
+ -estaSolucionado: Boolean
+ -fechaYHoraFueSolucionado: LocalDateTime
+ -puntoEstrategico: PuntoEstrategico
+ +serReportado(Heladera heladera, LocalDateTime fechaYHoraFalla): void
+}
+
+Incidente <|-- AlertaPorTemperatura
+Incidente <|-- AlertaPorFraude
+Incidente <|-- AlertaPorFallaConexion
+Incidente <|-- FallaTecnica
+Incidente ..> Heladera
+
+interface Incidente{
+ +serReportado(Heladera heladera, LocalDateTime fechaYHoraReporte): void
+ +fueSolucionado(): void
+}
+
+SensorDeTemperatura --o Heladera
+
+class SensorDeTemperatura{
+ -heladera: Heladera
+ +recibirTemperatura(String JSONRecibido): void
+}
+
+SensorDeMovimiento --o Heladera
+
+class SensorDeMovimiento{
+ -heladera: Heladera
+ +recibirDeteccionDeMovimiento(): void
+}
+
+CalculadoraTecnicoMasCercano ..> PuntoEstrategico
+
+class CalculadoraTecnicoMasCercano{
+ +buscarTecnicoMasCercano(PuntoEstrategico puntoEstrategico): Tecnico
+}
+
+VisitaTecnica --> Tecnico
+VisitaTecnica --> Heladera
+VisitaTecnica --> Incidente
+
+class VisitaTecnica{
+ -tecnico: Tecnico
+ -heladera: Heladera
+ -fechaYHoraVisita: LocalDateTime
+ -descripcionDelTrabajo: String
+ -pathImagen: String
+ -incidente: Incidente
+ -pudoSolucionarElIncidente: Boolean
+}
+
+CronReportes *-- "*" GenerarPDF
+
+GenerarPDF <|-- GenerarPDFFallaTecnica
+GenerarPDF <|-- GenerarPDFViandas
+GenerarPDF <|-- GenerarPDFDonacionDeViandas
+
+class CronReportes{
+ -scheduler: ScheduledExecutorService
+ -generadoresPDF: List<GenerarPDF>
+ -frecuenciaDeEjecucionEnDias: Integer
+ +realizarReporte(): void
+}
+
+interface GenerarPDF{
+ +reportar(): void
+}
+
+GenerarPDFFallaTecnica --> PDFBox
+
+class GenerarPDFFallaTecnica{
+ -pdfbox: PDFBox
+ +reportar(): void
+}
+
+GenerarPDFViandas --> PDFBox
+
+class GenerarPDFViandas{
+ -pdfbox: PDFBox
+ +reportar(): void
+}
+
+GenerarPDFDonacionDeViandas --> PDFBox
+
+class GenerarPDFDonacionDeViandas{
+ -pdfbox: PDFBox
+ +reportar(): void
+}
+
+class PDFBox{
+ +generarPDF(): void
+}
+
+AreaDeCobertura *-- Ciudad
+Ciudad *-- Provincia
+
+Tecnico --> TipoDocumento
+Tecnico --> "*" MedioDeContacto
+Tecnico --> AreaDeCobertura
+
+class Tecnico{
+ -nombre: String
+ -apellido: String
+ -numeroDocumento: String
+ -tipoDocumento: TipoDocumento
+ -cuil: String
+ -mediosDeContacto: List<MedioDeContacto>
+ -areaDeCobertura: AreaDeCobertura
+}
+
+MedioDeContacto --> TipoContacto
+
+class MedioDeContacto{
+ -tipoContacto: TipoContacto
+ -dato: String
+}
+
+enum TipoContacto{
+ EMAIL
+ TELEFONO
+ WHATSAPP
+}
+
+class AreaDeCobertura{
+ -nombre: String
+ -ciudad: Ciudad
+}
+
+class Ciudad {
+ -nombre: String
+ -provincia: Provincia
+}
+
+class Provincia {
+ -nombre: String
+}
+
+Broker --> Receptor
+Receptor --> ReceptorMovimiento
+Receptor --> ReceptorTemperatura
+Receptor --> ReceptorPaseDeTarjeta
+
+class Broker{
+ +main(String[] args): void
+}
+
+class Receptor{
+ -receptorTemperatura: ReceptorTemperatura
+ -receptorMovimiento: ReceptorMovimiento
+ -receptorPaseDeTarjeta: ReceptorPaseDeTarjeta
+ +messageArrived(String topic, MqttMessage mqttMessage): void
+}
+
+class ReceptorTemperatura{
+ +recibir(Long id, Double valorTemperatura): void
+}
+
+class ReceptorMovimiento{
+ +recibir(Long id): void
+}
+
+class ReceptorPaseDeTarjeta{
+ +recibir(String[] mensaje): void
+}
+
+SolicitudDePuntosDeColocacion *-- AdapterAPI
+AdapterAPI <|.. AdapterConcretoAPI
+AdapterConcretoAPI *-- APIAdaptada
+
+class SolicitudDePuntosDeColocacion{
+ -adapterAPI: AdapterAPI
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+interface AdapterAPI{
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+class AdapterConcretoAPI{
+ -apiAdaptada: APIAdaptada
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+class APIAdaptada{
+ +solicitarPuntosDeColocacion(String latitud, String longitud, Double radioEnKM): List<PuntoEstrategico>
+}
+
+CalculadoraDePuntos ..> PersonaJuridica
+CalculadoraDePuntos ..> PersonaFisica
+
+class CalculadoraDePuntos{
+ -coeficientePesosDonados: Double
+ -coeficienteViandasDistribuidas: Double
+ -coeficienteViandasDonadas: Double
+ -coeficienteTarjetasRepartidas: Double
+ -coeficienteHeladerasActivas: Double
+ +calcularPuntos(PersonaJuridica): Double
+ +calcularPuntos(PersonaFisica): Double
+}
+
+@enduml

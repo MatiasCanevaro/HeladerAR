@@ -1,0 +1,33 @@
+{{#partial "contenido"}}
+
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Modificacion Rubro - Paso 2</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; ; width: 100rem">
+        <!-- Rubros -->
+        <h4 class="d-flex justify-content-center" style="font-weight: bolder">Rubros</h4>
+        <form action="/dashboard/rubros/modificacion/paso2" method="post">
+            <div class="row">
+                <div class="col-lg">
+                    <!-- Modificacion -->
+                    <h4 class="d-flex justify-content-center">Modificación</h4>
+                    <div class="form-group">
+                        <label for="rubro_nombre_mod">Nombre nuevo del rubro *</label>
+                        <input type="text" id="rubro_nombre_mod" name="rubro_nombre_mod" placeholder="Nombre" value="{{rubro.nombre}}" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+{{/partial}}
+{{> templates/bases/base_admin}}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donación Dinero - HeladerAR</title>
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <a class="navbar-brand d-flex" href="../generales/home_sin_sesion.html">
+            <img src="../../img/freezer_11935622.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top me-2">
+            HeladerAR
+        </a>
+
+        <div class="ms-auto d-flex align-items-center d-inline-block ">
+            <a href="persona_fisica/dashboard_pf.html" class="btn btn-link btn-link-bl mx-2 d-flex align-items-center">Ir al dashboard <i class="bi bi-arrow-right-short ms-1"></i></a> <!-- TODO future: diferenciar entre personas-->
+            <a href="../generales/profile.html" class="nav-link text-white me-3">
+                <i class="bi bi-person-fill"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid justify-content-center align-items-center">
+    <div id="identification" class="conteiner d-flex">
+        <div>
+            <h3 class="ms-5 mt-4">Realizar donación de dinero</h3>
+            <p class="ms-5">Los campos marcados con * son obligatorios.</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="position-absolute top-50 start-50 translate-middle">
+    <div class="container">
+        <div class="form-group">
+            <label for="amount">Monto *</label>
+            <input type="number" id="amount" name="amount" placeholder="Monto" required>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-group">
+            <label for="frequency">Frecuencia de la donación *</label>
+            <select id="frequency" name="frequency" required>
+                <option value="lc">Única vez</option>
+                <option value="dni">Op1</option>
+                <option value="le">Op2...</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="container text-center">
+        <a href="../contribuciones/persona_fisica/dashboard_pf2.html" type="button" class="btn btn-primary btn-lg mx-2 mt-4">Confirmar Donación</a>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row align-items-end">
+            <div class="container-fluid d-flex">
+                <div class="col text-center">
+                    <div class="container">
+                        <a href="../generales/policy.html">Política de Privacidad</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container text-center">
+                        <a href="../generales/contact.html">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

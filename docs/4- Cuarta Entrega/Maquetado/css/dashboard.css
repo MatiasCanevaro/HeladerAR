@@ -1,0 +1,76 @@
+.btn-link-azul {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+.card {
+    margin: 5px auto;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.4s;
+    border-color: #b0b0b0;
+    box-shadow: 0 0 1rem 0.1rem #f4f4f4;
+
+    /* Centrar el contenido con flexbox */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.card-1{
+    border-bottom-color: #b0b0b0;
+    border-top-color: #b0b0b0;
+}
+
+.heladera-img {
+    position: absolute;
+    bottom: 10rem; /* Alinea la imagen al fondo de la tarjeta */
+    right: 10px; /* Ajusta la posición horizontal */
+    max-width: 50%; /* Asegura que la imagen no se deforme */
+    height: auto; /* Mantiene la proporción */
+    z-index: 1; /* Asegura que la imagen esté detrás del texto */
+    transform: scaleX(-1);
+}
+
+
+.card .card_title {
+    border-radius: 0px 0px 40px 40px;
+}/* styles.css */
+
+.container-fluid.d-flex.align-content-center.justify-content-center.mt-5 a {
+    /* Tus estilos para los enlaces */
+    color: black;        /* Ejemplo de color */
+    text-decoration: none; /* Elimina el subrayado */
+}
+
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    border-radius: 1rem;
+}
+
+.custom-file-upload:hover {
+    background-color: #e2e6ea;
+}
+
+.file-input {
+    display: none;
+}
+
+
+.card:hover {
+    transform: scale(0.9, 0.9);
+}
+
+.row-1{
+    margin-right: -10rem;
+}
+
+

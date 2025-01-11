@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HeladerAR</title>
+    <link href="../../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../css/main.css">
+    <link rel="stylesheet" href="../../../css/dashboard.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <a class="navbar-brand d-flex" href="../../generales/home_con_sesion.html">
+            <img src="../../../img/freezer_11935622.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top me-2">
+            HeladerAR
+        </a>
+
+        <div class="ms-auto d-flex align-items-center d-inline-block ">
+            <a href="dashboard_pf.html" class="btn btn-link btn-link-bl mx-2 d-flex align-items-center">Ir al dashboard <i class="bi bi-arrow-right-short ms-1"></i></a> <!-- TODO future: diferenciar entre personas-->
+            <a href="../../generales/profile.html" class="nav-link text-white me-3">
+                <i class="bi bi-person-fill"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="padding-top:2rem">
+    <div class="d-flex align-items-center fs-1 mt-4">
+        <i class="bi bi-person-circle"></i>
+        <h1 class="mt-2 ms-3">Tu Dashboard</h1>
+    </div>
+</div>
+
+<div class="container-fluid d-flex align-content-center justify-content-center mt-5" style="height: 60vh; padding-top:2rem">
+    <div class="row">
+        <div class="col">
+            <div class="row text-center">
+                <h4 class="mb-4">Formas de Contribución</h4>
+                <div class="col">
+                    <div>
+                        <a class="card text-center w-100" href="donacion_vianda.html">Donar vianda</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <a  class="card text-center w-100" href="distribucion_vianda1.html">Distribuir vianda</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <a  class="card text-center w-100" href="../donacion_dinero.html">Donar dinero</a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="mt-2">¿Querés cambiar tus formas de contribución?
+                        <a href="cambiar_fisica_contribuciones.html" type="button" class="btn btn-link-azul" style="color: #0d6efd; text-decoration: underline">Hacelo acá</a> <!-- TODO: delegar color -->
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col text-center">
+            <h4 class="mb-4">Carga de Colaboraciones CSV</h4>
+                <p>El formato del archivo debe ser el siguiente:</p>
+            <div class="d-flex justify-content-center">
+                <img src="../../../img/tablaFormatoCSV.png" alt="Formato de tabla CSV">
+            </div>
+            <div class="container">
+                <div class="form-group mt-4">
+                    <label for="fileUpload" class="custom-file-upload"> Cargar un archivo .CSV </label>
+                    <input type="file" id="fileUpload" class="file-input" accept=".csv" required>
+                </div>
+
+                <div class="container mt-4">
+
+                     <a href="tu-archivo.csv" download="nombre-del-archivo.csv" type="button" class="btn btn-outline-primary"> Descargar archivo de ejemplo </a>
+                </div>
+                <div class="container mt-4">
+                    <a href="dashboard_pf2.html" type="button" class="btn btn-primary" style="color: #f8f9fa"> Guardar </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row align-items-end">
+                <div class="container-fluid d-flex">
+                    <div class="col text-center">
+                        <div class="container">
+                            <a href="../../generales/policy.html">Política de Privacidad</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="container text-center">
+                            <a href="../../generales/contact.html">Contacto</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

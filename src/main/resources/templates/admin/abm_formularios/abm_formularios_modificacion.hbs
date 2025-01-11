@@ -1,0 +1,55 @@
+{{#partial "contenido"}}
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Modificación Formulario</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+        <div class="row">
+            <div class="col-lg">
+                <h4 class="d-flex justify-content-center">Modificación</h4>
+                <div class="form-group">
+                    <label for="cuestionario_mod">Nombre nuevo cuestionario</label>
+                    <input type="text" id="cuestionario_mod" name="cuestionario_mod" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                    <label for="cuestionario_pregunta_mod">Cuestionario que contiene la pregunta a modificar</label>
+                    <select id="cuestionario_pregunta_mod" name="cuestionario_pregunta_mod">
+                        <option value="0">Ninguno seleccionado</option>
+                        <option value="3">Cuestionario1</option>
+                        <option value="7">Cuestionario2</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pregunta_mod">Nueva pregunta</label>
+                    <input type="text" id="pregunta_mod" name="pregunta_mod" placeholder="Pregunta">
+                </div>
+                <div class="form-group">
+                    <label for="tipo_pregunta_mod">Tipo de pregunta</label>
+                    <select id="tipo_pregunta_mod" name="tipo_pregunta_mod">
+                        <option value="0">Ninguno seleccionado</option>
+                        <option value="3">Opción única</option>
+                        <option value="5">Opción múltiple</option>
+                        <option value="7">Abierta</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rol_pregunta">Rol a preguntar</label>
+                    <select id="rol_pregunta" name="rol_pregunta">
+                        <option value="0">Ninguno seleccionado</option>
+                        <option value="1">Persona física</option>
+                        <option value="2">Persona jurídica</option>
+                        <option value="3">Ambos</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/bases/base_admin}}

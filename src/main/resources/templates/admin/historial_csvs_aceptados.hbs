@@ -1,0 +1,75 @@
+{{#partial "contenido"}}
+    <div class="ms-5 mt-4 mb-4 container" style="padding-top: 5rem">
+        <h3 class="ms-5 mt-4 mb-5">Historial de CSVs Aceptados</h3>
+        <div class="d-flex align-items-center justify-content-end">
+            <p id="numero_pagina" class="d-flex align-items-center ms-3 mt-3 me-3"></p>
+            <button id="prev-page" class="btn btn-outline-primary">Anterior pág.</button>
+            <button id="next-page" class="btn btn-outline-primary ms-2" style="margin-right: 20rem">Siguiente pág.</button>
+        </div>
+    </div>
+
+    <div class="container d-flex align-items-center">
+        <table class="container table text-center">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre del Archivo</th>
+                <th scope="col">Fecha y Hora de Alta</th>
+                <th scope="col">Estado</th>
+            </tr>
+            </thead>
+            <tbody id="csvs-tbody">
+            {{#each dtoCSVs}}
+                <tr>
+                    <th scope="row"></th>
+                    <td>{{this.nombre}}</td>
+                    <td>{{this.fechaYHoraAlta}}</td>
+                    <td>{{#if this.fueProcesado}}Procesado{{else}}Pendiente{{/if}}</td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const rowsPerPage = 10;
+        let currentPage = 1;
+        const tableBody = document.getElementById('csvs-tbody');
+        const rows = Array.from(tableBody.getElementsByTagName('tr'));
+        const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+        function updatePagination() {
+            const visibleRows = rows.filter(row => row.style.display !== 'none');
+            const totalPages = Math.ceil(visibleRows.length / rowsPerPage);
+
+            function displayPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                visibleRows.forEach((row, index) => {
+                    row.style.display = (index >= start && index < end) ? '' : 'none';
+                    row.querySelector('th').innerText = start + index;
+                });
+                document.getElementById("numero_pagina").innerHTML = "Núm. de pág.: " + page;
+            }
+
+            document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayPage(currentPage);
+                }
+            });
+
+            document.getElementById('next-page').addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayPage(currentPage);
+                }
+            });
+
+            displayPage(currentPage);
+        }
+
+        updatePagination();
+    </script>
+{{/partial}}
+{{> templates/bases/base_admin }}

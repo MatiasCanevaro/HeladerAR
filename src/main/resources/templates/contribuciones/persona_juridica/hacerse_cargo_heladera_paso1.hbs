@@ -1,0 +1,113 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <link rel="stylesheet" type="text/css" href="mapa.css"/>
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .container-centered {
+            margin: 0 auto;
+            max-width: 80%;
+        }
+        .button-centered {
+            display: block;
+            margin: 0 auto;
+            width: auto;
+        }
+    </style>
+{{/partial}}
+{{#partial "contenido"}}
+    <div id="map-container" class="container-fluid-2 container-centered">
+        <div class="row mt-4">
+            <div class="container-fluid-2 text-center">
+                <h1 class="mb-4">Recomendaciones de Puntos de Colocación: Paso 1 de 3</h1>
+                <h4>Seleccione el lugar donde quiere obtener puntos de recomendación: </h4>
+            </div>
+            <div id="map" style="width: 100%; height: 650px"></div>
+            <button id="next-button" class="btn btn-primary mt-3 button-centered" disabled>Siguiente</button>
+        </div>
+    </div>
+{{/partial}}
+{{#partial "scripts"}}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        const ubicacionDefault = [-34.61315, -58.37723];
+        const map = L.map('map').setView(ubicacionDefault, 13);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        const icono_ubicacion = L.icon({
+            iconUrl: "/img/mapas/mapa_marcador.png",
+            iconSize: [30, 30],
+        });
+
+        let selectedLocation = null;
+
+        // mostrar ubicacion del user
+        function ubicacionUsuario(e) {
+            var accuracy = e.accuracy;
+
+            // Definimos límites mínimos y máximos para el radio
+            var radioMin = 2; // El valor mínimo de radio para evitar que sea muy pequeño
+            var radioMax = 500; // El valor máximo de radio para evitar que sea muy grande
+
+            // Ajustamos el radio proporcionalmente dentro del rango
+            var radio = Math.max(radioMin, Math.min(radioMax, accuracy / 2));
+
+            // Crea un marcador en la ubicación del usuario
+            L.marker(e.latlng, {icon: icono_ubicacion}).addTo(map);
+
+            // Crea un círculo que muestra la precisión de la ubicación
+            L.circle(e.latlng, {radius: radio}).addTo(map);
+        }
+
+        // configura el mapa para centrarse en la ubicación del usuario si es posible
+        map.locate({ setView: true, maxZoom: 16 });
+
+        // escucha eventos de localización
+        map.on('locationfound', function (e) {
+            ubicacionUsuario(e);
+        });
+
+        // escucha eventos de clic en el mapa
+        map.on('click', function (e) {
+            if (selectedLocation) {
+                map.removeLayer(selectedLocation);
+            }
+            selectedLocation = L.marker(e.latlng, {icon: icono_ubicacion}).addTo(map);
+            document.getElementById('next-button').disabled = false;
+        });
+
+        document.getElementById('next-button').addEventListener('click', function() {
+            if (selectedLocation) {
+                const params = new URLSearchParams();
+                params.append('latitud', selectedLocation.getLatLng().lat);
+                params.append('longitud', selectedLocation.getLatLng().lng);
+
+                fetch('/dashboard/contribuciones/hacerse_cargo_de_heladera/recomendaciones/paso1', {
+                    credentials: 'include',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params.toString()
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                window.location.href = '/dashboard/contribuciones/hacerse_cargo_de_heladera/recomendaciones/paso2';
+                            } else {
+                                alert('Por favor seleccione algún lugar de Argentina');
+                                console.error('Error al enviar la ubicación:', data.error);
+                            }
+                        })
+                        .catch((error) => {
+                            alert('Por favor seleccione algún lugar de Argentina');
+                            console.error('Error al enviar la ubicación:', error);
+                        });
+            }
+        });
+    </script>
+{{/partial}}
+{{> templates/bases/base}}

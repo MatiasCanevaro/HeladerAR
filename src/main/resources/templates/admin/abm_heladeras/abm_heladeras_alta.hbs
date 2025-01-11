@@ -1,0 +1,69 @@
+{{#partial "contenido"}}
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Alta Heladera</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; width: 100rem">
+        <div class="row">
+            <div class="col-lg">
+                <h4 class="d-flex justify-content-center">Alta</h4>
+                <div class="form-group">
+                    <label for="punto_estrategico_calle">Ubicación: Calle</label>
+                    <input type="text" id="punto_estrategico_calle" name="punto_estrategico_calle" placeholder="Calle">
+                </div>
+                <div class="form-group">
+                    <label for="punto_estrategico_altura">Ubicación: Altura</label>
+                    <input type="number" id="punto_estrategico_altura" name="punto_estrategico_altura" placeholder="Altura">
+                </div>
+                <div class="form-group">
+                <label for="punto_estrategico_piso">Ubicación: Piso</label>
+                <input type="text" id="punto_estrategico_piso" name="punto_estrategico_piso" placeholder="Piso">
+            </div>
+            <div class="form-group">
+                <label for="punto_estrategico_codigo_postal">Ubicación: Código Postal</label>
+                <input type="text" id="punto_estrategico_codigo_postal" name="punto_estrategico_codigo_postal" placeholder="Código Postal">
+            </div>
+            <div class="form-group">
+                <label for="punto_estrategico_ciudad">Ubicación: Ciudad</label>
+                <input type="text" id="punto_estrategico_ciudad" name="punto_estrategico_ciudad" placeholder="Ciudad">
+            </div>
+            <div class="form-group">
+                <label for="punto_estrategico_provincia">Ubicación: Provincia</label>
+                <input type="text" id="punto_estrategico_provincia" name="punto_estrategico_provincia" placeholder="Provincia">
+            </div>
+                <div class="form-group">
+                    <label for="capacidad">Capacidad en viandas</label>
+                    <input type="number" id="capacidad" name="capacidad" placeholder="Capacidad">
+                </div>
+                <div class="form-group">
+                    <label for="modelo">Modelo</label>
+                    <select id="modelo" name="modelo">
+                        <option value="0">Ninguno seleccionado</option>
+                        {{#each modelos}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('modelo').addEventListener('change', function() {
+            var submitBtn = document.getElementById('submit-btn');
+            if (this.value == "0") {
+                submitBtn.disabled = true;
+            } else {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+{{/partial}}
+{{> templates/bases/base_admin}}

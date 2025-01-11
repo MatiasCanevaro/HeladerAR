@@ -1,0 +1,130 @@
+{{#partial "contenido"}}
+
+    <div class="container">
+        <div class="d-flex align-items-center fs-1 mt-4">
+            <i class="bi bi-person-circle"></i>
+            <h1 class="mt-2 ms-3">Tu Perfil</h1>
+        </div>
+        <p><a href="/logout" class="d-flex" style="color: #808080; text-decoration: underline"> Cerrar sesión</a></p>
+    </div>
+
+    {{#if errores}}
+        <div class="alert alert-danger">
+            <h4>Se encontraron los siguientes errores:</h4>
+            <ul>
+                {{#each errores.resultado}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+    {{/if}}
+
+    <div class="container mt-5">
+        <h3 class="mb-4">Modificar tus datos</h3>
+        <div class="row d-flex justify-content-center align-items-start">
+            <form action="/perfil" method="POST" id="profileForm">
+                <div class="row">
+                    <!-- Columna izquierda: Datos Personales -->
+                    <div class="col-md-6">
+                        <div class="container">
+                            <h4 class="mb-4">Datos Personales</h4>
+
+                            <div class="form-group mb-3">
+                                <label for="calle">Calle</label>
+                                <input type="text" class="form-control" id="calle" name="calle" placeholder="Calle"/>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="altura">Altura</label>
+                                <input type="text" class="form-control" id="altura" name="altura" placeholder="Altura">
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group mb-3">
+                                        <label for="piso">Piso</label>
+                                        <input type="text" class="form-control" id="piso" name="piso" placeholder="Piso">
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-group mb-3">
+                                        <label for="cp">Código Postal</label>
+                                        <input type="text" class="form-control" id="cp" name="cp" placeholder="Código Postal">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="provincia">Provincia *</label>
+                                <select id="provincia" name="provinciaNombre" class="form-control">
+                                    {{#each provincias}}
+                                        <option value="{{this.nombre}}">{{this.nombre}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna derecha: Contraseña -->
+                    <div class="col-md-6">
+                        <div class="container">
+                            <h4 class="mb-4">Contraseña</h4>
+
+                            <div class="form-group mb-3">
+                                <label for="email">Correo electrónico</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Correo electrónico">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="contrasenia_anterior">Contraseña antigua</label>
+                                <input type="password" class="form-control" id="contrasenia_anterior" name="contrasenia_anterior" placeholder="Contraseña antigua">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="password">Contraseña nueva</label>
+                                <input type="password" class="form-control" id="password" name="nueva_contrasenia" placeholder="Contraseña nueva">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="confirmPassword">Confirmar contraseña nueva</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmar_nueva_contrasenia" placeholder="Confirmar contraseña nueva">
+                            </div>
+
+                            <div id="warningMessage" class="alert alert-danger" style="display:none;" role="alert">
+                                Las contraseñas no coinciden. Inténtalo de nuevo.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container text-center" style="margin-top: 3rem">
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script>
+        document.getElementById('profileForm').addEventListener('submit', function(event) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const warningMessage = document.getElementById('warningMessage');
+
+            if (password !== confirmPassword) {
+                // Prevent form submission
+                event.preventDefault();
+                // Display the warning message
+                warningMessage.style.display = 'block';
+            } else {
+                // Hide the warning message if passwords match
+                warningMessage.style.display = 'none';
+            }
+        });
+    </script>
+{{/partial}}
+
+{{> templates/bases/base}}

@@ -1,0 +1,147 @@
+{{#partial "contenido"}}
+    <div class="ms-5 mt-4 mb-2 container-fluid-2 d-flex justify-content-between">
+        <h3 class="ms-5 mt-4 mb-4">Visualización de reportes</h3>
+        <h6 class="ms-5 mt-4 mb-4 d-inline">Última actualización: {{fecha_y_hora}}</h6>
+        <div class="d-flex align-items-center justify-content-end">
+            <p id="numero_pagina" class="d-flex align-items-center ms-3 mt-3 me-3"></p>
+            <button id="prev-page" class="btn btn-outline-primary">Anterior pág.</button>
+            <button id="next-page" class="btn btn-outline-primary ms-2" style="margin-right: 20rem">Siguiente pág.</button>
+        </div>
+    </div>
+
+    <div class="container d-flex align-items-center">
+        <table class="container table text-center">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Tamaño</th>
+                <th scope="col">Fecha emisión</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody id="reportes-tbody">
+            {{#each reportes}}
+                <tr>
+                    <th scope="row">{{@index}}</th>
+                    <td>{{this.nombre}}</td>
+                    <td>{{this.tamanio}}</td>
+                    <td>{{this.fechaCreacion}}</td>
+                    <td>
+                        <button class="btn btn-outline-primary mx-2 download-btn" data-url="/dashboard/reportes/descargar?nombre={{this.nombre}}" data-filename="{{this.nombre}}">Descargar</button>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <div class="d-flex justify-content-center">
+        <button id="download-all" class="btn btn-primary mx-2">Descargar todos</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script>
+        const rowsPerPage = 10;
+        let currentPage = 1;
+        const tableBody = document.getElementById('reportes-tbody');
+        const rows = Array.from(tableBody.getElementsByTagName('tr'));
+        const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+        function updatePagination() {
+            const visibleRows = rows.filter(row => row.style.display !== 'none');
+            const totalPages = Math.ceil(visibleRows.length / rowsPerPage);
+
+            function displayPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                visibleRows.forEach((row, index) => {
+                    row.style.display = (index >= start && index < end) ? '' : 'none';
+                });
+                document.getElementById("numero_pagina").innerHTML = "Núm. de pág.: " + page;
+            }
+
+            document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayPage(currentPage);
+                }
+            });
+
+            document.getElementById('next-page').addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayPage(currentPage);
+                }
+            });
+
+            displayPage(currentPage);
+        }
+
+        updatePagination();
+
+        async function downloadFile(url, filename) {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/pdf',
+                },
+            });
+            if (!response.ok) throw new Error(`Error al descargar ${filename}`);
+            const data = await response.blob();
+            return { filename, data };
+        }
+
+        document.getElementById('download-all').addEventListener('click', async function() {
+            const zipFilename = "reportes.zip";
+            const nombres = [
+                {{#each reportes}}
+                    "{{this.nombre}}"
+                    {{#unless @last}},{{/unless}}
+                {{/each}}
+            ];
+
+            const url = `/dashboard/reportes/descargar_todos?${nombres.map(nombre => `nombres=${encodeURIComponent(nombre)}`).join('&')}`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/zip',
+                },
+            });
+            if (!response.ok) throw new Error('Error al descargar los reportes');
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = zipFilename;
+            link.click();
+        });
+
+        document.querySelectorAll('.download-btn').forEach(button => {
+            button.addEventListener('click', async function() {
+                const url = this.getAttribute('data-url');
+                const filename = this.getAttribute('data-filename');
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/pdf',
+                        },
+                    });
+                    if (!response.ok) throw new Error(`Error al descargar ${filename}`);
+                    const data = await response.blob();
+                    const blob = new Blob([data], { type: 'application/pdf' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                } catch (error) {
+                    console.error('Hubo un problema con la descarga:', error);
+                }
+            });
+        });
+    </script>
+{{/partial}}
+{{>templates/bases/base}}

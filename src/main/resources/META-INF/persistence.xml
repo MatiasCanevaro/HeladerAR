@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="simple-persistence-unit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+
+        <!-- Cuestionarios -->
+        <class>ar.utn.frba.dds.modelos.entidades.cuestionarios.Cuestionario</class>
+        <class>ar.utn.frba.dds.modelos.entidades.cuestionarios.CuestionarioRespondido</class>
+        <class>ar.utn.frba.dds.modelos.entidades.cuestionarios.Opcion</class>
+        <class>ar.utn.frba.dds.modelos.entidades.cuestionarios.Pregunta</class>
+        <class>ar.utn.frba.dds.modelos.entidades.cuestionarios.Respuesta</class>
+
+        <!-- FormasDeColaboración -->
+        <class>ar.utn.frba.dds.modelos.entidades.formasDeColaboracion.DistribucionDeTarjeta</class>
+        <class>ar.utn.frba.dds.modelos.entidades.formasDeColaboracion.DistribucionDeVianda</class>
+        <class>ar.utn.frba.dds.modelos.entidades.formasDeColaboracion.DonacionDeDinero</class>
+        <class>ar.utn.frba.dds.modelos.entidades.formasDeColaboracion.DonacionDeVianda</class>
+        <class>ar.utn.frba.dds.modelos.entidades.formasDeColaboracion.MotivoDistribucion</class>
+        <class>ar.utn.frba.dds.modelos.entidades.formasDeColaboracion.OfrecerProductosYServicios</class>
+
+        <!-- Geografía -->
+        <class>ar.utn.frba.dds.modelos.entidades.geografia.PuntoEstrategico</class>
+        <class>ar.utn.frba.dds.modelos.entidades.geografia.Provincia</class>
+        <class>ar.utn.frba.dds.modelos.entidades.geografia.Direccion</class>
+        <class>ar.utn.frba.dds.modelos.entidades.geografia.Ciudad</class>
+        <class>ar.utn.frba.dds.modelos.entidades.geografia.CentroDeLaCiudad</class>
+        <class>ar.utn.frba.dds.modelos.entidades.geografia.AreaDeCobertura</class>
+
+        <!-- Heladeras -->
+        <class>ar.utn.frba.dds.modelos.entidades.heladeras.ConfiguracionDeTemperatura</class>
+        <class>ar.utn.frba.dds.modelos.entidades.heladeras.Heladera</class>
+        <class>ar.utn.frba.dds.modelos.entidades.heladeras.MedicionDeTemperatura</class>
+        <class>ar.utn.frba.dds.modelos.entidades.heladeras.ModeloDeHeladera</class>
+        <class>ar.utn.frba.dds.modelos.entidades.heladeras.NotificadorHeladera</class>
+        <class>ar.utn.frba.dds.modelos.entidades.heladeras.ReceptorHeladera</class>
+        <class>ar.utn.frba.dds.modelos.entidades.heladeras.SensorDeMovimiento</class>
+        <class>ar.utn.frba.dds.modelos.entidades.heladeras.SensorDeTemperatura</class>
+        <class>ar.utn.frba.dds.modelos.entidades.heladeras.Vianda</class>
+
+        <!-- Incidentes -->
+        <class>ar.utn.frba.dds.modelos.entidades.incidentes.AlertaHeladera</class>
+        <class>ar.utn.frba.dds.modelos.entidades.incidentes.FallaTecnica</class>
+        <class>ar.utn.frba.dds.modelos.entidades.incidentes.VisitaTecnica</class>
+
+        <!-- OfertasYCanjes -->
+        <class>ar.utn.frba.dds.modelos.entidades.ofertasYCanjes.Canje</class>
+        <class>ar.utn.frba.dds.modelos.entidades.ofertasYCanjes.Oferta</class>
+        <class>ar.utn.frba.dds.modelos.entidades.ofertasYCanjes.Rubro</class>
+
+        <!-- Personas -->
+        <class>ar.utn.frba.dds.modelos.entidades.personas.MedioDeContacto</class>
+        <class>ar.utn.frba.dds.modelos.entidades.personas.PersonaFisica</class>
+        <class>ar.utn.frba.dds.modelos.entidades.personas.PersonaJuridica</class>
+        <class>ar.utn.frba.dds.modelos.entidades.personas.PersonaVulnerable</class>
+        <class>ar.utn.frba.dds.modelos.entidades.personas.Tecnico</class>
+
+        <!-- Suscripciones -->
+        <class>ar.utn.frba.dds.modelos.entidades.suscripciones.Distribucion</class>
+        <class>ar.utn.frba.dds.modelos.entidades.suscripciones.Sugerencia</class>
+        <class>ar.utn.frba.dds.modelos.entidades.suscripciones.Suscripcion</class>
+
+        <!-- Tarjetas -->
+        <class>ar.utn.frba.dds.modelos.entidades.tarjetas.PaseDeTarjeta</class>
+        <class>ar.utn.frba.dds.modelos.entidades.tarjetas.SolicitudDeApertura</class>
+        <class>ar.utn.frba.dds.modelos.entidades.tarjetas.Tarjeta</class>
+
+        <!-- Usuario -->
+        <class>ar.utn.frba.dds.modelos.entidades.contacto.Usuario</class>
+        <class>ar.utn.frba.dds.modelos.entidades.contacto.Contacto</class>
+        <class>ar.utn.frba.dds.modelos.entidades.contacto.Administrador</class>
+
+        <!-- Reportes -->
+        <class>ar.utn.frba.dds.modelos.entidades.reportes.Reporte</class>
+
+        <!-- CSV -->
+        <class>ar.utn.frba.dds.modelos.entidades.csv.CSV</class>
+
+        <properties>
+            <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+
+            <!--<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/acceso_alimentario?serverTimezone=UTC" />
+            <property name="hibernate.connection.username" value="root" />
+            <property name="hibernate.connection.password" value="123456" />-->
+
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+            <property name="hibernate.connection.url" value="jdbc:mysql://ddsdb.cnkya84a0h59.sa-east-1.rds.amazonaws.com:3306/base?serverTimezone=UTC" />
+            <property name="hibernate.connection.username" value="admin" />
+            <property name="hibernate.connection.password" value="Roman2024!" />
+
+            <!--<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
+            <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:app-db"/>
+            <property name="hibernate.connection.username" value="root"/>
+            <property name="hibernate.connection.password" value="123456"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>-->
+
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="use_sql_comments" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!--puede ser create, update o create-drop (para borrarla luego de cada ejecución)-->
+        </properties>
+
+    </persistence-unit>
+
+</persistence>

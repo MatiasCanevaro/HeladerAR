@@ -1,0 +1,133 @@
+/* Estilos para el enlace azul */
+.btn-link-azul {
+color: #0d6efd !important;
+    text-decoration: underline !important;
+}
+
+/* Botones de contribución */
+.card {
+    margin: 5px auto;
+    width: 20rem;
+    height: 10rem;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.4s;
+    border-color: #b0b0b0;
+    box-shadow: 0 0 1rem 0.1rem #f4f4f4;
+
+    /* Centrar el contenido con flexbox */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Estilos para mantener el mapa cuadrado y más grande */
+#map-container {
+    width: 100%;
+    padding-top: 50%; /* Cuadrado más grande */
+    position: relative;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 90%; /* Haz que el mapa sea más grande */
+    height: 90%; /* Haz que el mapa sea más grande */
+    margin: auto; /* Centra el mapa */
+    border-radius: 20px; /* Añade bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajuste de hover en los botones de contribución */
+.card:hover {
+    transform: scale(1.05); /* Efecto de agrandamiento */
+}
+
+.card-1{
+    border-bottom-color: #b0b0b0;
+    border-top-color: #b0b0b0;
+}
+
+.heladera-img {
+    position: absolute;
+    bottom: 10rem; /* Alinea la imagen al fondo de la tarjeta */
+    right: 10px; /* Ajusta la posición horizontal */
+    max-width: 50%; /* Asegura que la imagen no se deforme */
+    height: auto; /* Mantiene la proporción */
+    z-index: 1; /* Asegura que la imagen esté detrás del texto */
+    transform: scaleX(-1);
+}
+
+
+.card .card_title {
+    border-radius: 0px 0px 40px 40px;
+}/* styles.css */
+
+.container-fluid.d-flex.align-content-center.justify-content-center.mt-5 a {
+    /* Tus estilos para los enlaces */
+    color: black;        /* Ejemplo de color */
+    text-decoration: none; /* Elimina el subrayado */
+}
+
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    border-radius: 1rem;
+}
+#fileUpload, #save-csv {
+    margin: 0;
+}
+
+#progress-bar {
+    transition: width 0.3s ease;
+}
+
+.custom-file-upload:hover {
+    background-color: #e2e6ea;
+}
+
+.file-input {
+    display: none;
+}
+/* Contenedor principal de contribuciones */
+.columna-contribuciones {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Contenedor que alberga las dos columnas */
+.contribution-options {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Cada columna ocupa el 50% del ancho */
+.columna-izquierda, .columna-derecha {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+/* Estilos para los botones dentro de cada columna */
+.columna-izquierda a, .columna-derecha a {
+    margin-bottom: 1rem;
+}
+
+/* Para pantallas más pequeñas, las columnas se apilan una encima de la otra */
+@media (max-width: 768px) {
+    .contribution-options {
+        flex-direction: column;
+    }
+
+    .columna-izquierda, .columna-derecha {
+        width: 100%;
+    }
+}

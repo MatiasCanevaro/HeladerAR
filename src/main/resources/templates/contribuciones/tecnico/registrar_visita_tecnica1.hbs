@@ -1,0 +1,189 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="css/dashboard.css">
+{{/partial}}
+{{#partial "contenido"}}
+    <style>
+        .btn-link-azul {
+            color: #0d6efd;
+            text-decoration: underline;
+        }
+    </style>
+    <div class="ms-5 mt-4 mb-2 container-fluid-2 d-flex justify-content-between align-items-center">
+        <h3 class="ms-5 mt-4 mb-4">Registrar visita técnica</h3>
+        <h6 class="ms-5 mt-4 mb-4 d-inline">Última actualización: {{fecha_y_hora}}</h6>
+        <div class="d-flex align-items-center justify-content-end">
+            <p id="numero_pagina" class="d-flex align-items-center ms-3 mt-3 me-3"></p>
+            <button id="prev-page" class="btn btn-outline-primary">Anterior pág.</button>
+            <button id="next-page" class="btn btn-outline-primary ms-2" style="margin-right: 20rem">Siguiente pág.</button>
+        </div>
+    </div>
+    {{#if errores}}
+        <div class="alert alert-danger">
+            <h4>Se encontraron los siguientes errores:</h4>
+            <ul>
+                {{#each errores}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+    {{/if}}
+    <div class="container d-flex justify-content-between align-content-center" style="margin-top: 1rem">
+        <h4 class="container align-content-center">Seleccioná el incidente visitado</h4>
+        <i class="bi bi-search fs-4 align-content-center" style="margin-top: -0.5rem"></i>
+
+        <div class="input-group">
+            <span class="input-group-text border-0" id="search-addon">
+                <i class="fas fa-search"></i>
+            </span>
+            <input type="search" id="search-input" class="form-control" placeholder="Buscar falla" aria-label="Search" aria-describedby="search-addon" oninput="filterIncidents()" />
+        </div>
+    </div>
+    <form id="reportarFallaForm" action="/dashboard/registrar_visita/paso1" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="tipoIncidente" id="tipoIncidenteInput" />
+        <table class="container table text-center" id="fallas-table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Provincia</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Código postal</th>
+                <th scope="col">Modelo de Heladera</th>
+                <th scope="col">Tipo de incidente</th>
+                <th scope="col">Fecha de la Falla</th>
+                <th scope="col">Detalles de la falla</th>
+            </tr>
+            </thead>
+            <tbody id="heladeras-tbody">
+            {{#if incidentes.length}}
+                {{#each incidentes}}
+                    <tr>
+                        <th scope="row"><input type="radio" class="heladera-radio form-check-input" name="selectedOption" value="{{id}}" data-tipo-incidente="{{tipoIncidente}}"/></th>
+                        <td class="provincia">{{provincia}}</td>
+                        <td class="direccion">{{direccion}}</td>
+                        <td class="codigo_postal">{{codigo_postal}}</td>
+                        <td class="modelo">{{modelo}}</td>
+                        <td class="tipoIncidente">{{tipoIncidente}}</td>
+                        <td class="fecha">{{ultima_vez_activa}}</td>
+                        <td class="ver_detalles">
+                            <div class="text-center d-flex justify-content-center">
+                                <a href="/dashboard/{{id}}/detalle_falla" class="btn btn-link-azul">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                {{/each}}
+            {{else}}
+                <tr>
+                    <td colspan="8" class="text-center">No hay incidentes asignados</td>
+                </tr>
+            {{/if}}
+            </tbody>
+        </table>
+        <div class="container text-center mt-3">
+            <button type="submit" class="btn btn-primary-alt" id="submit-btn" disabled>Siguiente</button>
+        </div>
+    </form>
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Habilita el botón de envío cuando se selecciona un incidente
+            const radios = document.querySelectorAll('.heladera-radio');
+            const submitBtn = document.getElementById('submit-btn');
+
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    submitBtn.disabled = !document.querySelector('.heladera-radio:checked');
+                });
+            });
+
+            document.querySelectorAll('.heladera-radio').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    const tipoIncidenteInput = document.getElementById('tipoIncidenteInput');
+                    tipoIncidenteInput.value = this.dataset.tipoIncidente;
+
+                    const submitBtn = document.getElementById('submit-btn');
+                    submitBtn.disabled = !document.querySelector('.heladera-radio:checked');
+                });
+            });
+
+            // Filtrar incidentes en la tabla
+            function filterIncidents() {
+                const searchInput = document.getElementById('search-input').value.toLowerCase();
+                const rows = document.querySelectorAll('#fallas-table tbody tr');
+
+                rows.forEach(row => {
+                    const fields = row.querySelectorAll('.provincia, .direccion, .codigo_postal, .modelo, .tipoIncidente, .fecha');
+                    const matches = Array.from(fields).some(field => field.textContent.toLowerCase().includes(searchInput));
+                    row.style.display = matches ? '' : 'none';
+                });
+            }
+
+            document.getElementById('search-input').addEventListener('input', filterIncidents);
+
+            // Paginación
+            const rowsPerPage = 5;
+            let currentPage = 1;
+
+            function updatePagination() {
+                const rows = Array.from(document.querySelectorAll('#fallas-table tbody tr')).filter(row => row.style.display !== 'none');
+                const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+                function displayPage(page) {
+                    const start = (page - 1) * rowsPerPage;
+                    const end = start + rowsPerPage;
+                    rows.forEach((row, index) => {
+                        row.style.display = index >= start && index < end ? '' : 'none';
+                    });
+                    document.getElementById("numero_pagina").textContent = `Núm. de pág.: ${page} de ${totalPages}`;
+                }
+
+                document.getElementById('prev-page').addEventListener('click', () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayPage(currentPage);
+                    }
+                });
+
+                document.getElementById('next-page').addEventListener('click', () => {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        displayPage(currentPage);
+                    }
+                });
+
+                displayPage(currentPage);
+            }
+
+            updatePagination();
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('#fallas-table tbody tr');
+
+            rows.forEach(row => {
+                const tipoIncidente = row.querySelector('.tipoIncidente').textContent.trim();
+                const detallesCell = row.querySelector('.ver_detalles');
+
+                if (tipoIncidente !== 'FALLA_TECNICA') {
+                    // Deshabilitar botón
+                    const link = detallesCell.querySelector('a');
+                    if (link) {
+                        link.classList.add('disabled');
+                        link.style.pointerEvents = 'none'; // Evita clics
+                        link.style.color = '#6c757d'; // Cambia el color para simular deshabilitación
+                        link.style.border = 'none'; // Quita el borde para simular deshabilitación
+                        link.text = 'No disponible'; // Cambia el texto para simular deshabilitación
+                        link.style.textDecoration = 'none'
+                    }
+
+                    // O eliminar botón completamente
+                    // detallesCell.innerHTML = ''; // Descomenta esta línea si deseas ocultarlo
+                }
+            });
+        });
+    </script>
+{{/partial}}
+
+{{> templates/bases/base_tecnico}}

@@ -1,0 +1,62 @@
+{{#partial "contenido"}}
+
+    <div class="ms-5 mt-4 mb-4 container">
+        <h3 class="ms-5 mt-4 mb-4">Registrar visita técnica</h3>
+        <p class="ms-5 mt-4 mb-4">Los campos marcados con * son obligatorios.</p>
+    </div>
+
+    <div id="map-container" class="container-fluid d-flex justify-content-center align-content-between" style="margin-top: 5rem">
+        <form id="reportarFallaForm" action="/dashboard/registrar_visita/paso2" method="POST" enctype="multipart/form-data">
+        <input type="hidden" id="tipoIncidente" name="tipoIncidente" value="{{tipoIncidente}}" />
+        <div class="row">
+            <div class="col">
+                <div class="container-fluid">
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="fechaVisita">Fecha de la visita *</label>
+                                <input id="fechaVisita" type="date" name="fechaVisita" required/>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="horaVisita">Hora de la visita *</label>
+                                <input id="horaVisita" type="time" name="horaVisita" required/>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción de la visita * </label>
+                                <textarea id="descripcion" name="descripcion" rows="3" placeholder="Escriba aquí..." required></textarea>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+
+            <div class="col">
+                <div class="container">
+                    <div class="form-group">
+                        <label for="solucionado">¿El incidente fue solucionado? *</label>
+                        <select id="solucionado" name="solucionado" required>
+                            <option value="0">No</option>
+                            <option value="1">Sí</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="form-group">
+                        <label for="pathImagen">Cargar una imagen de la visita</label>
+                        <input type="file" id="pathImagen" name="pathImagen" accept=".jpg, .png, .jpeg">
+                    </div>
+                </div>
+            </div>
+
+            <div class="container text-center" style="margin-top: 3rem">
+                <button type="submit" class="btn btn-primary">Enviar reporte</button>
+            </div>
+        </div>
+        </form>
+    </div>
+
+{{/partial}}
+{{> templates/bases/base_tecnico}}

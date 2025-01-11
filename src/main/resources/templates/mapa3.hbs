@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - HeladerAR</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/mapa.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha512-RZS4+t411k5D3.f2IAZ5wW/bUlibV7iJ/o/Y5/5omVLw1VlgHQD6RmTZOLL+bRve+0I/9pg6yAz/1V+bNmcJQ="
+          crossorigin=""/>
+</head>
+
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid ">
+        <a class="navbar-brand d-flex" href="#">
+            <img src="img/freezer_11935622.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top me-2">
+            HeladerAR
+        </a>
+        <div class="ms-auto d-flex align-items-center d-inline-block ">
+            <a href="../contribuciones/persona_fisica/dashboard_pf.hbs" class="btn btn-link btn-link-bl mx-2 d-flex align-items-center">Ir al dashboard <i class="bi bi-arrow-right-short ms-1"></i></a>
+            <a href="../generales/profile.hbs" class="nav-link text-white me-3">
+                <i class="bi bi-person-fill"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div id="map-container" class="container-fluid-2">
+    <div class="row mt-4">
+        <div class="col" align="center">
+            <div class="container-fluid-2">
+                <h1 class="mb-3">¡Bienvenido/a!</h1>
+                <h4>Encontrá la heladera más cercana</h4>
+                {{#each heladerasMasCercanas}}
+                    <div class="container-2">
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-3 text-center ">
+                                <img src="img/school_13745790.png" class="img-fluid" height="150">
+                            </div>
+                            <div class="col-12 col-md-6 align-self-center text-start">
+                                <h3>{{this.puntoEstrategico.direccion.calle}} {{this.puntoEstrategico.direccion.altura}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        {{!-- Columna derecha para el mapa --}}
+        <div class="col" style="width: 50%; height: 500px">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container-fluid-2">
+        <div class="row align-items-end">
+            <div class="container-fluid d-flex">
+                <div class="col text-center">
+                    <div class="container">
+                        <a href="../generales/policy.hbs">Política de Privacidad</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container text-center">
+                        <a href="../generales/contact.hbs">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+<script src="../js/mapa.js"></script>
+</body>
+</html>

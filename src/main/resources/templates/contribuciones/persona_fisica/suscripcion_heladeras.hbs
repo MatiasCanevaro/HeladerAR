@@ -1,0 +1,127 @@
+{{#partial "archivo_css"}}
+    <link rel="stylesheet" href="css/suscripcion_heladeras.css">
+{{/partial}}
+
+{{#partial "contenido"}}
+    <div id="map-container" class="container mt-5">
+        <div class="row">
+            <div class="col d-flex align-items-center justify-content-center">
+                <div class="container" style="height: 60vh">
+                    <div>
+                        <h3 class="ms-5 mt-3 mb-4">Suscribirse a Heladeras</h3>
+                        <h4 class="ms-5 mb-4 mt-4">Elegí los eventos a los que te querés suscribir:</h4>
+                    </div>
+                    <form id="suscripcionForm" action="/dashboard/contribuciones/suscripcion_heladera" method="POST">
+                        <div class="container">
+                            <div class="form-check mt-5" style="margin-left: 5rem;">
+                                <input class="form-check-input" type="checkbox" value="1" id="food_available" name="food_available" onchange="toggleAvailableNumber()">
+                                <label class="form-check-label ms-4" for="food_available">
+                                    Cuántas viandas faltan para que la heladera esté llena
+                                </label>
+                                <input class="d-flex mt-2" type="number" id="number_available" name="number_available" placeholder="Número de viandas faltantes" style="width: 20rem; display: none;" min="0">
+                            </div>
+
+                            <div class="form-check mt-1" style="margin-left: 5rem;">
+                                <input class="form-check-input" type="checkbox" value="1" id="food_lack" name="food_lack" onchange="toggleLackNumber()">
+                                <label class="form-check-label ms-4" for="food_lack">
+                                    Cuántas viandas hay disponibles en la heladera
+                                </label>
+                                <input class="d-flex mt-2" type="number" id="number_lack" name="number_lack" placeholder="Número de viandas disponibles" style="width: 20rem; display: none;" min="0">
+                            </div>
+
+                            <div class="form-check mt-1" style="margin-left: 5rem">
+                                <input class="form-check-input" type="checkbox" value="1" id="food_fridges" name="food_fridges" onchange="checkFormValidity()">
+                                <label class="form-check-label ms-4" for="food_fridges">
+                                    Desperfectos en heladeras y traslados de viandas
+                                </label>
+                            </div>
+                        </div>
+                        <div class="ms-4 card mt-5 d-flex align-items-center">
+                            <div class="row mt-2">
+                                <div class="col-auto fs-1">
+                                    <i class="bi bi-info-circle"></i>
+                                </div>
+                                <div class="col">
+                                    <p>Podés optar por suscribirte a tus heladeras frecuentes y ser notificado en tu
+                                        medio de comunicación deseado de eventos como: ¡faltan 14 viandas! ó ¡quedan 5 viandas!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container text-center" style="margin-top: 3rem">
+                            <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Confirmar Suscripción</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col">
+                <h6 class="mb-3">Seleccioná la heladera a la que te querés suscribir</h6>
+                <iframe src="../../../mapa/mapa.html" width="100%" height="100%" loading="lazy" class="rounded"></iframe>
+            </div>
+        </div>
+    </div>
+
+{{/partial}}
+{{#partial "scripts"}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const foodAvailableCheckbox = document.getElementById('food_available');
+            const numberAvailableInput = document.getElementById('number_available');
+
+            const foodLackCheckbox = document.getElementById('food_lack');
+            const numberLackInput = document.getElementById('number_lack');
+
+            const submitBtn = document.getElementById('submitBtn');
+
+            document.getElementById('suscripcionForm').addEventListener('submit', function (event) {
+                let valid = true;
+                if (foodAvailableCheckbox.checked && !numberAvailableInput.value) {
+                    alert('Por favor, ingrese el número de viandas faltantes.');
+                    valid = false;
+                }
+                if (foodLackCheckbox.checked && !numberLackInput.value) {
+                    alert('Por favor, ingrese el número de viandas disponibles.');
+                    valid = false;
+                }
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+
+            function toggleAvailableNumber() {
+                if (foodAvailableCheckbox.checked) {
+                    numberAvailableInput.style.display = 'block';
+                    numberAvailableInput.required = true;
+                } else {
+                    numberAvailableInput.style.display = 'none';
+                    numberAvailableInput.required = false;
+                }
+                checkFormValidity();
+            }
+
+            function toggleLackNumber() {
+                if (foodLackCheckbox.checked) {
+                    numberLackInput.style.display = 'block';
+                    numberLackInput.required = true;
+                } else {
+                    numberLackInput.style.display = 'none';
+                    numberLackInput.required = false;
+                }
+                checkFormValidity();
+            }
+
+            function checkFormValidity() {
+                if (foodAvailableCheckbox.checked || foodLackCheckbox.checked || document.getElementById('food_fridges').checked) {
+                    submitBtn.disabled = false;
+                } else {
+                    submitBtn.disabled = true;
+                }
+            }
+
+            foodAvailableCheckbox.addEventListener('change', toggleAvailableNumber);
+            foodLackCheckbox.addEventListener('change', toggleLackNumber);
+            document.getElementById('food_fridges').addEventListener('change', checkFormValidity);
+        });
+    </script>
+{{/partial}}
+{{> templates/bases/base}}

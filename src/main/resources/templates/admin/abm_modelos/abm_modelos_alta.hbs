@@ -1,0 +1,61 @@
+{{#partial "contenido"}}
+
+    <div class="container-fluid">
+        <div id="identification" class="d-flex align-items-center fs-1 mt-4">
+            <div class="ms-5 mt-3 mb-4 d-flex">
+                <h3>Alta Modelo</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -1rem; ; width: 100rem">
+        <!-- Modelos -->
+        <h4 class="d-flex justify-content-center" style="font-weight: bolder">Modelos</h4>
+        <form id="altaModeloForm" action="/dashboard/modelos/alta" method="post">
+            <div class="row">
+                <div class="col-lg">
+                    <!-- Alta -->
+                    <h4 class="d-flex justify-content-center">Alta</h4>
+                    <div class="form-group">
+                        <label for="modelo_nuevo">Nombre del nuevo modelo *</label>
+                        <input type="text" id="modelo_nuevo" name="modelo_nuevo" placeholder="Nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modelo_nuevo_capacidad_en_viandas">Capacidad en viandas *</label>
+                        <input type="text" id="modelo_nuevo_capacidad_en_viandas" name="modelo_nuevo_capacidad_en_viandas" placeholder="Capacidad en Viandas" required>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="modelo_nuevo_temp_max">Temperatura máxima en °C *</label>
+                                <input type="number" id="modelo_nuevo_temp_max" name="modelo_nuevo_temp_max" placeholder="Máx." step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="modelo_nuevo_temp_min">Temperatura mínima en °C *</label>
+                                <input type="number" id="modelo_nuevo_temp_min" name="modelo_nuevo_temp_min" placeholder="Mín." step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('altaModeloForm').addEventListener('submit', function(event) {
+            var tempMax = parseFloat(document.getElementById('modelo_nuevo_temp_max').value);
+            var tempMin = parseFloat(document.getElementById('modelo_nuevo_temp_min').value);
+            if (tempMax <= tempMin) {
+                alert('La temperatura máxima debe ser mayor que la temperatura mínima.');
+                event.preventDefault();
+            }
+        });
+    </script>
+
+{{/partial}}
+{{> templates/bases/base_admin}}

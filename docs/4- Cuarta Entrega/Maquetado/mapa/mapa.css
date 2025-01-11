@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#map {
+    height: 100vh; /* Ocupa toda la altura del viewport */
+    width: 100vw;  /* Ocupa toda la anchura del viewport */
+}
+
